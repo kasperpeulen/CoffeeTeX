@@ -17,3 +17,4 @@ CoffeeTeX  | LaTeX
 ------------- | -------------
 `∑_n=0^k √x_n`  | `\sum_{k=0}^{n} \sqrt{x_n} `
 `((1,2),(2,3))`  | `\begin{pmatrix}1 & 2\\2  & 3\end{pmatrix}`
+`x+↖ℝ y=x+↖ℚ y` | `x\overset{\Bbb{R}}{+} y=x\overset{\Bbb{Q}}{+} y`
