@@ -239,7 +239,7 @@ var activeElement;
     });
 
     function onKeyDown(e) {
-      console.log(e.which);
+
         activeElement = e.target;
         var font = $(activeElement).css('font-family');
         var hasSTIX = /STIX/g.test(font);
@@ -420,6 +420,7 @@ var activeElement;
     }
 
     function showPopup(chars) {
+      console.log(chars);
         popup.empty();
         oldCharlength = typedChar.length;
         $('.tail').on('click', function(e) {
@@ -427,6 +428,8 @@ var activeElement;
         });
         var letter;
         var count = 0;
+
+
         for (var i = 0; i < chars.length; i++) {
             if (chars[i] !== "{") {
                 var title = "";
@@ -483,7 +486,13 @@ var activeElement;
         /*
 
          */
+      if (chars === "{⁅⁆}"){
+        selectCharIndex(0);
+        hidePopup();
+      }
+      else{
         selectedCharIndex = -1;
+      }
     }
 
     function activateLetter(i) {
@@ -537,7 +546,7 @@ var activeElement;
         var pos = getCaretPosition(activeElement);
         var arVal = $(activeElement).val().split('');
         if (newChar.length == 2 && (oldCharlength == 1 || arVal[pos - 1] == typedChar)) {
-            console.log(newChar);
+
             arVal[pos - 1] = newChar[0];
             arVal.splice(pos, 0, newChar[1]);
             caretposition = pos + newChar.length - 1;
