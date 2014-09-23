@@ -55,6 +55,7 @@
         clearTimeout(timer); // Clear the timer so we don't end up with dupes.
         timer = setTimeout(function() { // assign timer a new timeout
           var startTime = new Date().getTime();
+          localStorage.textarea = $("#text").val();
           tex_to_ctex();
           ctex_to_tex();
           parsed = reader.parse($("#latex").text());

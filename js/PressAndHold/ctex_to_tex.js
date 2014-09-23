@@ -42,9 +42,10 @@ var matchRecursive = function () {
 
 
 var ctex_to_tex = function (){
-    localStorage.textarea = $('#text').val();
-    $('#latex').text(localStorage.textarea);
-    var textarea = localStorage.textarea;
+    var textarea =$('#text').val();
+    
+    $('#latex').text(textarea);
+
     var binreg = function (symbol){
         var reg = new RegExp("(?:([^{}()\\[\\]])|[\\(\\[\\{](.*?)[\\)\\]\\}])"+symbol+"(?:([^{}\\(\\)\\[\\]])|[\\(\\[\\{](.*?)[\\)\\]\\}])","g");
         return reg;

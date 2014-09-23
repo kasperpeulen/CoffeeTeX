@@ -55,6 +55,7 @@
         clearTimeout(timer); // Clear the timer so we don't end up with dupes.
         timer = setTimeout(function() { // assign timer a new timeout
           var startTime = new Date().getTime();
+          //localStorage.textarea = $("#text").val();
           tex_to_ctex();
           ctex_to_tex();
           parsed = reader.parse($("#latex").text());
@@ -102,7 +103,7 @@
       <textarea id="text" spellcheck='false'>The tensor product ⁅V⊗W⁆ of vector spaces 𝑉 and 𝑊 over a field 𝑘, is the quotient of the space ⁅V*W⁆ whose basis is given by formal symbols ⁅v⊗w, v∈V,w∈W⁆, by the subspace spanned by the elements
 
 ⁅(v₁+v₂)⊗w-v₁⊗w-v₂⊗w, \\
- v⊗(w₁+w₂)-v⊗w₁-v⊗w₂, \\
+v⊗(w₁+w₂)-v⊗w₁-v⊗w₂, \\
 av⊗w-a(v⊗w), \\
 v⊗aw-a(v⊗w)⁆
 
