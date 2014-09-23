@@ -191,9 +191,7 @@
     var foundCode = false;
     var match;
     while (!foundCode && (match = this.match(/\${1,2}|\\\)|\\\]|\\end/m))) {
-      console.log(match);
       if (match) {
-        //console.log(this.subject);
         inlines.push({ t: 'Str', c: this.subject.slice(afterOpenTicks-math.length,
           this.pos )});
         return (this.pos - startpos);

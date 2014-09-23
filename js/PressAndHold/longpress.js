@@ -239,6 +239,7 @@ var activeElement;
     });
 
     function onKeyDown(e) {
+      console.log(e.which);
         activeElement = e.target;
         var font = $(activeElement).css('font-family');
         var hasSTIX = /STIX/g.test(font);
@@ -248,7 +249,7 @@ var activeElement;
         if ($('.long-press-popup').length <= 0) {
             keyup = false;
             count += 1;
-            if (e.which == 8 || e.which == 16 || e.which == 17 || e.which == 18 || e.which == 20 || e.which == 37 || e.which == 38 || e.which == 39 || e.which == 40 || e.which == 16) {
+            if (e.which == 8 || e.which == 16 || e.which == 17 || e.which == 18 || e.which == 20 || e.which == 37 || e.which == 38 || e.which == 39 || e.which == 40 || e.which == 16 || e.which == 224) {
                 return;
             }
             if (e.which == 9) {
