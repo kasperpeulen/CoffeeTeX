@@ -1,7 +1,7 @@
 textarea#text { height: 400px; width: 95%; font-family: LMMath-bbfix; font-size: 17px; }
 pre code#latex { font-family: LMMath-bbfix; font-size: 17px; }
 pre#latexpre { height: 400px; width: 95%; overflow: scroll; }
-div#preview { height: 400px; overflow: scroll; font-family: LMMath-bbfix; font-size:17px; }
+div#preview { height: 400px; overflow: scroll; font-family: Latin-Modern; font-size:17px; }
 div.row { margin-top: 1em; }
 blockquote { font-size: 100%; }
 footer { color: #555; text-align: center; margin: 1em; }
@@ -11,7 +11,29 @@ label { padding-left: 1em; padding-top: 0; padding-bottom: 0; }
 p.timing { color: red; }
 span.timing { font-weight: bold; }
 span.timing { font-weight: bold; }
+
+
 @font-face {
-    font-family: LMMath-bbfix;
-    src: url('LMMath-bbfix.otf');
+    font-family: "LMMath-bbfix";
+    src: url("LMMath-bbfix.otf");
+}
+@font-face {
+    font-family: "Latin-Modern";
+    src: url("lmroman10-regular.otf");
+}
+@font-face {
+    font-family: "Latin-Modern";
+    src: url("lmroman10-bold.otf");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "Latin-Modern";
+    src: url("lmroman10-italic.otf");
+    font-style: italic;
+}
+@font-face {
+    font-family: "Latin-Modern";
+    src: url("lmroman10-bolditalic.otf");
+    font-weight: bold;
+    font-style: italic;
 }

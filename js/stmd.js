@@ -471,9 +471,6 @@
         case '$':
           this.parseMath([]);
           break;
-        case '\\(':
-          this.parseMath([]);
-          break;
         case '<':
           this.parseAutolink([]) || this.parseHtmlTag([]) || this.parseString([]);
           break;
@@ -487,6 +484,9 @@
           break;
         case '\\':
           this.parseEscaped([]);
+          break;
+        case '\\(':
+          this.parseMath([]);
           break;
         default:
           this.parseString([]);
