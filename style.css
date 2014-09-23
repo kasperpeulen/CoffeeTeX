@@ -1,7 +1,12 @@
-textarea#text { height: 400px; width: 95%; font-family: LMMath-bbfix; font-size: 17px; }
+textarea#text {
+    min-height: 400px; width: 95%; font-family: LMMath-bbfix; font-size: 17px;
+    -webkit-transition: height 0.2s;
+    -moz-transition: height 0.2s;
+    transition: height 0.2s;
+padding-bottom: 0;}
 pre code#latex { font-family: LMMath-bbfix; font-size: 17px; }
 pre#latexpre { height: 400px; width: 95%; overflow: scroll; }
-div#preview { height: 400px; overflow: scroll; font-family: Latin-Modern; font-size:17px; }
+div#preview { min-height: 400px; overflow: scroll; font-family: Latin-Modern; font-size:17px; }
 div.row { margin-top: 1em; }
 blockquote { font-size: 100%; }
 footer { color: #555; text-align: center; margin: 1em; }

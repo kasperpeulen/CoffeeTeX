@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>CoffeeTeX Unicode Editor</title>
+  <link href="style.css" rel="stylesheet"/>
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
@@ -16,6 +17,7 @@
   <script src="js/PressAndHold/tex_to_ctex.js"></script>
   <script src="js/PressAndHold/ctex_to_tex.js"></script>
   <script src="js/stmd.js"></script>
+
   <script type="text/javascript" src="js/mathjaxconfig.js"></script>
   <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
   <script type="text/javascript">
@@ -77,9 +79,16 @@
       };
       $("#text").bind('keyup paste cut mouseup', parseAndRender);
       $(".option").change(render);
+
     });
   </script>
-  <link href="style.css" rel="stylesheet"/>
+
+  <script src="js/jquery.autosize.min.js"></script>
+  <script>
+    $(function(){
+      $('#text').autosize();
+    });
+  </script>
 </head>
 <body>
 <div class="container">
