@@ -470,6 +470,22 @@ var mathcal =  {
   "Z" : "𝒵"
   
 }
+
+var accents = {
+  acute:  "0301", // or 0301 or 02CA
+  grave:  "0300", // or 0300 or 02CB
+  ddot:  "0308", // or 0308
+  tilde:  "0303", // or 0303 or 02DC
+  bar:  "0304", // or 0304 or 02C9
+  breve:  "0306", // or 0306
+  check:  "030C", // or 030C
+  hat:  "0302", // or 0302 or 02C6
+  vec:  "2192", // or 20D7
+  dot:  "0307" // or 0307
+//  widetilde:  "0303", // or 0303 or 02DC
+//  widehat:  "005E", // or 0302 or 02C6
+  
+}
 var tex_to_ctex = function () {
   //if (!$('#convert_latex').prop('checked')) {
   //  return;
@@ -570,34 +586,22 @@ var tex_to_ctex = function () {
       }
     }
   }
+
+  for (var a  in accents) {
+  b =  String.fromCharCode(parseInt(accents[a], 16));
+  a = a.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  var re = new RegExp("\\\\(" + a + "){(\\w)}", "g");
+  textarea = textarea.replace(re, "$2"+b);
+  }
+
+
   var newlength = textarea.length ;
+
 
   if (newlength !== oldlength) {
     $('#text').val(textarea);
     setCaretPosition(activeElement, caret + newlength - oldlength);
   }
 
-  /*  for (var b in unicode_to_latex) {
-   var a = unicode_to_latex[b];
-
-   a = a.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-   if (a == "\\\\bar"){console.log(a,b);}
-   if (/[\u0300-\u036e\u1dc0-\u1dfe\u20d0-\u20fe\ufe20-\ufe2e]/.test(b)) {
-   console.log("1");
-   var re = new RegExp("(" + a + "){(\\w)}", "g");
-   textarea = textarea.replace(re, "$2"+b);
-   }
-   else{
-   var re = new RegExp("(" + a + ")", "g");
-   textarea = textarea.replace(re, b);
-   }
-   }
-   var newlength = textarea.length ;
-
-   if (newlength !== oldlength) {
-   $('#text').val(textarea);
-   setCaretPosition(activeElement, caret + newlength - oldlength);
-   }
-   */
 
 }
