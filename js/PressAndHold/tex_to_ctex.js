@@ -475,13 +475,13 @@ var tex_to_ctex = function () {
         else {
         newmacro = String.fromCharCode(parseInt(tex2unicode[m], 16));
         }
-        m = "\\\\("+m+")(?:( )|(?=[^\\w]))";
+        m = "\\\\("+m+")(?:( )|(?=[\\W|_]))";
         console.log(m);
         re = new RegExp(m, "g");
         textarea = textarea.replace(re, newmacro);
         continue;
       }
-      var re = /\\(mathbb|Bbb)[{| ](\w)(?:([ |}])|(?=[^\w]))/g;
+      var re = /\\(mathbb|Bbb)[{| ](\w)(?:([ |}])|(?=[\W|_]))/g;
       var subst = '$2';
 
       var ma = re.exec(textarea);
