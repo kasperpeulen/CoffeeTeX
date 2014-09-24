@@ -71,7 +71,7 @@ var tex2unicode = {
   diamondsuit: '2662',
   heartsuit: '2661',
   spadesuit: '2660',
-  surd: '221A',
+  sqrt: '221A',
 
   // big ops
   coprod: '2210',
@@ -471,6 +471,63 @@ var mathcal =  {
   
 }
 
+var mathbf = {
+
+
+  "A": "DC00",
+    "B": "DC01",
+    "C": "DC02",
+    "D": "DC03",
+    "E": "DC0C",
+    "F": "DC05",
+    "G": "DC06",
+    "H": "DC07",
+    "I": "DC08",
+    "J": "DC09",
+    "K": "DC0A",
+    "L": "DC0B",
+    "M": "DC0C",
+    "N": "DC0D",
+    "O": "DC0E",
+    "P": "DC0F",
+    "Q": "DC10",
+    "R": "DC11",
+    "S": "DC12",
+    "T": "DC13",
+    "U": "DC1C",
+    "V": "DC15",
+    "W": "DC16",
+    "X": "DC17",
+    "Y": "DC18",
+    "Z": "DC19",
+    "a": "DC1A",
+    "b": "DC1B",
+    "c": "DC1C",
+    "d": "DC1D",
+    "e": "DC1E",
+    "f": "DC1F",
+    "g": "DC20",
+    "h": "DC21",
+    "i": "DC22",
+    "j": "DC23",
+    "k": "DC2C",
+    "l": "DC25",
+    "m": "DC26",
+    "n": "DC27",
+    "o": "DC28",
+    "p": "DC29",
+    "q": "DC2A",
+    "r": "DC2B",
+    "s": "DC2C",
+    "t": "DC2D",
+    "u": "DC2E",
+    "v": "DC2F",
+    "w": "DC30",
+    "x": "DC31",
+    "y": "DC32",
+    "z": "DC33"
+}
+
 var accents = {
   acute:  "0301", // or 0301 or 02CA
   grave:  "0300", // or 0300 or 02CB
@@ -480,7 +537,7 @@ var accents = {
   breve:  "0306", // or 0306
   check:  "030C", // or 030C
   hat:  "0302", // or 0302 or 02C6
-  vec:  "2192", // or 20D7
+  vec:  "20D7", // or 20D7
   dot:  "0307" // or 0307
 //  widetilde:  "0303", // or 0303 or 02DC
 //  widehat:  "005E", // or 0302 or 02C6
@@ -494,14 +551,13 @@ var tex_to_ctex = function () {
   var textarea = $(activeElement).val();
   var caret = getCaretPosition(activeElement);
   var oldlength = textarea.length;
-  textarea = textarea.replace("\\{","❴").replace("\\}","❵").replace("\\(","⁅").replace("\\)","⁆");
+  textarea = textarea.replace("\\{","❴").replace("\\}","❵").replace("\\(","⁅").replace("\\)","⁆").replace("\\\\","↵");
   for (var i = 0; i < textarea.length; i++) {
     if (textarea[i] === "\\") {
       var searchStr = textarea.substring(i + 1);
       m = /(^[a-zA-Z\(\)\[\]❴❵]+)/g.exec(searchStr);
       if (m) m=m[0];
 
-      console.log(m);
       if (m =="frac" ) {
         if (/\s\S\S\s/g.test(textarea.slice(i + 5, i + 9))) {
           textarea = textarea.replace(textarea.slice(i, i + 8), textarea[i + 6] + "∕" + textarea[i + 7]);
@@ -538,10 +594,10 @@ var tex_to_ctex = function () {
         console.log(ma);
         if (ma){
           if ((ma[2] in mathfrak)) {
-            textarea = textarea.replace(re, doublestruck[ma[2]]);
+            textarea = textarea.replace(re, mathfrak[ma[2]]);
           }
           else if ((ma[3] in mathfrak)) {
-            textarea = textarea.replace(re, doublestruck[ma[3]]);
+            textarea = textarea.replace(re, mathfrak[ma[3]]);
           }
         }
       }
@@ -551,10 +607,23 @@ var tex_to_ctex = function () {
         console.log(ma);
         if (ma){
           if ((ma[2] in mathcal)) {
-            textarea = textarea.replace(re, doublestruck[ma[2]]);
+            textarea = textarea.replace(re, mathcal[ma[2]]);
           }
           else if ((ma[3] in mathcal)) {
-            textarea = textarea.replace(re, doublestruck[ma[3]]);
+            textarea = textarea.replace(re, mathcal[ma[3]]);
+          }
+        }
+      }
+      else if ( m === "mathbf"){
+        var re = /\\(mathbf)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g;
+        var ma = re.exec(textarea);
+        console.log(ma);
+        if (ma){
+          if ((ma[2] in mathbf)) {
+            textarea = textarea.replace(re, "\uD835"+ String.fromCharCode(parseInt(mathbf[ma[2]],16)));
+          }
+          else if ((ma[3] in mathcal)) {
+            textarea = textarea.replace(re, "\uD835"+ String.fromCharCode(parseInt(mathbf[ma[3]],16)));
           }
         }
       }
@@ -573,6 +642,12 @@ var tex_to_ctex = function () {
         textarea = textarea.replace(re, newmacro);
         continue;
       }
+      else if (accents[m]){
+        b =  String.fromCharCode(parseInt(accents[m], 16));
+        m = m.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        var re = new RegExp("\\\\(" + m + "){(..?)}", "g");
+        textarea = textarea.replace(re, "$2"+b);
+      }
 
     }
     else if (textarea[i] === "_" || textarea[i] === "^") {
@@ -587,12 +662,6 @@ var tex_to_ctex = function () {
     }
   }
 
-  for (var a  in accents) {
-  b =  String.fromCharCode(parseInt(accents[a], 16));
-  a = a.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-  var re = new RegExp("\\\\(" + a + "){(\\w)}", "g");
-  textarea = textarea.replace(re, "$2"+b);
-  }
 
 
   var newlength = textarea.length ;

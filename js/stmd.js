@@ -482,9 +482,6 @@
         case '\\':
           this.parseEscaped([]);
           break;
-        case '\\(':
-          this.parseMath([]);
-          break;
         default:
           this.parseString([]);
       }

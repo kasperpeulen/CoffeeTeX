@@ -43,7 +43,7 @@ var matchRecursive = function () {
 
 var ctex_to_tex = function (){
     var textarea =$('#text').val();
-    
+
     $('#latex').text(textarea);
 
     var binreg = function (symbol){
@@ -65,13 +65,16 @@ var ctex_to_tex = function (){
     for (var index = 0; index < text.length; index++) {
         if (text[index] === "⁅") {
             var sub=  textarea.substring(index);
+
             var endindex = sub.indexOf("⁆");
             var endindex2 = sub.indexOf("⁅");
             if (endindex !==-1 &&  endindex2 < endindex) {
                 var innermath = sub.substring(0, endindex);
                 if (innermath.indexOf("&") !== -1 ){
-
-                    text[index+endindex]= "\\end{align*}" ;
+                  console.log(sub);
+                  console.log(innermath);
+                  console.log(text[index,endindex]);
+                  text[index+endindex]= "\\end{align*}" ;
                     text[index]= "\\begin{align*}" ;
                 }
                 else if (innermath.indexOf("\\\\") !== -1 ){
@@ -206,23 +209,36 @@ var ctex_to_tex = function (){
     textarea = textarea.replace(/"(\w+)"(\(|\[|\{)/g,'\\mathop{\\mathrm{$1}}$2');
     textarea = textarea.replace(/"([^"]+)"/g,'\\text{$1}');
 
-    textarea = textarea.replace(/^⁅([^⁅⁆]*?)⁆$/gm,"\\[$1\\]");
+    textarea = textarea.replace(/^⁅([^⁅⁆]*?)⁆$/gm,"$$$$$1$$$");
     textarea = textarea.replace(/√(?:\s*?)(\S_{.*?})/g,'\\sqrt{$1}');
 
     for (var a in unicode_to_latex) {
-        var newstr = unicode_to_latex[a];
-        if (/[\u0300-\u036e\u1dc0-\u1dfe\u20d0-\u20fe\ufe20-\ufe2e]/.test(a)) {
-            var index = textarea.indexOf(a);
-            if (index !== -1) {
-                var text = textarea.split('');
-                text[index] = "{" + text[index - 1] + "}";
-                text[index - 1] = a;
-                textarea = text.join('');
-            }
+      var newstr = unicode_to_latex[a];
+      if (/[\u0300-\u036e\u1dc0-\u1dfe\u20d0-\u20fe\ufe20-\ufe2e]/.test(a)) {
+
+        var index = textarea.indexOf(a);
+        while (index !== -1) {
+          var text = textarea.split('');
+          text[index] = "{" + text[index - 1] + "}";
+          if (text[index-2] === "\uD835" ){
+            text[index] = "{" + text[index-2] +text[index - 1] + "}";
+            text[index -2] ="";
+          }
+
+          text[index - 1] = newstr;
+          textarea = text.join('');
+          index = textarea.indexOf(a);
         }
+      }
+    }
+  for (var a in unicode_to_latex) {
+    var newstr = unicode_to_latex[a];
         var reg = new RegExp (a,"g");
+    if (reg.test(textarea)){
         textarea = textarea.replace(reg,newstr);
     }
+    }
+
 
     textarea = textarea.replace(/(^|[^\\])(sin|cos|arctan|arccos|arcsin|tan|csc|sec|cot|sinh|cosh|tanh|log|ln|det|dim|lim|mod|gcd|lcm|min|max)( |\(|\[|\{|\^|_)/g, '$1\\$2$3');
    
