@@ -193,11 +193,11 @@ var ctex_to_tex = function (){
         textarea = textarea.replace(reg,subscripts[a]);
     }
 
-    textarea = textarea.replace(/(?:\^\{[\dnkx\=\→\-]\}+)+/g, function($1) {
-        return "^{"+$1.replace(/\^\{/g,"").replace(/\}/g,"")+"}";
+  textarea = textarea.replace(/(?:\^\{[\dnkx\=\→\-]\}+)+/g, function($1) {
+        return "^{"+$1.replace(/\^\{(.)\}/g,"$1")+"}";
     });
     textarea = textarea.replace(/(?:_\{[\dnkx\=\→\-]\}+)+/g, function($1) {
-        return "_{"+$1.replace(/_\{/g,"").replace(/\}/g,"")+"}";
+      return "_{"+$1.replace(/_\{(.)\}/g,"$1")+"}";
     });
 
     textarea = textarea.replace(/(_)([^\s{}]*?)(\s|\^|⁆|\$)/g,'$1{$2}$3');

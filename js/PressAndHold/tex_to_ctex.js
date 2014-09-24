@@ -424,9 +424,9 @@ var doublestruck = {
   "k":"𝕜"
 }
 var tex_to_ctex = function () {
-  //if (!$('#convert_latex').prop('checked')) {
-  //  return;
-  //}
+  if (!$('#convert_latex').prop('checked')) {
+    return;
+  }
   var m,newmacro,re ;
   var textarea = $(activeElement).val();
   var caret = getCaretPosition(activeElement);
@@ -434,19 +434,40 @@ var tex_to_ctex = function () {
 
   for (var i = 0; i < textarea.length; i++) {
     if (textarea[i] === "\\") {
+
+      console.log(textarea.slice(i+5,i+8));
       var macro = textarea.substring(i + 1);
       var endindex = macro.indexOf([" "]);
-      var chars = ["\\", "_", "^", "}"];
+      var chars = ["\\", "_", "^", "}","$"];
       for (var char in chars) {
         var endindex2 = macro.indexOf(chars[char]);
         if (chars[char] == "}" && endindex2 !== -1) {
-          endindex2 += 1;
+          endindex2 = Math.min (macro.lastIndexOf("}")+1,macro.indexOf(" "));
         }
         if ((endindex2 !== -1 && endindex2 < endindex ) || endindex == -1) {
           endindex = endindex2;
         }
       }
       m = macro.substring(0, endindex);
+      console.log(m);
+      if (/^frac/g.test(m)) {
+        var arguments = matchRecursive(m, "{...}");
+        console.log(arguments);
+        if (arguments.length === 2) {
+          console.log(1);
+          var re = "\\frac{" + arguments[0] + "}{" + arguments[1] + "}";
+          var newre = "(" + arguments[0] + ")∕(" + arguments[1] + ")";
+          console.log(re, newre);
+          textarea = textarea.replace(re, newre);
+//          var re = new RegExp("\\\\frac","g")
+//          textarea.replace(/\\frac{arguments}{()}/g)
+        }
+        else if (/\s\S\S\s/g.test(textarea.slice(i + 5, i + 9))) {
+          console.log(2);
+          textarea = textarea.replace(textarea.slice(i, i + 8), textarea[i + 6] + "∕" + textarea[i + 7]);
+        }
+      }
+
       if (tex2unicode[m]) {
         if (tex2unicode[m].length < 3){
           newmacro = tex2unicode[m];
@@ -454,11 +475,13 @@ var tex_to_ctex = function () {
         else {
         newmacro = String.fromCharCode(parseInt(tex2unicode[m], 16));
         }
-        re = new RegExp("\\\\" + m + "", "g");
+        m = "\\\\("+m+")(?:( )|(?=[^\\w]))";
+        console.log(m);
+        re = new RegExp(m, "g");
         textarea = textarea.replace(re, newmacro);
         continue;
       }
-      var re = /\\(mathbb|Bbb)[{| ](\w)[}| |\^|_|\\]/g;
+      var re = /\\(mathbb|Bbb)[{| ](\w)(?:([ |}])|(?=[^\w]))/g;
       var subst = '$2';
 
       var ma = re.exec(textarea);
