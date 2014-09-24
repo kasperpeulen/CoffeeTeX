@@ -83,12 +83,7 @@ var ctex_to_tex = function (){
                     text[index+endindex]= "\\end{gather*}" ;
                     text[index]= "\\begin{gather*}" ;
                 }
-                else if (innermath.indexOf("((") !== -1 ){
-                    text[index+endindex]= "``" ;
-                    text[index]= "``" ;
-
-
-                }
+           
             }
 
         }
