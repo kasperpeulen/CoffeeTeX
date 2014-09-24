@@ -79,10 +79,9 @@ var ctex_to_tex = function (){
                   console.log(text[index+endindex]);
                   text[index+endindex]= "\\end{align*}" ;
                     text[index]= "\\begin{align*}" ;
-                  //index = 0;
+
                   textarea = text.join('');
-                  //text = textarea.split('');
-                  continue;
+                  text = textarea.split('');
 
                 }
                 else if (innermath.indexOf("\\\\") !== -1 ){
@@ -90,10 +89,8 @@ var ctex_to_tex = function (){
 
                     text[index+endindex]= "\\end{gather*}" ;
                     text[index]= "\\begin{gather*}" ;
-                  index = 0;
                   textarea = text.join('');
                   text = textarea.split('');
-                  continue;
                 }
 
             }
