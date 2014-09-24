@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>CoffeeTeX Unicode Editor</title>
-  <link href="style.css" rel="stylesheet"/>
+  <link href="stylev1.css" rel="stylesheet"/>
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
@@ -19,7 +19,7 @@
   <script src="js/stmd.js"></script>
 
   <script type="text/javascript" src="js/mathjaxconfig.js"></script>
-  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
+ <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
   <script type="text/javascript">
 
     var writer = new stmd.HtmlRenderer();
@@ -41,29 +41,35 @@
         if (parsed === undefined) {
           return;
         }
-        var startTime = new Date().getTime();
+
         var result = writer.renderBlock(parsed);
         $("#preview").html(result);
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
-        var endTime = new Date().getTime();
-        var renderTime = endTime - startTime;
+
+       MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
+
+
         // $("#html").text(result);
 
 
-        $("#rendertime").text(renderTime);
       };
       var parseAndRender = function () {
         if (x) { x.abort() } // If there is an existing XHR, abort it.
         clearTimeout(timer); // Clear the timer so we don't end up with dupes.
         timer = setTimeout(function() { // assign timer a new timeout
-          var startTime = new Date().getTime();
+
           localStorage.textarea = $("#text").val();
+          var startTime = new Date().getTime();
           tex_to_ctex();
-          ctex_to_tex();
-          parsed = reader.parse($("#latex").text());
           var endTime = new Date().getTime();
+          var renderTime = endTime - startTime;
+          startTime = new Date().getTime();
+          ctex_to_tex();
+          endTime = new Date().getTime();
           var parseTime = endTime - startTime;
+          parsed = reader.parse($("#latex").text());
+
           $("#parsetime").text(parseTime);
+          $("#rendertime").text(renderTime);
           $(".timing").show();
           /*
            var warnings = parsed.warnings;
@@ -115,6 +121,7 @@
     <div class="col-md-6">
       <div class="tab-content">
         <div id="preview" class="tab-pane active">
+          𝐄⃗
         </div>
         <div id="result" class="tab-pane">
           <pre id="latexpre"><code id="latex"></code></pre>

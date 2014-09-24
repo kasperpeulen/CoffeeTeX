@@ -557,7 +557,7 @@ var tex_to_ctex = function () {
       var searchStr = textarea.substring(i + 1);
       m = /(^[a-zA-Z\(\)\[\]❴❵]+)/g.exec(searchStr);
       if (m) m = m[0];
-
+      console.log(m);
       if (m == "frac") {
         if (/\s\S\S\s/g.test(textarea.slice(i + 5, i + 9))) {
           textarea = textarea.replace(textarea.slice(i, i + 8), textarea[i + 6] + "∕" + textarea[i + 7]);
@@ -576,17 +576,25 @@ var tex_to_ctex = function () {
         }
       }
       else if (m === "mathbb" || m === "Bbb") {
+
             textarea = textarea.replace(/\\(mathbb|Bbb)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g, function ($1, $2, $3,$4) {
+              if ($3 === undefined ){$3 = "";}
+              if ($4 === undefined ){$4 = "";}
+
               if (doublestruck[$3+$4]){
+                console.log(1);
                 return  doublestruck[$3+$4];
               }
               else {
+                console.log($3+$4);
                 return $1;
-              }
+              }s
             });
        }
       else if (m === "mathfrak") {
         textarea = textarea.replace(/\\(mathfrak)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g, function ($1, $2, $3,$4) {
+          if ($3 === undefined ){$3 = "";}
+          if ($4 === undefined ){$4 = "";}
           if (mathfrak[$3+$4]){
             return  mathfrak[$3+$4];
           }
@@ -597,6 +605,8 @@ var tex_to_ctex = function () {
       }
       else if (m === "mathcal") {
         textarea = textarea.replace(/\\(mathcal)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g, function ($1, $2, $3,$4) {
+          if ($3 === undefined ){$3 = "";}
+          if ($4 === undefined ){$4 = "";}
           if (mathcal[$3+$4]){
             return  mathcal[$3+$4];
           }
@@ -607,6 +617,8 @@ var tex_to_ctex = function () {
       }
       else if (m === "mathbf") {
         textarea = textarea.replace(/\\(mathbf)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g, function ($1, $2, $3,$4) {
+          if ($3 === undefined ){$3 = "";}
+          if ($4 === undefined ){$4 = "";}
           if (mathbf[$3+$4]){
             return  "\uD835" + String.fromCharCode(parseInt(mathbf[$3+$4], 16));
           }
