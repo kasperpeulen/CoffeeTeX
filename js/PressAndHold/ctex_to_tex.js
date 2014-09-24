@@ -46,6 +46,8 @@ var ctex_to_tex = function (){
 
     $('#latex').text(textarea);
 
+
+
     var binreg = function (symbol){
         var reg = new RegExp("(?:([^{}()\\[\\]])|[\\(\\[\\{](.*?)[\\)\\]\\}])"+symbol+"(?:([^{}\\(\\)\\[\\]])|[\\(\\[\\{](.*?)[\\)\\]\\}])","g");
         return reg;
@@ -77,9 +79,9 @@ var ctex_to_tex = function (){
                   console.log(text[index+endindex]);
                   text[index+endindex]= "\\end{align*}" ;
                     text[index]= "\\begin{align*}" ;
-                  index = 0;
+                  //index = 0;
                   textarea = text.join('');
-                  text = textarea.split('');
+                  //text = textarea.split('');
                   continue;
 
                 }
@@ -236,6 +238,7 @@ var ctex_to_tex = function (){
         }
       }
     }
+
   for (var a in unicode_to_latex) {
     var newstr = unicode_to_latex[a];
         var reg = new RegExp (a,"g");

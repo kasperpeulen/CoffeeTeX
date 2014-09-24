@@ -551,6 +551,7 @@ var tex_to_ctex = function () {
   var textarea = $(activeElement).val();
   var caret = getCaretPosition(activeElement);
   var oldlength = textarea.length;
+
   textarea = textarea.replace("\\{","❴").replace("\\}","❵").replace("\\(","⁅").replace("\\)","⁆").replace("\\\\","↵");
   for (var i = 0; i < textarea.length; i++) {
     if (textarea[i] === "\\") {

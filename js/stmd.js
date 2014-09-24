@@ -182,7 +182,7 @@
   var parseMath = function(inlines) {
     var startpos = this.pos;
     //console.log(1,inlines,this);
-    var math = this.match(/\${1,2}|\\\(|\\\[|\\begin/);
+    var math = this.match(/\${1,2}|\\begin/);
 
     if (!math) {
       return 0;
@@ -190,7 +190,7 @@
     var afterOpenTicks = this.pos;
     var foundCode = false;
     var match;
-    while (!foundCode && (match = this.match(/\${1,2}|\\\)|\\\]|\\end/m))) {
+    while (!foundCode && (match = this.match(/\${1,2}|\\end/m))) {
       if (match) {
         inlines.push({ t: 'Str', c: this.subject.slice(afterOpenTicks-math.length,
           this.pos )});
@@ -211,10 +211,10 @@
     var subj = this.subject,
       pos  = this.pos;
     if (subj[pos] === '\\') {
-      if ("([b".indexOf(subj[pos+1]) !== -1) {
+      if ("b".indexOf(subj[pos+1]) !== -1) {
         return this.parseMath(inlines);
       }
-      else if (")]e".indexOf(subj[pos+1]) !== -1) {
+      else if ("e".indexOf(subj[pos+1]) !== -1) {
         return;
       }
       else if (subj[pos + 1] === '\n') {
@@ -446,6 +446,7 @@
 
 // Attempt to parse a link label, returning number of characters parsed.
   var parseLinkLabel = function() {
+    return 0;
     if (this.peek() != '[') {
       return 0;
     }

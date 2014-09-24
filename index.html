@@ -45,7 +45,7 @@
         var result = writer.renderBlock(parsed);
         $("#preview").html(result);
 
-       MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
 
 
         // $("#html").text(result);
@@ -61,11 +61,11 @@
           var startTime = new Date().getTime();
           tex_to_ctex();
           var endTime = new Date().getTime();
-          var renderTime = endTime - startTime;
+          var parseTime = endTime - startTime;
           startTime = new Date().getTime();
           ctex_to_tex();
           endTime = new Date().getTime();
-          var parseTime = endTime - startTime;
+          var renderTime = endTime - startTime;
           parsed = reader.parse($("#latex").text());
 
           $("#parsetime").text(parseTime);
@@ -81,7 +81,7 @@
            }
            */
           render();
-        }, 0); // ms delay
+        }, 100); // ms delay
       };
       $("#text").bind('keyup paste cut mouseup', parseAndRender);
       $(".option").change(render);
