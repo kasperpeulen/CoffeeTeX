@@ -478,7 +478,7 @@ var mathbf = {
     "B": "DC01",
     "C": "DC02",
     "D": "DC03",
-    "E": "DC0C",
+    "E": "DC04",
     "F": "DC05",
     "G": "DC06",
     "H": "DC07",
@@ -494,7 +494,7 @@ var mathbf = {
     "R": "DC11",
     "S": "DC12",
     "T": "DC13",
-    "U": "DC1C",
+    "U": "DC14",
     "V": "DC15",
     "W": "DC16",
     "X": "DC17",
@@ -510,7 +510,7 @@ var mathbf = {
     "h": "DC21",
     "i": "DC22",
     "j": "DC23",
-    "k": "DC2C",
+    "k": "DC24",
     "l": "DC25",
     "m": "DC26",
     "n": "DC27",
@@ -556,77 +556,66 @@ var tex_to_ctex = function () {
     if (textarea[i] === "\\") {
       var searchStr = textarea.substring(i + 1);
       m = /(^[a-zA-Z\(\)\[\]❴❵]+)/g.exec(searchStr);
-      if (m) m=m[0];
+      if (m) m = m[0];
 
-      if (m =="frac" ) {
+      if (m == "frac") {
         if (/\s\S\S\s/g.test(textarea.slice(i + 5, i + 9))) {
           textarea = textarea.replace(textarea.slice(i, i + 8), textarea[i + 6] + "∕" + textarea[i + 7]);
         }
-        else if (searchStr[m.length] === "{" ){
-        var arguments = matchRecursive(searchStr, "{...}");
-        console.log(arguments);
-        if (arguments.length > 1) {
-          var re = "\\frac{" + arguments[0] + "}{" + arguments[1] + "}";
-          var newre = "(" + arguments[0] + ")∕(" + arguments[1] + ")";
-          console.log(re, newre);
-          textarea = textarea.replace(re, newre);
+        else if (searchStr[m.length] === "{") {
+          var arguments = matchRecursive(searchStr, "{...}");
+          console.log(arguments);
+          if (arguments.length > 1) {
+            var re = "\\frac{" + arguments[0] + "}{" + arguments[1] + "}";
+            var newre = "(" + arguments[0] + ")∕(" + arguments[1] + ")";
+            console.log(re, newre);
+            textarea = textarea.replace(re, newre);
 //          var re = new RegExp("\\\\frac","g")
 //          textarea.replace(/\\frac{arguments}{()}/g)
-        }
-        }
-      }
-      else if ( m === "mathbb" || m === "Bbb"){
-        var re = /\\(mathbb|Bbb)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g;
-        var ma = re.exec(textarea);
-        console.log(ma);
-        if (ma){
-          if ((ma[2] in doublestruck)) {
-            textarea = textarea.replace(re, doublestruck[ma[2]]);
-          }
-          else if ((ma[3] in doublestruck)) {
-            textarea = textarea.replace(re, doublestruck[ma[3]]);
           }
         }
       }
-      else if ( m === "mathfrak"){
-        var re = /\\(mathfrak)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g;
-        var ma = re.exec(textarea);
-        console.log(ma);
-        if (ma){
-          if ((ma[2] in mathfrak)) {
-            textarea = textarea.replace(re, mathfrak[ma[2]]);
+      else if (m === "mathbb" || m === "Bbb") {
+            textarea = textarea.replace(/\\(mathbb|Bbb)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g, function ($1, $2, $3,$4) {
+              if (doublestruck[$3+$4]){
+                return  doublestruck[$3+$4];
+              }
+              else {
+                return $1;
+              }
+            });
+       }
+      else if (m === "mathfrak") {
+        textarea = textarea.replace(/\\(mathfrak)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g, function ($1, $2, $3,$4) {
+          if (mathfrak[$3+$4]){
+            return  mathfrak[$3+$4];
           }
-          else if ((ma[3] in mathfrak)) {
-            textarea = textarea.replace(re, mathfrak[ma[3]]);
+          else {
+            return $1;
           }
-        }
+        });
       }
-      else if ( m === "mathcal"){
-        var re = /\\(mathcal)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g;
-        var ma = re.exec(textarea);
-        console.log(ma);
-        if (ma){
-          if ((ma[2] in mathcal)) {
-            textarea = textarea.replace(re, mathcal[ma[2]]);
+      else if (m === "mathcal") {
+        textarea = textarea.replace(/\\(mathcal)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g, function ($1, $2, $3,$4) {
+          if (mathcal[$3+$4]){
+            return  mathcal[$3+$4];
           }
-          else if ((ma[3] in mathcal)) {
-            textarea = textarea.replace(re, mathcal[ma[3]]);
+          else {
+            return $1;
           }
-        }
+        });
       }
-      else if ( m === "mathbf"){
-        var re = /\\(mathbf)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g;
-        var ma = re.exec(textarea);
-        console.log(ma);
-        if (ma){
-          if ((ma[2] in mathbf)) {
-            textarea = textarea.replace(re, "\uD835"+ String.fromCharCode(parseInt(mathbf[ma[2]],16)));
+      else if (m === "mathbf") {
+        textarea = textarea.replace(/\\(mathbf)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g, function ($1, $2, $3,$4) {
+          if (mathbf[$3+$4]){
+            return  "\uD835" + String.fromCharCode(parseInt(mathbf[$3+$4], 16));
           }
-          else if ((ma[3] in mathcal)) {
-            textarea = textarea.replace(re, "\uD835"+ String.fromCharCode(parseInt(mathbf[ma[3]],16)));
+          else {
+            return $1;
           }
-        }
+        });
       }
+
       else if (tex2unicode[m]) {
         if (tex2unicode[m].length < 3){
           newmacro = tex2unicode[m];

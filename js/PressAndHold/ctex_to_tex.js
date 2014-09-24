@@ -72,18 +72,28 @@ var ctex_to_tex = function (){
                 var innermath = sub.substring(0, endindex);
                 if (innermath.indexOf("&") !== -1 ){
                   console.log(sub);
+                  console.log(index,endindex);
                   console.log(innermath);
-                  console.log(text[index,endindex]);
+                  console.log(text[index+endindex]);
                   text[index+endindex]= "\\end{align*}" ;
                     text[index]= "\\begin{align*}" ;
+                  index = 0;
+                  textarea = text.join('');
+                  text = textarea.split('');
+                  continue;
+
                 }
                 else if (innermath.indexOf("\\\\") !== -1 ){
 
 
                     text[index+endindex]= "\\end{gather*}" ;
                     text[index]= "\\begin{gather*}" ;
+                  index = 0;
+                  textarea = text.join('');
+                  text = textarea.split('');
+                  continue;
                 }
-           
+
             }
 
         }
