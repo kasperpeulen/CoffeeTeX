@@ -552,24 +552,28 @@ var tex_to_ctex = function () {
   var caret = getCaretPosition(activeElement);
   var oldlength = textarea.length;
 
-  textarea = textarea.replace("\\{","❴").replace("\\}","❵").replace("\\(","⁅").replace("\\)","⁆").replace("\\\\","↵");
+  textarea = textarea.replace("\\{","❴").replace("\\} ","❵").replace("\\( ","⁅").replace("\\) ","⁆").replace("\\\\ ","↵");
   for (var i = 0; i < textarea.length; i++) {
     if (textarea[i] === "\\") {
       var searchStr = textarea.substring(i + 1);
-      m = /(^[a-zA-Z\(\)\[\]❴❵]+)/g.exec(searchStr);
+      m = /(^[a-zA]+)/g.exec(searchStr);
       if (m) m = m[0];
-      console.log(m);
+
+      if (m === "big" || m  === "Big"){
+        m = searchStr.substring(0,4);
+      }
+      else if (m === "bigg" || m  === "Bigg"){
+        m = searchStr.substring(0,5);
+      }
       if (m == "frac") {
         if (/\s\S\S\s/g.test(textarea.slice(i + 5, i + 9))) {
           textarea = textarea.replace(textarea.slice(i, i + 8), textarea[i + 6] + "∕" + textarea[i + 7]);
         }
         else if (searchStr[m.length] === "{") {
           var arguments = matchRecursive(searchStr, "{...}");
-          console.log(arguments);
           if (arguments.length > 1) {
             var re = "\\frac{" + arguments[0] + "}{" + arguments[1] + "}";
             var newre = "(" + arguments[0] + ")∕(" + arguments[1] + ")";
-            console.log(re, newre);
             textarea = textarea.replace(re, newre);
 //          var re = new RegExp("\\\\frac","g")
 //          textarea.replace(/\\frac{arguments}{()}/g)
@@ -583,11 +587,9 @@ var tex_to_ctex = function () {
               if ($4 === undefined ){$4 = "";}
 
               if (doublestruck[$3+$4]){
-                console.log(1);
-                return  doublestruck[$3+$4];
+                  return  doublestruck[$3+$4];
               }
               else {
-                console.log($3+$4);
                 return $1;
               }s
             });
@@ -639,7 +641,6 @@ var tex_to_ctex = function () {
         m = m.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 
         m = "\\\\("+m+")(?:( )|(?=[^a-zA-Z]))";
-        console.log(m);
         re = new RegExp(m, "g");
         textarea = textarea.replace(re, newmacro);
         continue;
