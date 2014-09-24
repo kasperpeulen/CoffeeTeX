@@ -460,9 +460,9 @@ var tex_to_ctex = function () {
       }
       var re = /\\(mathbb|Bbb)[{| ](\w)[}| |\^|_|\\]/g;
       var subst = '$2';
-      if (ma){
-      var ma = re.exec(textarea);
 
+      var ma = re.exec(textarea);
+      if (ma){
       if (ma[2] in doublestruck) {
         textarea = textarea.replace(re, function ($1, $2, $3) {
             return doublestruck[$3];
