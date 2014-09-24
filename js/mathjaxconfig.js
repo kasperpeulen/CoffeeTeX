@@ -1,7 +1,3 @@
-/**
- * Created by kasperpeulen on 23/09/14.
- */
-
 window.MathJax = {
     AuthorInit: function () {
         MathJax.Hub.Config({

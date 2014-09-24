@@ -71,7 +71,7 @@
 
 // Matches a character with a special meaning in markdown,
 // or a string of non-special characters.
-  var reMain = /^(?:[\n`\[\]\\!<&*_]|[^\n`\[\]\\!<&*_]+)/m;
+  var reMain = /^(?:[\n`\$\[\]\\!<&*_]|[^\n`\$\[\]\\!<&*_]+)/m;
 
 // UTILITY FUNCTIONS
 
@@ -468,9 +468,6 @@
         case '`':
           this.parseBackticks([]);
           break;
-        case '$':
-          this.parseMath([]);
-          break;
         case '<':
           this.parseAutolink([]) || this.parseHtmlTag([]) || this.parseString([]);
           break;
@@ -709,6 +706,7 @@
 // Parse the next inline element in subject, advancing subject position
 // and adding the result to 'inlines'.
   var parseInline = function(inlines) {
+
     var c = this.peek();
     var res;
     switch(c) {
@@ -718,11 +716,11 @@
       case '\\':
         res = this.parseEscaped(inlines);
         break;
-      case '`':
-        res = this.parseBackticks(inlines);
-        break;
       case '$':
         res = this.parseMath(inlines);
+        break;
+      case '`':
+        res = this.parseBackticks(inlines);
         break;
       case '*':
       case '_':

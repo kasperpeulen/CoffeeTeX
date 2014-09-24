@@ -4,6 +4,13 @@
 
 
 var tex2unicode = {
+
+
+
+
+  '<': '27E8',
+  '>': '27E9',
+
   alpha: '03B1',
   beta: '03B2',
   gamma: '03B3',
@@ -236,84 +243,38 @@ var tex2unicode = {
   'lceil': '2308',
   'rfloor': '230B',
   'lfloor': '230A',
-  "mathfrak{A}" : "𝔄",
-  "mathfrak{B}" : "𝔅",
-  "mathfrak{C}" : "ℭ",
-  "mathfrak{D}" : "𝔇",
-  "mathfrak{E}" : "𝔈",
-  "mathfrak{F}" : "𝔉",
-  "mathfrak{G}" : "𝔊",
-  "mathfrak{H}" : "ℌ",
-  "mathfrak{I}" : "ℑ",
-  "mathfrak{J}" : "𝔍",
-  "mathfrak{K}" : "𝔎",
-  "mathfrak{L}" : "𝔏",
-  "mathfrak{M}" : "𝔐",
-  "mathfrak{N}" : "𝔑",
-  "mathfrak{O}" : "𝔒",
-  "mathfrak{P}" : "𝔓",
-  "mathfrak{Q}" : "𝔔",
-  "mathfrak{R}" : "ℜ",
-  "mathfrak{S}" : "𝔖",
-  "mathfrak{T}" : "𝔗",
-  "mathfrak{U}" : "𝔘",
-  "mathfrak{V}" : "𝔙",
-  "mathfrak{W}" : "𝔚",
-  "mathfrak{X}" : "𝔛",
-  "mathfrak{Y}" : "𝔜",
-  "mathfrak{Z}" : "ℨ",
-  "mathfrak{a}" : "𝔞",
-  "mathfrak{b}" : "𝔟",
-  "mathfrak{c}" : "𝔠",
-  "mathfrak{d}" : "𝔡",
-  "mathfrak{e}" : "𝔢",
-  "mathfrak{f}" : "𝔣",
-  "mathfrak{g}" : "𝔤",
-  "mathfrak{h}" : "𝔥",
-  "mathfrak{i}" : "𝔦",
-  "mathfrak{j}" : "𝔧",
-  "mathfrak{k}" : "𝔨",
-  "mathfrak{l}" : "𝔩",
-  "mathfrak{m}" : "𝔪",
-  "mathfrak{n}" : "𝔫",
-  "mathfrak{o}" : "𝔬",
-  "mathfrak{p}" : "𝔭",
-  "mathfrak{q}" : "𝔮",
-  "mathfrak{r}" : "𝔯",
-  "mathfrak{s}" : "𝔰",
-  "mathfrak{t}" : "𝔱",
-  "mathfrak{u}" : "𝔲",
-  "mathfrak{v}" : "𝔳",
-  "mathfrak{w}" : "𝔴",
-  "mathfrak{x}" : "𝔵",
-  "mathfrak{y}" : "𝔶",
-  "mathfrak{z}" : "𝔷",
-  "mathcal{A}" : "𝒜",
-  "mathcal{B}" : "ℬ",
-  "mathcal{C}" : "𝒞",
-  "mathcal{D}" : "𝒟",
-  "mathcal{E}" : "ℰ",
-  "mathcal{F}" : "ℱ",
-  "mathcal{G}" : "𝒢",
-  "mathcal{H}" : "ℋ",
-  "mathcal{I}" : "ℐ",
-  "mathcal{J}" : "𝒥",
-  "mathcal{K}" : "𝒦",
-  "mathcal{L}" : "ℒ",
-  "mathcal{M}" : "ℳ",
-  "mathcal{N}" : "𝒩",
-  "mathcal{O}" : "𝒪",
-  "mathcal{P}" : "𝒫",
-  "mathcal{Q}" : "𝒬",
-  "mathcal{R}" : "ℛ",
-  "mathcal{S}" : "𝒮",
-  "mathcal{T}" : "𝒯",
-  "mathcal{U}" : "𝒰",
-  "mathcal{V}" : "𝒱",
-  "mathcal{W}" : "𝒲",
-  "mathcal{X}" : "𝒳",
-  "mathcal{Y}" : "𝒴",
-  "mathcal{Z}" : "𝒵"
+
+//  'lt': '27E8',
+//  'gt': '27E9',
+  'rbrace': '❵',
+  'lbrace': '❴',
+
+  'big(' : '􀀢',
+  'Big(' : '􀀣',
+  'bigg(' : '􀀤',
+  'Bigg(' : '􀀥',
+  'big)' : '􀀩',
+  'Big)' : '􀀪',
+  'bigg)' : '􀀫',
+  'Bigg)' : '􀀬',
+  'big[' : '􀀑',
+  'Big[' : '􀀒',
+  'bigg[' : '􀀓',
+  'Bigg[' : '􀀔',
+  'big]' : '􀀘',
+  'Big]' : '􀀙',
+  'bigg]' : '􀀚',
+  'Bigg]' : '􀀛',
+  'big❴' : '􀀁',
+  'Big❴' : '􀀂',
+  'bigg❴' : '􀀃',
+  'Bigg❴' : '􀀄',
+  'big❵' : '􀀈',
+  'Big❵' : '􀀉',
+  'bigg❵' : '􀀊',
+  'Bigg❵' : '􀀋'
+
+
 
 }
 var subsup = {
@@ -423,38 +384,116 @@ var doublestruck = {
   "Z":"ℤ" ,
   "k":"𝕜"
 }
+
+var mathfrak = {
+  "A" : "𝔄",
+  "B" : "𝔅",
+  "C" : "ℭ",
+  "D" : "𝔇",
+  "E" : "𝔈",
+  "F" : "𝔉",
+  "G" : "𝔊",
+  "H" : "ℌ",
+  "I" : "ℑ",
+  "J" : "𝔍",
+  "K" : "𝔎",
+  "L" : "𝔏",
+  "M" : "𝔐",
+  "N" : "𝔑",
+  "O" : "𝔒",
+  "P" : "𝔓",
+  "Q" : "𝔔",
+  "R" : "ℜ",
+  "S" : "𝔖",
+  "T" : "𝔗",
+  "U" : "𝔘",
+  "V" : "𝔙",
+  "W" : "𝔚",
+  "X" : "𝔛",
+  "Y" : "𝔜",
+  "Z" : "ℨ",
+  "a" : "𝔞",
+  "b" : "𝔟",
+  "c" : "𝔠",
+  "d" : "𝔡",
+  "e" : "𝔢",
+  "f" : "𝔣",
+  "g" : "𝔤",
+  "h" : "𝔥",
+  "i" : "𝔦",
+  "j" : "𝔧",
+  "k" : "𝔨",
+  "l" : "𝔩",
+  "m" : "𝔪",
+  "n" : "𝔫",
+  "o" : "𝔬",
+  "p" : "𝔭",
+  "q" : "𝔮",
+  "r" : "𝔯",
+  "s" : "𝔰",
+  "t" : "𝔱",
+  "u" : "𝔲",
+  "v" : "𝔳",
+  "w" : "𝔴",
+  "x" : "𝔵",
+  "y" : "𝔶",
+  "z" : "𝔷"
+}
+
+var mathcal =  {
+
+  "A" : "𝒜",
+  "B" : "ℬ",
+  "C" : "𝒞",
+  "D" : "𝒟",
+  "E" : "ℰ",
+  "F" : "ℱ",
+  "G" : "𝒢",
+  "H" : "ℋ",
+  "I" : "ℐ",
+  "J" : "𝒥",
+  "K" : "𝒦",
+  "L" : "ℒ",
+  "M" : "ℳ",
+  "N" : "𝒩",
+  "O" : "𝒪",
+  "P" : "𝒫",
+  "Q" : "𝒬",
+  "R" : "ℛ",
+  "S" : "𝒮",
+  "T" : "𝒯",
+  "U" : "𝒰",
+  "V" : "𝒱",
+  "W" : "𝒲",
+  "X" : "𝒳",
+  "Y" : "𝒴",
+  "Z" : "𝒵"
+  
+}
 var tex_to_ctex = function () {
-  if (!$('#convert_latex').prop('checked')) {
-    return;
-  }
+  //if (!$('#convert_latex').prop('checked')) {
+  //  return;
+  //}
   var m,newmacro,re ;
   var textarea = $(activeElement).val();
   var caret = getCaretPosition(activeElement);
   var oldlength = textarea.length;
-
+  textarea = textarea.replace("\\{","❴").replace("\\}","❵").replace("\\(","⁅").replace("\\)","⁆");
   for (var i = 0; i < textarea.length; i++) {
     if (textarea[i] === "\\") {
+      var searchStr = textarea.substring(i + 1);
+      m = /(^[a-zA-Z\(\)\[\]❴❵]+)/g.exec(searchStr);
+      if (m) m=m[0];
 
-      console.log(textarea.slice(i+5,i+8));
-      var macro = textarea.substring(i + 1);
-      var endindex = macro.indexOf([" "]);
-      var chars = ["\\", "_", "^", "}","$"];
-      for (var char in chars) {
-        var endindex2 = macro.indexOf(chars[char]);
-        if (chars[char] == "}" && endindex2 !== -1) {
-          endindex2 = Math.min (macro.lastIndexOf("}")+1,macro.indexOf(" "));
-        }
-        if ((endindex2 !== -1 && endindex2 < endindex ) || endindex == -1) {
-          endindex = endindex2;
-        }
-      }
-      m = macro.substring(0, endindex);
       console.log(m);
-      if (/^frac/g.test(m)) {
-        var arguments = matchRecursive(m, "{...}");
+      if (m =="frac" ) {
+        if (/\s\S\S\s/g.test(textarea.slice(i + 5, i + 9))) {
+          textarea = textarea.replace(textarea.slice(i, i + 8), textarea[i + 6] + "∕" + textarea[i + 7]);
+        }
+        else if (searchStr[m.length] === "{" ){
+        var arguments = matchRecursive(searchStr, "{...}");
         console.log(arguments);
-        if (arguments.length === 2) {
-          console.log(1);
+        if (arguments.length > 1) {
           var re = "\\frac{" + arguments[0] + "}{" + arguments[1] + "}";
           var newre = "(" + arguments[0] + ")∕(" + arguments[1] + ")";
           console.log(re, newre);
@@ -462,37 +501,63 @@ var tex_to_ctex = function () {
 //          var re = new RegExp("\\\\frac","g")
 //          textarea.replace(/\\frac{arguments}{()}/g)
         }
-        else if (/\s\S\S\s/g.test(textarea.slice(i + 5, i + 9))) {
-          console.log(2);
-          textarea = textarea.replace(textarea.slice(i, i + 8), textarea[i + 6] + "∕" + textarea[i + 7]);
         }
       }
-
-      if (tex2unicode[m]) {
+      else if ( m === "mathbb" || m === "Bbb"){
+        var re = /\\(mathbb|Bbb)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g;
+        var ma = re.exec(textarea);
+        console.log(ma);
+        if (ma){
+          if ((ma[2] in doublestruck)) {
+            textarea = textarea.replace(re, doublestruck[ma[2]]);
+          }
+          else if ((ma[3] in doublestruck)) {
+            textarea = textarea.replace(re, doublestruck[ma[3]]);
+          }
+        }
+      }
+      else if ( m === "mathfrak"){
+        var re = /\\(mathfrak)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g;
+        var ma = re.exec(textarea);
+        console.log(ma);
+        if (ma){
+          if ((ma[2] in mathfrak)) {
+            textarea = textarea.replace(re, doublestruck[ma[2]]);
+          }
+          else if ((ma[3] in mathfrak)) {
+            textarea = textarea.replace(re, doublestruck[ma[3]]);
+          }
+        }
+      }
+      else if ( m === "mathcal"){
+        var re = /\\(mathcal)(?: (\w)(?=[^a-zA-Z])|{(\w)})/g;
+        var ma = re.exec(textarea);
+        console.log(ma);
+        if (ma){
+          if ((ma[2] in mathcal)) {
+            textarea = textarea.replace(re, doublestruck[ma[2]]);
+          }
+          else if ((ma[3] in mathcal)) {
+            textarea = textarea.replace(re, doublestruck[ma[3]]);
+          }
+        }
+      }
+      else if (tex2unicode[m]) {
         if (tex2unicode[m].length < 3){
           newmacro = tex2unicode[m];
         }
         else {
         newmacro = String.fromCharCode(parseInt(tex2unicode[m], 16));
         }
+        m = m.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+
         m = "\\\\("+m+")(?:( )|(?=[^a-zA-Z]))";
         console.log(m);
         re = new RegExp(m, "g");
         textarea = textarea.replace(re, newmacro);
         continue;
       }
-      var re = /\\(mathbb|Bbb)[{| ](\w)(?:([ |}])|(?=[^a-zA-Z]))/g;
-      var subst = '$2';
 
-      var ma = re.exec(textarea);
-      if (ma){
-      if (ma[2] in doublestruck) {
-        textarea = textarea.replace(re, function ($1, $2, $3) {
-            return doublestruck[$3];
-          }
-        );
-      }
-      }
     }
     else if (textarea[i] === "_" || textarea[i] === "^") {
       m = textarea[i] + textarea[i + 1];
