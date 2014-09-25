@@ -552,7 +552,7 @@ var tex_to_ctex = function () {
   var caret = getCaretPosition(activeElement);
   var oldlength = textarea.length;
 
-  textarea = textarea.replace("\\{","❴").replace("\\} ","❵").replace("\\( ","⁅").replace("\\) ","⁆").replace("\\\\ ","↵");
+  textarea = textarea.replace("\\{","❴").replace(/\\}/g,"❵").replace(/\\\(/g,"⁅").replace(/\n?\\\[\n?/g,"\n⁅").replace(/\n?\\\]\n?/g,"⁆\n").replace(/\\\)/g,"⁆").replace(/\\\\/g,"↵");
   for (var i = 0; i < textarea.length; i++) {
     if (textarea[i] === "\\") {
       var searchStr = textarea.substring(i + 1);
@@ -569,16 +569,48 @@ var tex_to_ctex = function () {
         if (/\s\S\S\s/g.test(textarea.slice(i + 5, i + 9))) {
           textarea = textarea.replace(textarea.slice(i, i + 8), textarea[i + 6] + "∕" + textarea[i + 7]);
         }
+        else if (/\\frac([^a-zA-Z{}])([^{}])/g.test(textarea.slice(i, i + 7))){
+          textarea = textarea.replace(textarea.slice(i, i + 7), textarea[i + 5] + "∕" + textarea[i + 6]);
+        }
+
         else if (searchStr[m.length] === "{") {
           var arguments = matchRecursive(searchStr, "{...}");
           if (arguments.length > 1) {
             var re = "\\frac{" + arguments[0] + "}{" + arguments[1] + "}";
             var newre = "(" + arguments[0] + ")∕(" + arguments[1] + ")";
             textarea = textarea.replace(re, newre);
-//          var re = new RegExp("\\\\frac","g")
-//          textarea.replace(/\\frac{arguments}{()}/g)
           }
         }
+      }
+      else if (m == "overset") {
+        if (/\s\S\S\s/g.test(textarea.slice(i + 5, i + 9))) {
+          textarea = textarea.replace(textarea.slice(i, i + 8), textarea[i + 6] + "∕" + textarea[i + 7]);
+        }
+        else if (searchStr[m.length] === "{") {
+          var arguments = matchRecursive(searchStr, "{...}");
+          if (arguments.length > 1) {
+            var re = "\\overset{" + arguments[0] + "}{" + arguments[1] + "}";
+            var newre = "(" + arguments[0] + ")↖(" + arguments[1] + ")";
+            textarea = textarea.replace(re, newre);
+          }
+        }
+      }
+      else if (m == "underset") {
+        if (/\s\S\S\s/g.test(textarea.slice(i + 5, i + 9))) {
+          textarea = textarea.replace(textarea.slice(i, i + 8), textarea[i + 6] + "∕" + textarea[i + 7]);
+        }
+        else if (searchStr[m.length] === "{") {
+          var arguments = matchRecursive(searchStr, "{...}");
+          if (arguments.length > 1) {
+            var re = "\\under{" + arguments[0] + "}{" + arguments[1] + "}";
+            var newre = "(" + arguments[0] + ")↙(" + arguments[1] + ")";
+            textarea = textarea.replace(re, newre);
+          }
+        }
+      }
+      else if (m === "begin" || m ==="end") {
+        textarea = textarea.replace(/\\(begin)({(align|aligned|gather|equation)\*?}\n?)/g,"⁅");
+        textarea = textarea.replace(/\n?\\(end)({(align|aligned|gather|equation)\*?})/g,"⁆");
       }
       else if (m === "mathbb" || m === "Bbb") {
 

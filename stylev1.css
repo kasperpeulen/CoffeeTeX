@@ -1,5 +1,5 @@
 textarea#text {
-    min-height: 400px; width: 95%; font-family: LMMath-bbfix; font-size: 17px;
+    min-height: 400px; width: 95%; font-family: LMMath-bbfix; font-size: 16px;
     -webkit-transition: height 0.2s;
     -moz-transition: height 0.2s;
     transition: height 0.2s;

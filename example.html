@@ -3,7 +3,6 @@
 <head>
   <meta charset="utf-8">
   <title>CoffeeTeX Unicode Editor</title>
-  <link href="stylev1.css" rel="stylesheet"/>
   <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
@@ -17,20 +16,14 @@
   <script src="js/PressAndHold/tex_to_ctex.js"></script>
   <script src="js/PressAndHold/ctex_to_tex.js"></script>
   <script src="js/stmd.js"></script>
-
   <script type="text/javascript" src="js/mathjaxconfig.js"></script>
- <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
   <script type="text/javascript">
 
     var writer = new stmd.HtmlRenderer();
     var reader = new stmd.DocParser();
 
     $(document).ready(function() {
-
-      if ($("#text").val() === ""){
-        $("#text").val(localStorage.textarea);
-      }
-
 
 
       $(".timing").hide();
@@ -41,35 +34,28 @@
         if (parsed === undefined) {
           return;
         }
-
+        var startTime = new Date().getTime();
         var result = writer.renderBlock(parsed);
         $("#preview").html(result);
-
-      MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
-
-
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
+        var endTime = new Date().getTime();
+        var renderTime = endTime - startTime;
         // $("#html").text(result);
 
 
+        $("#rendertime").text(renderTime);
       };
       var parseAndRender = function () {
         if (x) { x.abort() } // If there is an existing XHR, abort it.
         clearTimeout(timer); // Clear the timer so we don't end up with dupes.
         timer = setTimeout(function() { // assign timer a new timeout
-
-          localStorage.textarea = $("#text").val();
           var startTime = new Date().getTime();
           tex_to_ctex();
+          ctex_to_tex();
+          parsed = reader.parse($("#latex").text());
           var endTime = new Date().getTime();
           var parseTime = endTime - startTime;
-          startTime = new Date().getTime();
-          ctex_to_tex();
-          endTime = new Date().getTime();
-          var renderTime = endTime - startTime;
-          parsed = reader.parse($("#latex").text());
-
           $("#parsetime").text(parseTime);
-          $("#rendertime").text(renderTime);
           $(".timing").show();
           /*
            var warnings = parsed.warnings;
@@ -81,14 +67,14 @@
            }
            */
           render();
-        }, 100); // ms delay
+        }, 200); // ms delay
       };
       $("#text").bind('keyup paste cut mouseup', parseAndRender);
       $(".option").change(render);
       parseAndRender();
     });
   </script>
-
+  <link href="stylev1.css" rel="stylesheet"/>
   <script src="js/jquery.autosize.min.js"></script>
   <script>
     $(function(){
@@ -115,13 +101,42 @@
   </div>
   <div class="row">
     <div class="col-md-6">
-      <textarea id="text" spellcheck='false' placeholder="Press and hold a key to select a math symbol. For example, hold R to get ℝ or a to get α. Wrap the symbol in $...$ to get LaTeX output."></textarea>
+      <textarea id="text" spellcheck='false'>**The Lorenz Equations**
+
+⁅ẋ & = σ(y-x)         ↵
+ ẏ & = ρx - y - xz  ↵
+ ż & = -βz + xy⁆
+
+**The Cauchy-Schwarz Inequality**
+
+⁅􀀤∑ₖ₌₁ⁿ aₖbₖ􀀫² ≤􀀤∑ₖ₌₁ⁿ aₖ²􀀫􀀤∑ₖ₌₁ⁿ bₖ²􀀫⁆
+
+**A Cross Product Formula**
+
+⁅𝐕₁ ×𝐕₂ =
+\begin{vmatrix}
+𝐢              &        𝐣       & 𝐤   ↵
+(∂X)∕(∂u) &  (∂Y)∕(∂u) & 0  ↵
+(∂X)∕(∂v) &  (∂Y)∕(∂v) & 0
+\end{vmatrix}⁆
+
+**A Rogers-Ramanujan Identity**
+
+⁅1 +  (q²)∕[(1-q)] + (q⁶)∕[(1-q)(1-q²)] + ⋯ =
+∏ₙ₌₀^∞ 1∕[(1-q⁵ⁿ⁺²)(1-q⁵ⁿ⁺³)],  "for $|q|<1$".⁆
+
+**Maxwell’s Equations**
+
+⁅∇×𝐁⃗ -  1∕c  (∂𝐄⃗)∕(∂t) & = (4π)∕c 𝐣⃗ ↵
+∇⋅𝐄⃗ & = 4 πρ ↵
+∇×𝐄⃗  +  1∕c  (∂𝐁⃗)∕(∂t) & = \vec{\mathbf{0}} ↵
+∇⋅𝐁⃗ & = 0⁆
+      </textarea>
       <ul id="warnings"></ul>
     </div>
     <div class="col-md-6">
       <div class="tab-content">
         <div id="preview" class="tab-pane active">
-
         </div>
         <div id="result" class="tab-pane">
           <pre id="latexpre"><code id="latex"></code></pre>
@@ -131,15 +146,6 @@
     </div>
   </div>
   <input id="convert_latex" type="checkbox"> Convert LaTeX macros to unicode (experimental)<br>
-  <br>
-  <p>Here are some CoffeeTeX examples:
-  <ul>
-    <li><a href="example.html">Example 1</a>
-    </li>
-  <li><a href="example2.html">Example 2</a>
-  </li>
-  </ul>
-  </p>
 </div>
 </body>
 </html>

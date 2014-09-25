@@ -73,11 +73,7 @@ var ctex_to_tex = function (){
             if (endindex !==-1 &&  endindex2 < endindex) {
                 var innermath = sub.substring(0, endindex);
                 if (innermath.indexOf("&") !== -1 ){
-                  console.log(sub);
-                  console.log(index,endindex);
-                  console.log(innermath);
-                  console.log(text[index+endindex]);
-                  text[index+endindex]= "\\end{align*}" ;
+                   text[index+endindex]= "\\end{align*}" ;
                     text[index]= "\\begin{align*}" ;
 
                   textarea = text.join('');
@@ -106,7 +102,7 @@ var ctex_to_tex = function (){
             else if (text[i - 1] === ")") {
                 m = matchRecursive(textarea.substring(0, i), "(...)");
                 before = m[m.length - 1];
-            }
+               }
             else if (text[i - 1] === "]") {
                 m = matchRecursive(textarea.substring(0, i), "[...]");
                 before = m[m.length - 1];
@@ -139,11 +135,11 @@ var ctex_to_tex = function (){
             var re = new RegExp("[{(\\[]?(" + before + ")[})\\]]?∕[{(\\[]?(" + after + ")[\\]})]?", "g");
             textarea = textarea.replace(re, "\\frac{$1}{$2}");
             text = textarea.split('');
-            index = 0;
+            //index = 0;
             }
         }
 
-        textarea = text.join('');
+
     }
 
     var subscripts = {
@@ -200,10 +196,10 @@ var ctex_to_tex = function (){
         textarea = textarea.replace(reg,subscripts[a]);
     }
 
-  textarea = textarea.replace(/(?:\^\{[\dnkx\=\→\-]\}+)+/g, function($1) {
+  textarea = textarea.replace(/(?:\^\{[\dnkx\=\→\+\-]\}+)+/g, function($1) {
         return "^{"+$1.replace(/\^\{(.)\}/g,"$1")+"}";
     });
-    textarea = textarea.replace(/(?:_\{[\dnkx\=\→\-]\}+)+/g, function($1) {
+    textarea = textarea.replace(/(?:_\{[\dnkx\=\→\+\-]\}+)+/g, function($1) {
       return "_{"+$1.replace(/_\{(.)\}/g,"$1")+"}";
     });
 
