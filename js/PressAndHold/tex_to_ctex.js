@@ -554,11 +554,17 @@ var tex_to_ctex = function () {
 
   var textarea = $(activeElement).val();
   var caret = getCaretPosition(activeElement);
+
+
   var oldlength = textarea.length;
 
-  textarea = textarea.replace("\\{","❴").replace(/\\}/g,"❵").replace(/\\\(/g,"⁅").replace(/\n?\\\[\n?/g,"\n⁅").replace(/\n?\\\]\n?/g,"⁆\n").replace(/\\\)/g,"⁆").replace(/\\\\/g,"↵");
   for (var i = 0; i < textarea.length; i++) {
-    if (textarea[i] === "\\") {
+
+    if (textarea[i] === "\\" ) {
+      if (caret > i+2 || caret === textarea.length ){
+      textarea = textarea.replace("\\{","❴").replace(/\\}/g,"❵").replace(/\\\(/g,"⁅").replace(/\n?\\\[\n?/g,"\n⁅").replace(/\n?\\\]\n?/g,"⁆\n").replace(/\\\)/g,"⁆").replace(/\\\\/g,"↵");
+      }
+      console.log(caret,i);
       var searchStr = textarea.substring(i + 1);
       m = /(^[a-zA]+)/g.exec(searchStr);
       if (m) m = m[0];
@@ -573,7 +579,7 @@ var tex_to_ctex = function () {
         if (/\s\S\S\s/g.test(textarea.slice(i + 5, i + 9))) {
           textarea = textarea.replace(textarea.slice(i, i + 8), textarea[i + 6] + "∕" + textarea[i + 7]);
         }
-        else if (/\\frac([^a-zA-Z{}])([^{}])/g.test(textarea.slice(i, i + 7))){
+        else if (/\\frac([^a-zA-Z{}\s])([^{}])/g.test(textarea.slice(i, i + 7))){
           textarea = textarea.replace(textarea.slice(i, i + 7), textarea[i + 5] + "∕" + textarea[i + 6]);
         }
 
