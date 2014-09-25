@@ -548,6 +548,7 @@ var tex_to_ctex = function () {
   //  return;
   //}
   var m,newmacro,re ;
+  console.log(activeElement);
   if (!activeElement){
     activeElement = $('#text');
   }

@@ -420,7 +420,7 @@ var activeElement = $('#text');
     }
 
     function showPopup(chars) {
-      console.log(chars);
+
         popup.empty();
         oldCharlength = typedChar.length;
         $('.tail').on('click', function(e) {
