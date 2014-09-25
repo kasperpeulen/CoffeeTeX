@@ -566,9 +566,8 @@ var tex_to_ctex = function () {
       textarea = textarea.replace("\\{","❴").replace(/\\}/g,"❵").replace(/\\\(/g,"⁅").replace(/\n?\\\[\n?/g,"\n⁅").replace(/\n?\\\]\n?/g,"⁆\n").replace(/\\\)/g,"⁆").replace(/\\\\/g,"↵");
       }
       var searchStr = textarea.substring(i + 1);
-      m = /(^[a-zA]+)/g.exec(searchStr);
+      m = /(^[a-zA-Z]+)/g.exec(searchStr);
       if (m) m = m[0];
-
       if (m === "big" || m  === "Big"){
         m = searchStr.substring(0,4);
       }
