@@ -548,8 +548,12 @@ var tex_to_ctex = function () {
   //  return;
   //}
   var m,newmacro,re ;
-  var textarea = $('#text').val();
-  var caret = getCaretPosition('#text');
+  if (!activeElement){
+    activeElement = $('#text');
+  }
+
+  var textarea = $(activeElement).val();
+  var caret = getCaretPosition(activeElement);
   var oldlength = textarea.length;
 
   textarea = textarea.replace("\\{","❴").replace(/\\}/g,"❵").replace(/\\\(/g,"⁅").replace(/\n?\\\[\n?/g,"\n⁅").replace(/\n?\\\]\n?/g,"⁆\n").replace(/\\\)/g,"⁆").replace(/\\\\/g,"↵");
@@ -608,7 +612,18 @@ var tex_to_ctex = function () {
           }
         }
       }
-      else if (m === "begin" || m ==="end") {
+      else if (m === "text"){
+      if (searchStr[m.length] === "{") {
+        var arguments = matchRecursive(searchStr, "{...}");
+        if (arguments.length > 0) {
+          var re = "\\text{" + arguments[0] + "}";
+          var newre = "\"" + arguments[0] + "\"";
+          textarea = textarea.replace(re, newre);
+        }
+      }
+    }
+
+    else if (m === "begin" || m ==="end") {
         textarea = textarea.replace(/\\(begin)({(align|aligned|gather|equation)\*?}\n?)/g,"⁅");
         textarea = textarea.replace(/\n?\\(end)({(align|aligned|gather|equation)\*?})/g,"⁆");
       }

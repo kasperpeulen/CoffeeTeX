@@ -94,7 +94,6 @@
 }());
 // Place any jQuery/helper plugins in here.
 function getCaretPosition(ctrl) {
-    if (!ctrl){ctrl = $('#text');}
     var caretPos = 0;
     if (document.selection) {
         // IE Support
