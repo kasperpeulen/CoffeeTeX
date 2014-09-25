@@ -38,7 +38,7 @@
         var result = writer.renderBlock(parsed);
         $("#preview").html(result);
         MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
- 
+
         // $("#html").text(result);
 
 
@@ -73,7 +73,7 @@
            }
            */
           render();
-        }, 200); // ms delay
+        }, 10); // ms delay
       };
       $("#text").bind('keyup paste cut mouseup', parseAndRender);
       $(".option").change(render);
