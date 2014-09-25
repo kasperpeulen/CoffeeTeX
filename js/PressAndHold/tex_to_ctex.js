@@ -550,7 +550,7 @@ var tex_to_ctex = function () {
   var m,newmacro,re ;
   console.log(activeElement);
   if (!activeElement){
-    activeElement = $('#text');
+    activeElement = $('textarea');
   }
 
   var textarea = $(activeElement).val();
