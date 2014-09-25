@@ -181,7 +181,6 @@
 
   var parseMath = function(inlines) {
     var startpos = this.pos;
-    //console.log(1,inlines,this);
     var math = this.match(/\${1,2}|\\begin/);
 
     if (!math) {

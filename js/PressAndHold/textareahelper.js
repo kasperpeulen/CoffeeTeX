@@ -63,7 +63,6 @@
         this.height = function() {
             this.update();
             this.$mirror.css('height', '');
-            console.log(this.$mirror.height());
             return this.$mirror.height();
         };
         this.getOriginalCaretPos = function() {
