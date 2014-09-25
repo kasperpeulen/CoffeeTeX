@@ -109,7 +109,7 @@ $(document).ready(function() {
     });
 });
 var typedChar;
-var activeElement;
+var activeElement = $('#text');
 
 (function($, window, undefined) {
     var pluginName = 'longPress',

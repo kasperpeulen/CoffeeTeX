@@ -548,8 +548,8 @@ var tex_to_ctex = function () {
   //  return;
   //}
   var m,newmacro,re ;
-  var textarea = $(activeElement).val();
-  var caret = getCaretPosition(activeElement);
+  var textarea = $('#text').val();
+  var caret = getCaretPosition('#text');
   var oldlength = textarea.length;
 
   textarea = textarea.replace("\\{","❴").replace(/\\}/g,"❵").replace(/\\\(/g,"⁅").replace(/\n?\\\[\n?/g,"\n⁅").replace(/\n?\\\]\n?/g,"⁆\n").replace(/\\\)/g,"⁆").replace(/\\\\/g,"↵");
