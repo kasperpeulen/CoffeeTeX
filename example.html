@@ -34,12 +34,11 @@
         if (parsed === undefined) {
           return;
         }
-        var startTime = new Date().getTime();
+
         var result = writer.renderBlock(parsed);
         $("#preview").html(result);
         MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
-        var endTime = new Date().getTime();
-        var renderTime = endTime - startTime;
+ 
         // $("#html").text(result);
 
 
@@ -51,11 +50,18 @@
         timer = setTimeout(function() { // assign timer a new timeout
           var startTime = new Date().getTime();
           tex_to_ctex();
-          ctex_to_tex();
-          parsed = reader.parse($("#latex").text());
           var endTime = new Date().getTime();
+          console.log(2,startTime,endTime);
           var parseTime = endTime - startTime;
+          startTime = new Date().getTime();
+          ctex_to_tex();
+          endTime = new Date().getTime();
+          console.log(4,startTime,endTime);
+          var renderTime = endTime - startTime;
+          parsed = reader.parse($("#latex").text());
+
           $("#parsetime").text(parseTime);
+          $("#rendertime").text(renderTime);
           $(".timing").show();
           /*
            var warnings = parsed.warnings;
@@ -95,8 +101,8 @@
       </ul>
     </div>
     <div class="col-md-3">
-      <p class="timing">Parsed in <span class="timing" id="parsetime"></span> milliseconds.<br/>
-        Rendered in <span class="timing" id="rendertime"></span> milliseconds.</p>
+      <p class="timing">LaTeX to Coffee TeX in <span class="timing" id="parsetime"></span> ms.<br/>
+        Coffee TeX to LaTeX in <span class="timing" id="rendertime"></span> ms.</p>
     </div>
   </div>
   <div class="row">

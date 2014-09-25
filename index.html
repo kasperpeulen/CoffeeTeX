@@ -61,10 +61,12 @@
           var startTime = new Date().getTime();
           tex_to_ctex();
           var endTime = new Date().getTime();
+          console.log(2,startTime,endTime);
           var parseTime = endTime - startTime;
           startTime = new Date().getTime();
           ctex_to_tex();
           endTime = new Date().getTime();
+          console.log(4,startTime,endTime);
           var renderTime = endTime - startTime;
           parsed = reader.parse($("#latex").text());
 
@@ -109,8 +111,8 @@
       </ul>
     </div>
     <div class="col-md-3">
-      <p class="timing">Parsed in <span class="timing" id="parsetime"></span> milliseconds.<br/>
-        Rendered in <span class="timing" id="rendertime"></span> milliseconds.</p>
+      <p class="timing">LaTeX to Coffee TeX in <span class="timing" id="parsetime"></span> ms.<br/>
+        Coffee TeX to LaTeX in <span class="timing" id="rendertime"></span> ms.</p>
     </div>
   </div>
   <div class="row">

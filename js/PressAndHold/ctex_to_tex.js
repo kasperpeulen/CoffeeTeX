@@ -42,6 +42,8 @@ var matchRecursive = function () {
 
 
 var ctex_to_tex = function (){
+
+
     var textarea =$('#text').val();
 
     $('#latex').text(textarea);
@@ -240,8 +242,9 @@ var ctex_to_tex = function (){
     }
     }
 
-
     textarea = textarea.replace(/(^|[^\\])(sin|cos|arctan|arccos|arcsin|tan|csc|sec|cot|sinh|cosh|tanh|log|ln|det|dim|lim|mod|gcd|lcm|min|max)( |\(|\[|\{|\^|_)/g, '$1\\$2$3');
-   
+
     $('#latex').text(textarea);
+
+  console.log(3,new Date().getTime());
 }

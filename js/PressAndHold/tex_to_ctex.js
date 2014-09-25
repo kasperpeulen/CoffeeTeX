@@ -707,5 +707,5 @@ var tex_to_ctex = function () {
     setCaretPosition(activeElement, caret + newlength - oldlength);
   }
 
-
+  console.log(1,new Date().getTime());
 }
