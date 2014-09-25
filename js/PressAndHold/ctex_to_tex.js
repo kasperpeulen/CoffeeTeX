@@ -246,5 +246,4 @@ var ctex_to_tex = function (){
 
     $('#latex').text(textarea);
 
-  console.log(3,new Date().getTime());
 }
