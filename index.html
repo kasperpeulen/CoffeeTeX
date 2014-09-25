@@ -61,12 +61,10 @@
           var startTime = new Date().getTime();
           tex_to_ctex();
           var endTime = new Date().getTime();
-          console.log(2,startTime,endTime);
-          var parseTime = endTime - startTime;
+           var parseTime = endTime - startTime;
           startTime = new Date().getTime();
           ctex_to_tex();
           endTime = new Date().getTime();
-          console.log(4,startTime,endTime);
           var renderTime = endTime - startTime;
           parsed = reader.parse($("#latex").text());
 
