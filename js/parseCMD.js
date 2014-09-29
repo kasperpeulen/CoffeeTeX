@@ -56,7 +56,10 @@ $(document).ready(function() {
             toParse = toParse.replace(/\\begin{defn}\n([\s\S]+?)\n\\end{defn}/g,"**Definition.** $1");
             toParse = toParse.replace(/\\begin{prop}\n([\s\S]+?)\s?\n\\end{prop}/g,"**Proposition.** <em>$1</em>");
             toParse = toParse.replace(/\\begin{proof}\n([\s\S]+?)\n\\end{proof}/g,"**Proof.** $1");
+
             parsed = reader.parse(toParse);
+            toParse = toParse.replace(/\\\(|\\\)/g,"$");
+            toParse = toParse.replace(/\\\[|\\\]/g,"$$$");
             $("#markdown").text(toParse);
 
             $("#parsetime").text(parseTime);
