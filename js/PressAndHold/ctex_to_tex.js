@@ -165,6 +165,7 @@ var ctex_to_tex = function (){
             }
             else {
                 before = text[i - 1];
+                before2 = before;
             }
             if (text[i + 1] === "{") {
                 after = matchRecursive(textarea.substring(i + 1), "{...}")[0];
@@ -184,7 +185,7 @@ var ctex_to_tex = function (){
             else {
 
                 after = textarea.substring(1+i).match(/^(?:(\d+)|([^\d]))/g)[0];
-
+                after2 = after;
             }
 
             if ((before||before =="") && (after||after=="")) {
