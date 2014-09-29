@@ -146,56 +146,64 @@ var ctex_to_tex = function (){
 
         }
         var i = index;
-        var before, after, m;
+        var before, after, before2,after2, m;
         if (text[i] === "∕" || text[i] === "↖" || text[i] === "↙") {
             if (text[i - 1] === "}") {
                 m = matchRecursive(textarea.substring(0, i), "{...}");
                 before = m[m.length - 1];
+                before2 = "{"+before+"}";
             }
             else if (text[i - 1] === ")") {
                 m = matchRecursive(textarea.substring(0, i), "(...)");
                 before = m[m.length - 1];
+                before2 = "("+before+")";
                }
             else if (text[i - 1] === "]") {
                 m = matchRecursive(textarea.substring(0, i), "[...]");
                 before = m[m.length - 1];
+                before2 = "["+before+"]";
             }
             else {
                 before = text[i - 1];
             }
             if (text[i + 1] === "{") {
                 after = matchRecursive(textarea.substring(i + 1), "{...}")[0];
+                after2 = "{"+after+"}";
             }
             else if (text[i + 1] === "(") {
                 after = matchRecursive(textarea.substring(i + 1), "(...)")[0];
+                after2 = "("+after+")";
             }
             else if (text[i + 1] === "[") {
                 after = matchRecursive(textarea.substring(i + 1), "[...]")[0];
+                after2 = "["+after+"]";
             }
             else if (text[i+1] === "⁆") {
-                after = "";
+                after2 = "";
             }
             else {
 
                 after = textarea.substring(1+i).match(/^(?:(\d+)|([^\d]))/g)[0];
 
             }
+
             if ((before||before =="") && (after||after=="")) {
 
-            before = before.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-            after = after.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 
-            var re = new RegExp("[{(\\[]?(" + before + ")[})\\]]?∕[{(\\[]?(" + after + ")[\\]})]?", "g");
-            textarea = textarea.replace(re, "\\frac{$1}{$2}");
+            before2 = before2.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            after2 = after2.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 
-                re = new RegExp("[{(\\[]?(" + before + ")[})\\]]?↖[{(\\[]?(" + after + ")[\\]})]?", "g");
-                textarea = textarea.replace(re, "\\overset{$2}{$1}");
+            var re = new RegExp("(" + before2 + ")∕(" + after2 + ")", "g");
+            textarea = textarea.replace(re, "\\frac{"+before+"}{"+after+"}");
+
+                re = new RegExp("(" + before2 + ")↖(" + after2 + ")", "g");
+                textarea = textarea.replace(re, "\\overset{"+after+"}{"+before+"}");
             text = textarea.split('');
 
-                re = new RegExp("[{(\\[]?(" + before + ")[})\\]]?↙[{(\\[]?(" + after + ")[\\]})]?", "g");
-                textarea = textarea.replace(re, "\\underset{$2}{$1}");
+                re = new RegExp("(" + before2 + ")↙(" + after2 + ")", "g");
+                textarea = textarea.replace(re, "\\underset{"+after+"}{"+before+"}");
                 text = textarea.split('');
-            //index = 0;
+
             }
         }
 
@@ -332,16 +340,16 @@ var ctex_to_tex = function (){
       
       
 
-        "𝐴": "$A$",
-        "𝐼":"$I$",
-        "𝑆":"$S$",
-        "𝑈": "$U$",
-        "𝑉": "$V$",
-        "𝑊" : "$W$",
-        "𝑄" : "$Q$",
-        "𝑎" :"$a$",
-        "𝑏" :"$b$",
-        "𝑘": "$k$"
+        "𝐴": "\\(A\\)",
+        "𝐼":"\\(I\\)",
+        "𝑆":"\\(S\\)",
+        "𝑈": "\\(U\\)",
+        "𝑉": "\\(V\\)",
+        "𝑊" : "\\(W\\)",
+        "𝑄" : "\\(Q\\)",
+        "𝑎" :"\\(a\\)",
+        "𝑏" :"\\(b\\)",
+        "𝑘": "\\(k\\)"
     }
     for (a in subscripts){
         var reg = new RegExp (a,"g");

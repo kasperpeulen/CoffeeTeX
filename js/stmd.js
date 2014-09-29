@@ -211,10 +211,11 @@
     var subj = this.subject,
       pos  = this.pos;
     if (subj[pos] === '\\') {
-      if ("([b".indexOf(subj[pos+1]) !== -1) {
+
+      if ("([".indexOf(subj[pos+1]) !== -1 || "\\begin{a\\begin{g\\begin{e".indexOf(subj.substring(pos+1,pos+8)) !== -1 ) {
         return this.parseMath(inlines);
       }
-      else if (")]e".indexOf(subj[pos+1]) !== -1) {
+      else if (")]".indexOf(subj[pos+1]) !== -1 || "ptd".indexOf(subj[pos+7]) !== -1 ) {
         return;
       }
       else if (subj[pos + 1] === '\n') {

@@ -28,8 +28,7 @@ $(document).ready(function() {
 
         MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
 
-        var latex = TeX_writer.renderBlock(parsed);
-        $("#latex").text(latex);
+
 
         // $("#html").text(result);
 
@@ -51,6 +50,9 @@ $(document).ready(function() {
             var renderTime = endTime - startTime;
 
             var toParse = $("#latex").text();
+
+            var latex = TeX_writer.renderBlock(reader.parse(toParse));
+            $("#latex").text(latex);
 
             toParse = toParse.replace(/\\begin{thm}\n([\s\S]+?)\s?\n\\end{thm}/g,"**Theorem.** <em>$1</em>");
             toParse = toParse.replace(/\\begin{defn}\n([\s\S]+?)\n\\end{defn}/g,"**Definition.** $1");

@@ -185,21 +185,30 @@ var tex_to_ctex = function () {
 
     }
     else if ( textarea[i] === "^") {
-      m = textarea[i] + textarea[i + 1];
-      if (sup[textarea[i + 1]]) {
-        newmacro = sup[textarea[i + 1]];
+        if (textarea[i+1] ==="{" && textarea[i+3]==="}"){
+            m = textarea[i]+textarea[i+2];
+
+        }
+        else{ m = textarea[i] + textarea[i + 1];}
+    console.log(m,m.substring(1));
+      if (sup[m.substring(1)]) {
+        newmacro = sup[m.substring(1)];
         m = m.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-        re = new RegExp(m, "g");
+        re = new RegExp("\\^{?"+ m.substring(1)+"}?", "g");
         textarea = textarea.replace(re, newmacro);
         continue;
       }
     }
     else if (textarea[i] === "_" ) {
-      m = textarea[i] + textarea[i + 1];
-      if (sub[textarea[i + 1]]) {
-        newmacro = sub[textarea[i + 1]];
+        if (textarea[i+1] ==="{" && textarea[i+3]==="}"){
+            m = textarea[i]+textarea[i+2];
+        }
+        else{ m = textarea[i] + textarea[i + 1];}
+        console.log(m,m.substring(1));
+      if (sub[m.substring(1)]) {
+        newmacro = sub[m.substring(1)];
         m = m.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-        re = new RegExp(m, "g");
+        re = new RegExp("\\_{?"+ m.substring(1)+"}?", "g");
         textarea = textarea.replace(re, newmacro);
         continue;
       }
