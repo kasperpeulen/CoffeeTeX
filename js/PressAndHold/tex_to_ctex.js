@@ -20,7 +20,12 @@ var tex_to_ctex = function () {
 
   var oldlength = textarea.length;
 
-  for (var i = 0; i < textarea.length; i++) {
+  textarea = textarea.replace("Thm.","⟦𝐓𝐡𝐞𝐨𝐫𝐞𝐦. ⟧");
+    textarea = textarea.replace("Def.","⟦𝐃𝐞𝐟𝐢𝐧𝐢𝐭𝐢𝐨𝐧. ⟧");
+    textarea = textarea.replace("Prop.","⟦𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧. ⟧");
+    textarea = textarea.replace("Proof.","⟦𝐏𝐫𝐨𝐨𝐟. ⟧");
+
+    for (var i = 0; i < textarea.length; i++) {
 
     if (textarea[i] === "\\" ) {
       if (caret > i+2 || caret === textarea.length ){
@@ -60,7 +65,7 @@ var tex_to_ctex = function () {
           var arguments = matchRecursive(searchStr, "{...}");
           if (arguments.length > 1) {
             var re = "\\overset{" + arguments[0] + "}{" + arguments[1] + "}";
-            var newre = "(" + arguments[0] + ")↖(" + arguments[1] + ")";
+            var newre = "(" + arguments[1] + ")↖(" + arguments[0] + ")";
             textarea = textarea.replace(re, newre);
           }
         }
@@ -72,8 +77,8 @@ var tex_to_ctex = function () {
         else if (searchStr[m.length] === "{") {
           var arguments = matchRecursive(searchStr, "{...}");
           if (arguments.length > 1) {
-            var re = "\\under{" + arguments[0] + "}{" + arguments[1] + "}";
-            var newre = "(" + arguments[0] + ")↙(" + arguments[1] + ")";
+            var re = "\\underset{" + arguments[0] + "}{" + arguments[1] + "}";
+            var newre = "(" + arguments[1] + ")↙(" + arguments[0] + ")";
             textarea = textarea.replace(re, newre);
           }
         }
@@ -92,6 +97,11 @@ var tex_to_ctex = function () {
     else if (m === "begin" || m ==="end") {
         textarea = textarea.replace(/\\(begin)({(align|aligned|gather|equation)\*?}\n?)/g,"⁅");
         textarea = textarea.replace(/\n?\\(end)({(align|aligned|gather|equation)\*?})/g,"⁆");
+        textarea = textarea.replace(/\\begin{thm}\n?([\s\S]+?)\n?\\end{thm}/g,"⟦𝐓𝐡𝐞𝐨𝐫𝐞𝐦. $1⟧");
+          textarea = textarea.replace(/\\begin{proof}\n?([\s\S]+?)\n?\\end{proof}/g,"⟦𝐏𝐫𝐨𝐨𝐟. $1⟧");
+          textarea = textarea.replace(/\\begin{prop}\n?([\s\S]+?)\n?\\end{prop}/g,"⟦𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧. $1⟧");
+          textarea = textarea.replace(/\\begin{defn}\n?([\s\S]+?)\n?\\end{defn}/g,"⟦𝐃𝐞𝐟𝐢𝐧𝐢𝐭𝐢𝐨𝐧. $1⟧");
+
       }
       else if (m === "mathbb" || m === "Bbb") {
 
@@ -104,7 +114,7 @@ var tex_to_ctex = function () {
               }
               else {
                 return $1;
-              }s
+              }
             });
        }
       else if (m === "mathfrak") {
@@ -142,6 +152,14 @@ var tex_to_ctex = function () {
             return $1;
           }
         });
+      }
+
+      else if (m === "emph") {
+          textarea = textarea.replace(/\\(emph)(?: (\w)(?=[^a-zA-Z])|{([\S|\s]+?)})/g, "*$2$3*");
+      }
+
+      else if (m === "textbf") {
+          textarea = textarea.replace(/\\(textbf)(?: (\w)(?=[^a-zA-Z])|{([\S|\s]+?)})/g, "**$2$3**");
       }
 
       else if (tex2unicode[m]) {

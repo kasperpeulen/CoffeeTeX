@@ -181,7 +181,7 @@
 
   var parseMath = function(inlines) {
     var startpos = this.pos;
-    var math = this.match(/\${1,2}|\\\(|\\begin/);
+    var math = this.match(/\${1,2}|\\\(|\\\[|\\begin/);
 
     if (!math) {
       return 0;
@@ -189,7 +189,7 @@
     var afterOpenTicks = this.pos;
     var foundCode = false;
     var match;
-    while (!foundCode && (match = this.match(/\${1,2}|\\\)|\\end/m))) {
+    while (!foundCode && (match = this.match(/\${1,2}|\\\)|\\\]|\\end/m))) {
       if (match) {
         inlines.push({ t: 'Str', c: this.subject.slice(afterOpenTicks-math.length,
           this.pos )});
@@ -202,6 +202,7 @@
     return (this.pos - startpos);
   };
 
+
 // Parse a backslash-escaped special character, adding either the escaped
 // character, a hard line break (if the backslash is followed by a newline),
 // or a literal backslash to the 'inlines' list.
@@ -210,10 +211,10 @@
     var subj = this.subject,
       pos  = this.pos;
     if (subj[pos] === '\\') {
-      if ("(b".indexOf(subj[pos+1]) !== -1) {
+      if ("([b".indexOf(subj[pos+1]) !== -1) {
         return this.parseMath(inlines);
       }
-      else if (")e".indexOf(subj[pos+1]) !== -1) {
+      else if (")]e".indexOf(subj[pos+1]) !== -1) {
         return;
       }
       else if (subj[pos + 1] === '\n') {
@@ -1472,6 +1473,44 @@
     }
   };
 
+    var renderInlineTeX = function(inline) {
+        var attrs;
+        switch (inline.t) {
+            case 'Str':
+                return this.escape(inline.c);
+            case 'Softbreak':
+                return this.softbreak;
+            case 'Hardbreak':
+                return inTags('br',[],"",true) + '\n';
+            case 'Emph':
+                return "\\emph{"+this.renderInlines(inline.c)+"}";
+            case 'Strong':
+                return "\\textbf{"+this.renderInlines(inline.c)+"}";
+            case 'Html':
+                return inline.c;
+            case 'Entity':
+                return inline.c;
+            case 'Link':
+                attrs = [['href', this.escape(inline.destination, true)]];
+                if (inline.title) {
+                    attrs.push(['title', this.escape(inline.title, true)]);
+                }
+                return inTags('a', attrs, this.renderInlines(inline.label));
+            case 'Image':
+                attrs = [['src', this.escape(inline.destination, true)],
+                    ['alt', this.escape(this.renderInlines(inline.label))]];
+                if (inline.title) {
+                    attrs.push(['title', this.escape(inline.title, true)]);
+                }
+                return inTags('img', attrs, "", true);
+            case 'Code':
+                return inTags('code', [], this.escape(inline.c));
+            default:
+                console.log("Uknown inline type " + inline.t);
+                return "";
+        }
+    };
+
 // Render a list of inlines.
   var renderInlines = function(inlines) {
     var result = '';
@@ -1536,6 +1575,77 @@
     }
   };
 
+
+
+    var renderBlockTeX = function(block, in_tight_list) {
+        var tag;
+        var attr;
+        var info_words;
+        switch (block.t) {
+            case 'Document':
+                var whole_doc = this.renderBlocks(block.children);
+                return (whole_doc === '' ? '' : whole_doc + '\n');
+            case 'Paragraph':
+                if (in_tight_list) {
+                    return this.renderInlines(block.inline_content);
+                } else {
+                    return this.renderInlines(block.inline_content)+"\n";
+                }
+                break;
+            case 'BlockQuote':
+                var filling = this.renderBlocks(block.children);
+                return "\\begin{quote}"+ this.innersep + this.renderBlocks(block.children) + "\\end{quote}" +this.innersep;
+            case 'ListItem':
+                return "  \\item " +this.renderBlocks(block.children, in_tight_list).trim();
+            case 'List':
+                tag = block.list_data.type == 'Bullet' ? 'itemize' : 'enumerate';
+                attr = (!block.list_data.start || block.list_data.start == 1) ?
+                    [] : [['start', block.list_data.start.toString()]];
+                return  "\\begin{"+tag+"}"+this.innersep +
+                    this.renderBlocks(block.children, block.tight) +
+                    this.innersep +"\\end{"+tag+"}" +this.innersep;
+            case 'ATXHeader':
+            case 'SetextHeader':
+                if (block.level === 1){
+                    return "\\section{"+this.renderInlines(block.inline_content)+"}"
+                }
+                else if (block.level === 2){
+                    return "\\subsection{"+this.renderInlines(block.inline_content)+"}"
+                }
+                else if (block.level === 3){
+                    return "\\subsubsection{"+this.renderInlines(block.inline_content)+"}"
+                }
+                else if (block.level === 4){
+                    return "\\paragraph{"+this.renderInlines(block.inline_content)+"}"
+                }
+                else if (block.level === 5) {
+                    return "\\subparagraph{"+this.renderInlines(block.inline_content)+"}"
+                }
+                else {
+                    return this.renderInlines(block.inline_content);
+                }
+            case 'IndentedCode':
+                return inTags('pre', [],
+                    inTags('code', [], this.escape(block.string_content)));
+            case 'FencedCode':
+                info_words = block.info.split(/ +/);
+                attr = info_words.length === 0 || info_words[0].length === 0 ?
+                    [] : [['class','language-' +
+                    this.escape(info_words[0],true)]];
+                return inTags('pre', [],
+                    inTags('code', attr, this.escape(block.string_content)));
+            case 'HtmlBlock':
+                return block.string_content;
+            case 'ReferenceDef':
+                return "";
+            case 'HorizontalRule':
+                return "\\begin{center}\\rule{\\linewidth}{\\linethickness}\\end{center}";
+            default:
+                console.log("Uknown block type " + block.t);
+                return "";
+        }
+    };
+
 // Render a list of block elements, separated by this.blocksep.
   var renderBlocks = function(blocks, in_tight_list) {
     var result = [];
@@ -1576,8 +1686,31 @@
       render: renderBlock
     };
   }
-
+    function TeXRenderer(){
+        return {
+            // default options:
+            blocksep: '\n',  // space between blocks
+            innersep: '\n',  // space between block container tag and contents
+            softbreak: '\n', // by default, soft breaks are rendered as newlines in HTML
+            // set to "<br />" to make them hard breaks
+            // set to " " if you want to ignore line wrapping in source
+            escape: function(s, preserve_entities) {
+                if (preserve_entities) {
+                    return s;
+                } else {
+                    return s;
+                }
+            },
+            renderInline: renderInlineTeX,
+            renderInlines: renderInlines,
+            renderBlock: renderBlockTeX,
+            renderBlocks: renderBlocks,
+            render: renderBlock
+        };
+    }
   exports.DocParser = DocParser;
   exports.HtmlRenderer = HtmlRenderer;
+  exports.TeXRenderer = TeXRenderer;
 
 })(typeof exports === 'undefined' ? this.stmd = {} : exports);
+

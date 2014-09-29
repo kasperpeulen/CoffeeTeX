@@ -1,118 +1,77 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>CoffeeTeX Unicode Editor</title>
-  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-  <script src="js/PressAndHold/unicode2latex.js"></script>
-  <script src="js/PressAndHold/plugins.js"></script>
-  <script src="js/PressAndHold/longpress.js"></script>
-  <script src="js/PressAndHold/app.js"></script>
-  <script src="js/PressAndHold/textareahelper.js"></script>
-  <script src="js/PressAndHold/tex_to_ctex.js"></script>
-  <script src="js/PressAndHold/ctex_to_tex.js"></script>
-  <script src="js/PressAndHold/tex_to_ctex.js"></script>
-  <script src="js/PressAndHold/ctex_to_tex.js"></script>
-  <script src="js/stmd.js"></script>
-  <script type="text/javascript" src="js/mathjaxconfig.js"></script>
-  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
-  <script type="text/javascript">
-
-    var writer = new stmd.HtmlRenderer();
-    var reader = new stmd.DocParser();
-
-    $(document).ready(function() {
+    <meta charset="utf-8">
+    <title>CoffeeTeX Unicode Editor</title>
+    <link href="stylev1.css" rel="stylesheet"/>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 
 
-      $(".timing").hide();
-      var timer;
-      var x;
-      var parsed;
-      var render = function() {
-        if (parsed === undefined) {
-          return;
-        }
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/PressAndHold/unicode2latex.js"></script>
+    <script src="js/PressAndHold/tex2unicode.js"></script>
+    <script src="js/PressAndHold/plugins.js"></script>
+    <script src="js/PressAndHold/longpress.js"></script>
+    <script src="js/PressAndHold/app.js"></script>
+    <script src="js/PressAndHold/textareahelper.js"></script>
+    <script src="js/PressAndHold/tex_to_ctex.js"></script>
+    <script src="js/PressAndHold/ctex_to_tex.js"></script>
+    <script src="js/PressAndHold/tex_to_ctex.js"></script>
+    <script src="js/PressAndHold/ctex_to_tex.js"></script>
+    <script src="js/stmd.js"></script>
 
-        var result = writer.renderBlock(parsed);
-        $("#preview").html(result);
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
+    <script type="text/javascript" src="js/mathjaxconfig.js"></script>
+    <script type="text/javascript" src="mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
+    <script type="text/javascript" src="js/parseCMD.js">
 
-        // $("#html").text(result);
+    </script>
 
-
-       };
-      var parseAndRender = function () {
-        if (x) { x.abort() } // If there is an existing XHR, abort it.
-        clearTimeout(timer); // Clear the timer so we don't end up with dupes.
-        timer = setTimeout(function() { // assign timer a new timeout
-          var startTime = new Date().getTime();
-          tex_to_ctex();
-          var endTime = new Date().getTime();
-          var parseTime = endTime - startTime;
-          startTime = new Date().getTime();
-          ctex_to_tex();
-          endTime = new Date().getTime();
-          var renderTime = endTime - startTime;
-          parsed = reader.parse($("#latex").text());
-
-          $("#parsetime").text(parseTime);
-          $("#rendertime").text(renderTime);
-          $(".timing").show();
-          /*
-           var warnings = parsed.warnings;
-           $("#warnings").html('');
-           for (i=0; i < warnings.length; i++) {
-           var w = warnings[i];
-           var warning = $("#warnings").append('<li></li>');
-           $("#warnings li").last().text('Line ' + w.line + ' column ' + w.column + ': ' + w.message);
-           }
-           */
-          render();
-        }, 10); // ms delay
-      };
-      $("#text").bind('keyup paste cut mouseup', parseAndRender);
-      $(".option").change(render);
-      parseAndRender();
-    });
-  </script>
-  <link href="stylev1.css" rel="stylesheet"/>
-  <script src="js/jquery.autosize.min.js"></script>
-  <script>
-    $(function(){
-      $('#text').autosize();
-    });
-  </script>
+    <script src="js/jquery.autosize.min.js"></script>
+    <script>
+        $(function(){
+            $('#text').autosize();
+        });
+    </script>
 </head>
 <body>
-<div class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <h1>CoffeeTeX</h1>
-    </div>
-    <div class="col-md-3">
-      <ul class="nav nav-tabs" role="tablist">
-        <li class="active"><a href="#preview" role="tab" data-toggle="tab">Preview</a></li>
-        <li><a href="#result" role="tab" data-toggle="tab">LaTeX</a></li>
-      </ul>
-    </div>
-    <div class="col-md-3">
-      <p class="timing">LaTeX to Coffee TeX in <span class="timing" id="parsetime"></span> ms.<br/>
-        Coffee TeX to LaTeX in <span class="timing" id="rendertime"></span> ms.</p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <textarea id="text" spellcheck='false'>**The Lorenz Equations**
 
-⁅ẋ & = σ(y-x)         ↵
- ẏ & = ρx - y - xz  ↵
- ż & = -βz + xy⁆
+<div style="display:none">
+    $
+    (\DeclareMathOperator{\End}{End}
+    \DeclareMathOperator{\Ker}{Ker}
+    \DeclareMathOperator{\Imm}{Im}
+    \DeclareMathOperator{\Hom}{Hom}
+    $
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>CoffeeTeX</h1>
+        </div>
+        <div class="col-md-4">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#preview" role="tab" data-toggle="tab">Preview</a></li>
+                <li><a href="#latextab" role="tab" data-toggle="tab">LaTeX</a></li>
+                <li><a href="#markdowntab" role="tab" data-toggle="tab">Markdown</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <p class="timing">TeX to CTeX in <span class="timing" id="parsetime"></span> ms.
+                CTeX to TeX in <span class="timing" id="rendertime"></span> ms.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <textarea id="text" spellcheck='false' placeholder="Press and hold a key to select a math symbol. For example, hold R to get ℝ or a to get α. Wrap the symbol in $...$ to get LaTeX output.">**The Lorenz Equations**
+
+⁅\dot{x} & = σ(y-x)         ↵
+\dot{y} & = ρx - y - xz  ↵
+\dot{z} & = -βz + xy⁆
 
 **The Cauchy-Schwarz Inequality**
 
-⁅􀀤∑ₖ₌₁ⁿ aₖbₖ􀀫² ≤􀀤∑ₖ₌₁ⁿ aₖ²􀀫􀀤∑ₖ₌₁ⁿ bₖ²􀀫⁆
+⁅􀀤∑₌₀ ab􀀫⁲ ≤􀀤∑₌₀ a⁲􀀫􀀤∑₌₀ b⁲ 􀀫⁆
 
 **A Cross Product Formula**
 
@@ -125,29 +84,34 @@
 
 **A Rogers-Ramanujan Identity**
 
-⁅1 +  (q²)∕[(1-q)] + (q⁶)∕[(1-q)(1-q²)] + ⋯ =
-∏ₙ₌₀^∞ 1∕[(1-q⁵ⁿ⁺²)(1-q⁵ⁿ⁺³)],  "for $|q|<1$".⁆
+⁅1 +  (q²)∕[(1-q)] + (q⁶)∕[(1-q)(1-q²)] + ⋯ = ↵
+∏₌₀^∞ 1∕[(1-q⁵⁺⁲)(1-q⁵⁺⁳)], &&"for $|q|<1$"]⁆
 
 **Maxwell’s Equations**
 
 ⁅∇×𝐁⃗ -  1∕c  (∂𝐄⃗)∕(∂t) & = (4π)∕c 𝐣⃗ ↵
 ∇⋅𝐄⃗ & = 4 πρ ↵
-∇×𝐄⃗  +  1∕c  (∂𝐁⃗)∕(∂t) & = \vec{\mathbf{0}} ↵
+∇×𝐄⃗  +  1∕c  (∂𝐁⃗)∕(∂t) & = 𝟎⃗ ↵
 ∇⋅𝐁⃗ & = 0⁆
-      </textarea>
-      <ul id="warnings"></ul>
-    </div>
-    <div class="col-md-6">
-      <div class="tab-content">
-        <div id="preview" class="tab-pane active">
-        </div>
-        <div id="result" class="tab-pane">
-          <pre id="latexpre"><code id="latex"></code></pre>
-        </div>
 
-      </div>
+            </textarea>
+            <ul id="warnings"></ul>
+        </div>
+        <div class="col-md-6">
+            <div class="tab-content">
+                <div id="preview" class="tab-pane active">
+
+                </div>
+                <div id="latextab" class="tab-pane">
+                    <pre id="latexpre"><code id="latex"></code></pre>
+                </div>
+                <div id="markdowntab" class="tab-pane">
+                    <pre id="markdownpre"><code id="markdown"></code></pre>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
- </div>
+
+</div>
 </body>
 </html>

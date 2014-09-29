@@ -2,7 +2,7 @@ window.MathJax = {
     AuthorInit: function () {
         MathJax.Hub.Config({
             "HTML-CSS": {
-              availableFonts: [], preferredFont: null, // force Web fonts
+              availableFonts: ["TeX"], preferredFont: "TeX", // force Web fonts
               //webFont: "Latin-Modern",
                 linebreaks: {
                     automatic: true

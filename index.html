@@ -22,78 +22,9 @@
   <script src="js/stmd.js"></script>
 
   <script type="text/javascript" src="js/mathjaxconfig.js"></script>
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
-  <script type="text/javascript">
+<script type="text/javascript" src="mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
+  <script type="text/javascript" src="js/parseCMD.js">
 
-    var writer = new stmd.HtmlRenderer();
-    var reader = new stmd.DocParser();
-
-    $(document).ready(function() {
-
-      if ($("#text").val() === ""){
-        $("#text").val(localStorage.textarea);
-      }
-
-
-
-      $(".timing").hide();
-      var timer;
-      var x;
-      var parsed;
-      var render = function() {
-        if (parsed === undefined) {
-          return;
-        }
-
-        var result = writer.renderBlock(parsed);
-        $("#preview").html(result);
-
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
-
-        var latex = $("#latex").html();
-
-        $("#latex").html(latex.replace(/\*\*(Theorem.+?)\*\*/g,"\\textbf{$1}").replace(/\*(\w.*?\w)\*/g,"\\emph{$1}"));
-
-
-        // $("#html").text(result);
-
-
-      };
-      var parseAndRender = function () {
-        if (x) { x.abort() } // If there is an existing XHR, abort it.
-        clearTimeout(timer); // Clear the timer so we don't end up with dupes.
-        timer = setTimeout(function() { // assign timer a new timeout
-
-          localStorage.textarea = $("#text").val();
-          var startTime = new Date().getTime();
-          tex_to_ctex();
-          var endTime = new Date().getTime();
-           var parseTime = endTime - startTime;
-          startTime = new Date().getTime();
-          ctex_to_tex();
-          endTime = new Date().getTime();
-          var renderTime = endTime - startTime;
-          parsed = reader.parse($("#latex").text());
-
-          $("#parsetime").text(parseTime);
-          $("#rendertime").text(renderTime);
-          $(".timing").show();
-          /*
-           var warnings = parsed.warnings;
-           $("#warnings").html('');
-           for (i=0; i < warnings.length; i++) {
-           var w = warnings[i];
-           var warning = $("#warnings").append('<li></li>');
-           $("#warnings li").last().text('Line ' + w.line + ' column ' + w.column + ': ' + w.message);
-           }
-           */
-          render();
-        }, 10); // ms delay
-      };
-      $("#text").bind('keyup paste cut mouseup', parseAndRender);
-      $(".option").change(render);
-      parseAndRender();
-    });
   </script>
 
   <script src="js/jquery.autosize.min.js"></script>
@@ -104,20 +35,30 @@
   </script>
 </head>
 <body>
+
+<div style="display:none">
+    $
+    (\DeclareMathOperator{\End}{End}
+    \DeclareMathOperator{\Ker}{Ker}
+    \DeclareMathOperator{\Imm}{Im}
+    \DeclareMathOperator{\Hom}{Hom}
+    $
+</div>
 <div class="container">
   <div class="row">
     <div class="col-md-6">
       <h1>CoffeeTeX</h1>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
       <ul class="nav nav-tabs" role="tablist">
         <li class="active"><a href="#preview" role="tab" data-toggle="tab">Preview</a></li>
-        <li><a href="#result" role="tab" data-toggle="tab">LaTeX</a></li>
+        <li><a href="#latextab" role="tab" data-toggle="tab">LaTeX</a></li>
+          <li><a href="#markdowntab" role="tab" data-toggle="tab">Markdown</a></li>
       </ul>
     </div>
-    <div class="col-md-3">
-      <p class="timing">LaTeX to Coffee TeX in <span class="timing" id="parsetime"></span> ms.<br/>
-        Coffee TeX to LaTeX in <span class="timing" id="rendertime"></span> ms.</p>
+    <div class="col-md-4">
+      <p class="timing">TeX to CTeX in <span class="timing" id="parsetime"></span> ms.
+        CTeX to TeX in <span class="timing" id="rendertime"></span> ms.</p>
     </div>
   </div>
   <div class="row">
@@ -130,21 +71,16 @@
         <div id="preview" class="tab-pane active">
 
         </div>
-        <div id="result" class="tab-pane">
+        <div id="latextab" class="tab-pane">
           <pre id="latexpre"><code id="latex"></code></pre>
         </div>
-
+          <div id="markdowntab" class="tab-pane">
+          <pre id="markdownpre"><code id="markdown"></code></pre>
+          </div>
       </div>
     </div>
   </div>
-  <p>Here are some CoffeeTeX examples:
-  <ul>
-    <li><a href="example.html">Example 1</a>
-    </li>
-  <li><a href="example2.html">Example 2</a>
-  </li>
-  </ul>
-  </p>
+  <p>Click <a href="example.html">here</a> for a CoffeeTeX example.</p>
 </div>
 </body>
 </html>

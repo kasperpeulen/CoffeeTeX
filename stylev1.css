@@ -1,12 +1,15 @@
 textarea#text {
-    min-height: 400px; width: 95%; font-family: LMMath-bbfix, "Times New Roman"; font-size: 16px;
+    min-height: 400px; width: 98%; font-family: LMMath-bbfix, "Times New Roman"; font-size: 16px;
     -webkit-transition: height 0.2s;
     -moz-transition: height 0.2s;
     transition: height 0.2s;
 padding-bottom: 0;}
-pre code#latex { width:95%; font-family: LMMath-bbfix; font-size: 17px; }
-pre#latexpre { min-height: 400px; width: 95%; overflow: hidden; }
-div#preview { min-height: 400px; width: 95%; overflow: hidden; font-family: Latin-Modern; font-size:17px; }
+pre code#latex{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
+pre code#markdown{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
+pre#latexpre { min-height: 400px; width: 98%; overflow: hidden; }
+pre#markdownpre { min-height: 400px; width: 98%; overflow: hidden; }
+
+div#preview { min-height: 400px; width: 98%; overflow: hidden; font-family: Latin-Modern; font-size:17px; }
 div.row { margin-top: 1em; }
 blockquote { font-size: 100%; }
 footer { color: #555; text-align: center; margin: 1em; }
