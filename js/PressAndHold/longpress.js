@@ -195,7 +195,7 @@ var activeElement;
         '|': '∣∤∥∦',
         '\\': '∖',
         '/': '∕÷¦',
-        '<': '≤⟨⊆⊂←↤⇐⊲',
+        '<': '≤⟨⊆⊂←↤⇐⟸⊲',
         '>': '≥⟩⊇⊃→↦⇒⟹⊳\u27F5',
         '->': '→↦⇒⟹\u27F6',
         '=': '\u208C≠≈≅≃≡↔⟺⇔≟≝≔≞⇕\u207C',
@@ -249,7 +249,7 @@ var activeElement;
         if ($('.long-press-popup').length <= 0) {
             keyup = false;
             count += 1;
-            if (e.which == 8 || e.which == 16 || e.which == 17 || e.which == 18 || e.which == 20 || e.which == 37 || e.which == 38 || e.which == 39 || e.which == 40 || e.which == 16 || e.which == 224) {
+            if (e.metaKey || e.which == 8 || e.which == 16 || e.which == 17 || e.which == 18 || e.which == 20 || e.which == 37 || e.which == 38 || e.which == 39 || e.which == 40 || e.which == 16 || e.which == 224) {
                 return;
             }
             if (e.which == 9) {
