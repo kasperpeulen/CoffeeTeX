@@ -107,6 +107,22 @@ $(document).ready(function() {
             $('#latex').css('display','inline');
         }
     });
+    $("#textarea2").change(function() {
+        if(! this.checked) {
+            $('#text2').css('display','none');
+        }
+        else {
+            $('#text2').css('display','inline');
+        }
+    });
+    $("#textarea3").change(function() {
+        if(! this.checked) {
+            $('#text3').css('display','none');
+        }
+        else {
+            $('#text3').css('display','inline');
+        }
+    });
 });
 var typedChar;
 var activeElement;

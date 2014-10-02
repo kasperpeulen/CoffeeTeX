@@ -5,8 +5,6 @@
   <title>CoffeeTeX Unicode Editor</title>
   <link href="stylev1.css" rel="stylesheet"/>
   <script src="js/jquery.js"></script>
-
-
   <script src="js/bootstrap.js"></script>
   <link href="js/bootstrap.css" rel="stylesheet">
   <script src="js/PressAndHold/unicode2latex.js"></script>
@@ -42,9 +40,21 @@
         if ($("#text").val() === "") {
             $("#text").val(localStorage.textarea);
         }
+        if ($("#text2").val() === "") {
+            $("#text2").val(localStorage.textarea2);
+        }
+        if ($("#text3").val() === "") {
+            $("#text3").val(localStorage.textarea3);
+        }
 
         $( "#text" ).keydown(function() {
             localStorage.textarea = $("#text").val();
+        });
+        $( "#text2" ).keydown(function() {
+            localStorage.textarea2 = $("#text2").val();
+        });
+        $( "#text3" ).keydown(function() {
+            localStorage.textarea3 = $("#text3").val();
         });
     });
 
@@ -63,7 +73,7 @@
 </div>
 <div class="container">
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6" style="padding:0px;">
       <h1>CoffeeTeX</h1>
     </div>
     <div class="col-md-4">
@@ -102,6 +112,11 @@
       </div>
     </div>
   </div>
+   <p>
+       <br>
+     <input type ="checkbox" id="textarea2"/> Show extra textareabox. <br>
+     <input type ="checkbox" id="textarea3"/> Show extra textareabox. <br>
+   </p>
   <p>Click <a href="example.html">here</a> or <a href="example2.html">here</a> for a CoffeeTeX examples.</p>
 </div>
 </body>

@@ -20,12 +20,31 @@ $(document).ready(function() {
             return;
         }
 
+        console.log();
+
         var result = writer.renderBlock(parsed);
+        if ($(activeElement)[0]["id"] === "text")
+        {
+
         $("#preview1").html(result);
 
         MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview1"]);
+        }
 
+        else if ($(activeElement)[0]["id"] === "text2")
+        {
 
+            $("#preview2").html(result);
+
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview2"]);
+        }
+        else if ($(activeElement)[0]["id"] === "text3")
+        {
+
+            $("#preview3").html(result);
+
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview3"]);
+        }
 
         // $("#html").text(result);
 
@@ -35,8 +54,6 @@ $(document).ready(function() {
         if (x) { x.abort() } // If there is an existing XHR, abort it.
         clearTimeout(timer); // Clear the timer so we don't end up with dupes.
         timer = setTimeout(function() { // assign timer a new timeout
-
-            localStorage.textarea = $("#text").val();
 
 
             var startTime = new Date().getTime();
@@ -80,7 +97,11 @@ $(document).ready(function() {
             render();
         }, 10); // ms delay
     };
+
     $("#text").bind('keyup paste cut mouseup', parseAndRender);
+    $("#text2").bind('keyup paste cut mouseup', parseAndRender);
+
+    $("#text3").bind('keyup paste cut mouseup', parseAndRender);
     $(".option").change(render);
     parseAndRender();
 });

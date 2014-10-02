@@ -14,6 +14,7 @@ var tex_to_ctex = function () {
     activeElement = $('textarea');
   }
 
+  console.log($(activeElement).val());
   var textarea = $(activeElement).val();
   var caret = getCaretPosition(activeElement);
 
@@ -217,14 +218,11 @@ var tex_to_ctex = function () {
 
     var newlength = textarea.length ;
 
- //   var text = textarea.split('');
-//    text[caret + newlength - oldlength] = "test\u2063";
-    textarea = "test";
 
 
 
     if (newlength !== oldlength) {
-    $('#text').val(textarea);
+    $(activeElement).val(textarea);
     setCaretPosition(activeElement, caret + newlength - oldlength);
 
 

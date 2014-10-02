@@ -44,7 +44,7 @@ var matchRecursive = function () {
 var ctex_to_tex = function (){
 
 
-    var textarea =$('#text').val();
+    var textarea =$(activeElement).val();
 
     $('#latex').text(textarea);
 
