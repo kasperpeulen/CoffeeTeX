@@ -166,12 +166,12 @@ var activeElement;
         'f': 'ϕφ',
         'g': 'γ{𝔤}',
         'h': 'η{𝔥}†♡♥',
-        'i': 'ᵢ∈∉ι∫∞∋∌∩',
+        'i': '∈∉ι∫∞∋∌∩',
         'j': '{𝔧}',
-        'k': 'ₖ{𝑘}κ',
+        'k': '{𝑘}κ',
         'l': 'λℓ{𝔩}',
-        'm': 'ₘμ{𝔪}',
-        'n': 'ₙⁿν{𝔫}¬∇',
+        'm': 'μ{𝔪}',
+        'n': 'ⁿν{𝔫}¬∇',
         'o': 'ω{𝔬}∨°',
         'p': 'πϕφψ{𝔭}',
         'q': '{𝔮}∎',
@@ -256,6 +256,8 @@ var activeElement;
 
     function onKeyDown(e) {
 
+
+
         activeElement = e.target;
         var font = $(activeElement).css('font-family');
         var hasSTIX = /STIX/g.test(font);
@@ -265,6 +267,13 @@ var activeElement;
         if ($('.long-press-popup').length <= 0) {
             keyup = false;
             count += 1;
+
+            if (e.altKey){
+                onTimer();
+
+            }
+else{
+
             if (e.metaKey || e.which == 8 || e.which == 16 || e.which == 17 || e.which == 18 || e.which == 20 || e.which == 37 || e.which == 38 || e.which == 39 || e.which == 40 || e.which == 16 || e.which == 224) {
                 return;
             }
@@ -335,10 +344,13 @@ var activeElement;
                     onTimer();
                 }
             }, 200);
-        }
+        }}
         // Arrow key with popup visible
         if ($('.long-press-popup').length > 0) {
-            if (e.which == 9) {
+            if (e.altKey){
+                activateNextLetter();
+            }
+            else if (e.which == 9) {
                 e.preventDefault();
                 hidePopup();
             } else if (e.which == 37) {

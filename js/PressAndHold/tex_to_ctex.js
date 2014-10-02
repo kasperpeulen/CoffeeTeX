@@ -14,7 +14,6 @@ var tex_to_ctex = function () {
     activeElement = $('textarea');
   }
 
-  console.log($(activeElement).val());
   var textarea = $(activeElement).val();
   var caret = getCaretPosition(activeElement);
 
