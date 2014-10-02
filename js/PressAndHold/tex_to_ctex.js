@@ -18,6 +18,7 @@ var tex_to_ctex = function () {
   var caret = getCaretPosition(activeElement);
 
 
+
   var oldlength = textarea.length;
 
   textarea = textarea.replace("Thm.","⟦𝐓𝐡𝐞𝐨𝐫𝐞𝐦. ⟧");
@@ -190,7 +191,6 @@ var tex_to_ctex = function () {
 
         }
         else{ m = textarea[i] + textarea[i + 1];}
-    console.log(m,m.substring(1));
       if (sup[m.substring(1)]) {
         newmacro = sup[m.substring(1)];
         m = m.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -204,7 +204,6 @@ var tex_to_ctex = function () {
             m = textarea[i]+textarea[i+2];
         }
         else{ m = textarea[i] + textarea[i + 1];}
-        console.log(m,m.substring(1));
       if (sub[m.substring(1)]) {
         newmacro = sub[m.substring(1)];
         m = m.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -216,14 +215,19 @@ var tex_to_ctex = function () {
   }
 
 
+    var newlength = textarea.length ;
 
-  var newlength = textarea.length ;
+ //   var text = textarea.split('');
+//    text[caret + newlength - oldlength] = "test\u2063";
+    textarea = "test";
 
-  console.log(newlength,oldlength,newlength !== oldlength);
 
-  if (newlength !== oldlength) {
+
+    if (newlength !== oldlength) {
     $('#text').val(textarea);
     setCaretPosition(activeElement, caret + newlength - oldlength);
-  }
+
+
+    }
 
 }

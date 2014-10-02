@@ -1534,7 +1534,7 @@
         if (in_tight_list) {
           return this.renderInlines(block.inline_content);
         } else {
-          return inTags('p', [], this.renderInlines(block.inline_content));
+            return inTags('p', [], this.renderInlines(block.inline_content));
         }
         break;
       case 'BlockQuote':

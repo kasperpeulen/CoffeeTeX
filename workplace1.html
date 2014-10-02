@@ -28,23 +28,23 @@
   </script>
 
   <script src="js/jquery.autosize.min.js"></script>
-   <script>    $(function(){
-       $('#text').autosize();
-   });</script>
-  
   <script>
-
+    $(function(){
+      $('#text').autosize();
+    });
 
     $(document).ready(function() {
 
         if ($("#text").val() === "") {
-            $("#text").val(localStorage.textarea);
+            $("#text").val(localStorage.workplace1);
         }
 
         $( "#text" ).keydown(function() {
-            localStorage.textarea = $("#text").val();
+            localStorage.workplace1 = $("#text").val();
         });
     });
+
+
 
   </script>
 </head>
@@ -77,19 +77,14 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-6" style="border: 1px black solid; padding:0px; margin:0px;">
-      <textarea id="text"  spellcheck='false' placeholder="Press and hold a key to select a math symbol. For example, hold R to get ℝ or a to get α. Wrap the symbol in $...$ to get LaTeX output."></textarea>
-      <textarea id="text2" spellcheck='false' ></textarea>
-      <textarea id="text3" spellcheck='false' ></textarea>
-
-
+    <div class="col-md-6">
+      <textarea id="text" spellcheck='false' placeholder="Press and hold a key to select a math symbol. For example, hold R to get ℝ or a to get α. Wrap the symbol in $...$ to get LaTeX output."></textarea>
+      <ul id="warnings"></ul>
     </div>
     <div class="col-md-6">
       <div class="tab-content">
         <div id="preview" class="tab-pane active">
-        <div id="preview1"></div>
-            <div id="preview2"></div>
-            <div id="preview3"></div>
+
         </div>
         <div id="latextab" class="tab-pane">
           <pre id="latexpre"><code id="latex"></code></pre>

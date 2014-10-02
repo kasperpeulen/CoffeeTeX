@@ -8,9 +8,6 @@ var TeX_writer = new stmd.TeXRenderer();
 var reader = new stmd.DocParser();
 $(document).ready(function() {
 
-    if ($("#text").val() === ""){
-        $("#text").val(localStorage.textarea);
-    }
 
 
 
@@ -24,9 +21,9 @@ $(document).ready(function() {
         }
 
         var result = writer.renderBlock(parsed);
-        $("#preview").html(result);
+        $("#preview1").html(result);
 
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview"]);
+        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview1"]);
 
 
 
@@ -40,6 +37,8 @@ $(document).ready(function() {
         timer = setTimeout(function() { // assign timer a new timeout
 
             localStorage.textarea = $("#text").val();
+
+
             var startTime = new Date().getTime();
             tex_to_ctex();
             var endTime = new Date().getTime();
@@ -49,7 +48,9 @@ $(document).ready(function() {
             endTime = new Date().getTime();
             var renderTime = endTime - startTime;
 
+
             var toParse = $("#latex").text();
+
 
             var latex = TeX_writer.renderBlock(reader.parse(toParse));
             $("#latex").text(latex);
