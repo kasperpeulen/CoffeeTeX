@@ -1,15 +1,20 @@
 textarea#text,textarea#text2,textarea#text3 {
-    height: 300px; width: 100%; font-family: LMMath-bbfix, "Times New Roman"; font-size: 16px;
+    height: 300px; width: 100%; font-family: LMMath-bbfix, "Times New Roman"; font-size: 17px;
     -webkit-transition: height 0.2s;
     -moz-transition: height 0.2s;
     transition: height 0.2s;
-padding: 0px; border: 0px; margin-bottom:-2px;}
-pre code#latex{ width:98%; font-family: LMMath-bbfix; font-size: 16px; }
-pre code#markdown{ width:98%; font-family: LMMath-bbfix; font-size: 16px; }
+padding-bottom: 0px; border: 0px; margin-bottom:-2px;}
+
+textarea#text2,textarea#text3 {
+    height: 30px;
+}
+
+pre code#latex{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
+pre code#markdown{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
 pre#latexpre { min-height: 1200px; width: 98%; overflow: hidden; }
 pre#markdownpre { min-height: 1200px; width: 98%; overflow: hidden; }
 
-div#preview { min-height: 1200px; width: 98%; overflow: hidden; font-family: Latin-Modern; font-size:16px; }
+div#preview { min-height: 1200px; width: 98%; overflow: hidden; font-family: Latin-Modern; font-size:17px; }
 div.row { margin-top: 1em; }
 blockquote { font-size: 100%; }
 footer { color: #555; text-align: center; margin: 1em; }
