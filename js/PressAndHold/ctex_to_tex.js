@@ -74,24 +74,45 @@ var ctex_to_tex = function (){
             endindex = sub.indexOf("⁆");
             endindex2 = sub.indexOf("⁅");
             if (endindex !==-1 &&  endindex2 < endindex) {
-                var innermath = sub.substring(0, endindex);
-                if (innermath.indexOf("&") !== -1) {
-                    text[index + endindex] = "\\end{align*}";
-                    text[index] = "\\begin{align*}";
 
+                var innermath = sub.substring(0, endindex);
+                console.log(innermath);
+                if (innermath.indexOf("&") !== -1) {
+
+                    console.log(text[index + endindex+1],text[index-1],text[index]);
+                    if (text[index + endindex+2] === "\n") text[index + endindex+2] = "";
+                    text[index + endindex] = "\n\\end{align*}";
+                    text[index] = "\\begin{align*}\n";
+                    if (text[index-2] === "\n") text[index-2] = "";
                     textarea = text.join('');
                     text = textarea.split('');
 
                 }
                 else if (innermath.indexOf("↵") !== -1) {
 
-
-                    text[index + endindex] = "\\end{gather*}";
-                    text[index] = "\\begin{gather*}";
+                    if (text[index + endindex+2] === "\n") text[index + endindex+2] = "";
+                    text[index + endindex] = "\n\\end{gather*}";
+                    text[index] = "\\begin{gather*}\n";
+                    if (text[index-2] === "\n") text[index-2] = "";
                     textarea = text.join('');
                     text = textarea.split('');
                 }
             }}
+        else  if (text[index] === "⦅") {
+            sub = textarea.substring(index);
+
+            endindex = sub.indexOf("⦆");
+            endindex2 = sub.indexOf("⦅");
+            if (endindex !== -1 && endindex2 < endindex) {
+                innermath = sub.substring(0, endindex);
+                reg  = matchRecursive(textarea.substring(index), "⦅...⦆");
+                endindex = reg[0].length +1;
+                text[index+endindex]= "\\end{pmatrix}" ;
+                text[index]= "\\begin{pmatrix}" ;
+                textarea = text.join('');
+                text = textarea.split('');
+            }
+        }
 
         else  if (text[index] === "⟦") {
                     sub=  textarea.substring(index);
@@ -100,44 +121,44 @@ var ctex_to_tex = function (){
                     endindex2 = sub.indexOf("⟦");
                     if (endindex !==-1 &&  endindex2 < endindex) {
                     innermath = sub.substring(0, endindex);
-                    if (innermath.indexOf("𝐓𝐡𝐞𝐨𝐫𝐞𝐦. ") !== -1 ){
+                    if (innermath.indexOf("𝐓𝐡𝐞𝐨𝐫𝐞𝐦.") !== -1 ){
 
                     reg  = matchRecursive(textarea.substring(index), "⟦...⟧");
                     endindex = reg[0].length +1;
-                    text[index+endindex]= "\n\\end{thm}" ;
-                    text[index]= "\\begin{thm}\n" ;
+                    text[index+endindex]= "\\end{thm}" ;
+                    text[index]= "\\begin{thm}" ;
                     textarea = text.join('');
-                    textarea = textarea.replace("𝐓𝐡𝐞𝐨𝐫𝐞𝐦. ","");
+                    textarea = textarea.replace("𝐓𝐡𝐞𝐨𝐫𝐞𝐦.","");
                     text = textarea.split('');
                 }
-                else if (innermath.indexOf("𝐃𝐞𝐟𝐢𝐧𝐢𝐭𝐢𝐨𝐧. ") !== -1 ){
+                else if (innermath.indexOf("𝐃𝐞𝐟𝐢𝐧𝐢𝐭𝐢𝐨𝐧.") !== -1 ){
 
                     reg  = matchRecursive(textarea.substring(index), "⟦...⟧");
                     endindex = reg[0].length +1;
-                    text[index+endindex]= "\n\\end{defn}" ;
-                    text[index]= "\\begin{defn}\n" ;
+                    text[index+endindex]= "\\end{defn}" ;
+                    text[index]= "\\begin{defn}" ;
                     textarea = text.join('');
-                    textarea = textarea.replace("𝐃𝐞𝐟𝐢𝐧𝐢𝐭𝐢𝐨𝐧. ","");
+                    textarea = textarea.replace("𝐃𝐞𝐟𝐢𝐧𝐢𝐭𝐢𝐨𝐧.","");
                     text = textarea.split('');
                 }
-                else if (innermath.indexOf("𝐏𝐫𝐨𝐨𝐟. ") !== -1 ){
+                else if (innermath.indexOf("𝐏𝐫𝐨𝐨𝐟.") !== -1 ){
 
                     var reg  = matchRecursive(textarea.substring(index), "⟦...⟧");
                     endindex = reg[0].length +1;
-                    text[index+endindex]= "\n\\end{proof}" ;
-                    text[index]= "\\begin{proof}\n" ;
+                    text[index+endindex]= "\\end{proof}" ;
+                    text[index]= "\\begin{proof}" ;
                     textarea = text.join('');
-                    textarea = textarea.replace("𝐏𝐫𝐨𝐨𝐟. ","");
+                    textarea = textarea.replace("𝐏𝐫𝐨𝐨𝐟.","");
                     text = textarea.split('');
                 }
-                else if (innermath.indexOf("𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧. ") !== -1 ){
+                else if (innermath.indexOf("𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧.") !== -1 ){
 
                     reg  = matchRecursive(textarea.substring(index), "⟦...⟧");
                     endindex = reg[0].length +1;
-                    text[index+endindex]= "\n\\end{prop}" ;
-                    text[index]= "\\begin{prop}\n" ;
+                    text[index+endindex]= "\\end{prop}" ;
+                    text[index]= "\\begin{prop}" ;
                     textarea = text.join('');
-                    textarea = textarea.replace("𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧. ","");
+                    textarea = textarea.replace("𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧.","");
                     text = textarea.split('');
                 }
 
@@ -357,20 +378,20 @@ var ctex_to_tex = function (){
         textarea = textarea.replace(reg,subscripts[a]);
     }
 
-  textarea = textarea.replace(/(?:\^\{[\d\w\=\(\)\→\+\-]\}+)+/g, function($1) {
+  textarea = textarea.replace(/(?:\^\{[\d]\}+)+/g, function($1) {
         return "^{"+$1.replace(/\^\{(.)\}/g,"$1")+"}";
     });
-    textarea = textarea.replace(/(?:_\{[\d\w\=\(\)\→\+\-]\}+)+/g, function($1) {
+    textarea = textarea.replace(/(?:_\{[\d]\}+)+/g, function($1) {
       return "_{"+$1.replace(/_\{(.)\}/g,"$1")+"}";
     });
 
-    textarea = textarea.replace(/(_)([^\s{}]*?)(\s|\^|⁆|\$)/g,'$1{$2}$3');
-    textarea = textarea.replace(/(\^)([^\s{}]*?)(\s|\_|⁆|\$)/g,'$1{$2}$3');
+    textarea = textarea.replace(/(_)(\d*?)(\s|\^|⁆|\$)/g,'$1{$2}$3');
+    textarea = textarea.replace(/(\^)(\d*?)(\s|\_|⁆|\$)/g,'$1{$2}$3');
 
     textarea = textarea.replace(/"(\w+)"(\(|\[|\{)/g,'\\mathop{\\mathrm{$1}}$2');
     textarea = textarea.replace(/"([^"]+)"/g,'\\text{$1}');
 
-    textarea = textarea.replace(/^⁅([^⁅⁆]*?)⁆$/gm,"\\[$1\\]");
+    textarea = textarea.replace(/[\n\n]?\n?^⁅([^⁅⁆]*?)⁆$[\n\n]?/gm,"\n\\[\n$1\n\\]\n");
     textarea = textarea.replace(/⁅/g,"\\(");
     textarea = textarea.replace(/⁆/g,"\\)");
 

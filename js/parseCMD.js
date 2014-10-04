@@ -72,10 +72,10 @@ $(document).ready(function() {
             var latex = TeX_writer.renderBlock(reader.parse(toParse));
             $("#latex").text(latex);
 
-            toParse = toParse.replace(/\\begin{thm}\n([\s\S]+?)\s?\n\\end{thm}/g,"**Theorem.** <em>$1</em>");
-            toParse = toParse.replace(/\\begin{defn}\n([\s\S]+?)\n\\end{defn}/g,"**Definition.** $1");
-            toParse = toParse.replace(/\\begin{prop}\n([\s\S]+?)\s?\n\\end{prop}/g,"**Proposition.** <em>$1</em>");
-            toParse = toParse.replace(/\\begin{proof}\n([\s\S]+?)\n\\end{proof}/g,"**Proof.** $1");
+            toParse = toParse.replace(/\\begin{thm}\n([\s\S]+?)\s?\n\\end{thm}/g,"**Theorem.**  \n<em>$1</em>");
+            toParse = toParse.replace(/\\begin{defn}\n([\s\S]+?)\n\\end{defn}/g,"**Definition.**  \n$1");
+            toParse = toParse.replace(/\\begin{prop}\n([\s\S]+?)\s?\n\\end{prop}/g,"**Proposition.**  \n<em>$1</em>");
+            toParse = toParse.replace(/\\begin{proof}\n([\s\S]+?)\n\\end{proof}/g,"**Proof.**  \n$1");
 
             parsed = reader.parse(toParse);
             toParse = toParse.replace(/\\\(|\\\)/g,"$");

@@ -5,7 +5,14 @@
   <title>CoffeeTeX Unicode Editor</title>
   <link href="stylev1.css" rel="stylesheet"/>
   <script src="js/jquery.js"></script>
-  <script src="js/bootstrap.js"></script>
+    <script src="js/jquery.autosize.min.js"></script>
+    <script>    $(function(){
+        $('#text').autosize();
+        $('#text2').autosize();
+        $('#text3').autosize();
+    });</script>
+
+    <script src="js/bootstrap.js"></script>
   <link href="js/bootstrap.css" rel="stylesheet">
   <script src="js/PressAndHold/unicode2latex.js"></script>
   <script src="js/PressAndHold/tex2unicode.js"></script>
@@ -25,12 +32,6 @@
 
   </script>
 
-  <script src="js/jquery.autosize.min.js"></script>
-   <script>    $(function(){
-       $('#text').autosize();
-       $('#text2').autosize();
-       $('#text3').autosize();
-   });</script>
 
   <script>
 
@@ -69,6 +70,7 @@
     \DeclareMathOperator{\Imm}{Im}
     \DeclareMathOperator{\Hom}{Hom}
     \DeclareMathOperator{\op}{op}
+    \DeclareMathOperator{\Mat}{Mat}
     $
 </div>
 <div class="container">

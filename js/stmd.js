@@ -189,7 +189,7 @@
     var afterOpenTicks = this.pos;
     var foundCode = false;
     var match;
-    while (!foundCode && (match = this.match(/\${1,2}|\\\)|\\\]|\\end/m))) {
+    while (!foundCode && (match = this.match(/\${1,2}|\\\)|\\\]|\\end\{\w+?\*?\}/m))) {
       if (match) {
         inlines.push({ t: 'Str', c: this.subject.slice(afterOpenTicks-math.length,
           this.pos )});
@@ -212,7 +212,7 @@
       pos  = this.pos;
     if (subj[pos] === '\\') {
 
-      if ("([".indexOf(subj[pos+1]) !== -1 || "\\begin{a\\begin{g\\begin{e".indexOf(subj.substring(pos+1,pos+8)) !== -1 ) {
+      if ("([".indexOf(subj[pos+1]) !== -1 || "\\begin{al\\begin{ga\\begin{eq\\begin{pm".indexOf(subj.substring(pos+1,pos+9)) !== -1 ) {
         return this.parseMath(inlines);
       }
       else if (")]".indexOf(subj[pos+1]) !== -1 || "ptd".indexOf(subj[pos+7]) !== -1 ) {

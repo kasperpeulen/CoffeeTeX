@@ -21,10 +21,15 @@ var tex_to_ctex = function () {
 
   var oldlength = textarea.length;
 
-  textarea = textarea.replace("Thm.","⟦𝐓𝐡𝐞𝐨𝐫𝐞𝐦. ⟧");
-    textarea = textarea.replace("Def.","⟦𝐃𝐞𝐟𝐢𝐧𝐢𝐭𝐢𝐨𝐧. ⟧");
-    textarea = textarea.replace("Prop.","⟦𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧. ⟧");
-    textarea = textarea.replace("Proof.","⟦𝐏𝐫𝐨𝐨𝐟. ⟧");
+
+    if (/Thm.|Def.|Prop.|Proof./g.test(textarea)){1
+        textarea = textarea.replace("Thm.","⟦𝐓𝐡𝐞𝐨𝐫𝐞𝐦.\n\n⟧");
+        textarea = textarea.replace("Def.","⟦𝐃𝐞𝐟𝐢𝐧𝐢𝐭𝐢𝐨𝐧.\n\n⟧");
+        textarea = textarea.replace("Prop.","⟦𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧.\n\n⟧");
+        textarea = textarea.replace("Proof.","⟦𝐏𝐫𝐨𝐨𝐟.\n\n⟧");
+        caret += -2;
+    }
+
 
     for (var i = 0; i < textarea.length; i++) {
 

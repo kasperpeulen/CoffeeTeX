@@ -1,52 +1,64 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>CoffeeTeX Unicode Editor</title>
-  <link href="stylev1.css" rel="stylesheet"/>
-  <script src="js/jquery.js"></script>
+    <meta charset="utf-8">
+    <title>CoffeeTeX Unicode Editor</title>
+    <link href="stylev1.css" rel="stylesheet"/>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <link href="js/bootstrap.css" rel="stylesheet">
+    <script src="js/PressAndHold/unicode2latex.js"></script>
+    <script src="js/PressAndHold/tex2unicode.js"></script>
+    <script src="js/PressAndHold/plugins.js"></script>
+    <script src="js/PressAndHold/longpress.js"></script>
+    <script src="js/PressAndHold/app.js"></script>
+    <script src="js/PressAndHold/textareahelper.js"></script>
+    <script src="js/PressAndHold/tex_to_ctex.js"></script>
+    <script src="js/PressAndHold/ctex_to_tex.js"></script>
+    <script src="js/PressAndHold/tex_to_ctex.js"></script>
+    <script src="js/PressAndHold/ctex_to_tex.js"></script>
+    <script src="js/stmd.js"></script>
+
+    <script type="text/javascript" src="js/mathjaxconfig.js"></script>
+    <script type="text/javascript" src="mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
+    <script type="text/javascript" src="js/parseCMD.js">
+
+    </script>
+
+    <script src="js/jquery.autosize.min.js"></script>
+    <script>    $(function(){
+        $('#text').autosize();
+        $('#text2').autosize();
+        $('#text3').autosize();
+    });</script>
+
+    <script>
 
 
-  <script src="js/bootstrap.js"></script>
-  <link href="js/bootstrap.css" rel="stylesheet">
-  <script src="js/PressAndHold/unicode2latex.js"></script>
-  <script src="js/PressAndHold/tex2unicode.js"></script>
-  <script src="js/PressAndHold/plugins.js"></script>
-  <script src="js/PressAndHold/longpress.js"></script>
-  <script src="js/PressAndHold/app.js"></script>
-  <script src="js/PressAndHold/textareahelper.js"></script>
-  <script src="js/PressAndHold/tex_to_ctex.js"></script>
-  <script src="js/PressAndHold/ctex_to_tex.js"></script>
-  <script src="js/PressAndHold/tex_to_ctex.js"></script>
-  <script src="js/PressAndHold/ctex_to_tex.js"></script>
-  <script src="js/stmd.js"></script>
+        $(document).ready(function() {
 
-  <script type="text/javascript" src="js/mathjaxconfig.js"></script>
-<script type="text/javascript" src="mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
-  <script type="text/javascript" src="js/parseCMD.js">
+            if ($("#text").val() === "") {
+                $("#text").val(localStorage.workplace1a);
+            }
+            if ($("#text2").val() === "") {
+                $("#text2").val(localStorage.workplace1b);
+            }
+            if ($("#text3").val() === "") {
+                $("#text3").val(localStorage.workplace1c);
+            }
 
-  </script>
-
-  <script src="js/jquery.autosize.min.js"></script>
-  <script>
-    $(function(){
-      $('#text').autosize();
-    });
-
-    $(document).ready(function() {
-
-        if ($("#text").val() === "") {
-            $("#text").val(localStorage.workplace1);
-        }
-
-        $( "#text" ).keydown(function() {
-            localStorage.workplace1 = $("#text").val();
+            $( "#text" ).keydown(function() {
+                localStorage.workplace1a = $("#text").val();
+            });
+            $( "#text2" ).keydown(function() {
+                localStorage.workplace1b = $("#text2").val();
+            });
+            $( "#text3" ).keydown(function() {
+                localStorage.workplace1c = $("#text3").val();
+            });
         });
-    });
 
-
-
-  </script>
+    </script>
 </head>
 <body>
 
@@ -57,45 +69,56 @@
     \DeclareMathOperator{\Imm}{Im}
     \DeclareMathOperator{\Hom}{Hom}
     \DeclareMathOperator{\op}{op}
+    \DeclareMathOperator{\Mat}{Mat}
     $
 </div>
 <div class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <h1>CoffeeTeX</h1>
+    <div class="row">
+        <div class="col-md-6" style="padding:0px;">
+            <h1>CoffeeTeX</h1>
+        </div>
+        <div class="col-md-4">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#preview" role="tab" data-toggle="tab">Preview</a></li>
+                <li><a href="#latextab" role="tab" data-toggle="tab">LaTeX</a></li>
+                <li><a href="#markdowntab" role="tab" data-toggle="tab">Markdown</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <p class="timing">TeX to CTeX in <span class="timing" id="parsetime"></span> ms.
+                CTeX to TeX in <span class="timing" id="rendertime"></span> ms.</p>
+        </div>
     </div>
-    <div class="col-md-4">
-      <ul class="nav nav-tabs" role="tablist">
-        <li class="active"><a href="#preview" role="tab" data-toggle="tab">Preview</a></li>
-        <li><a href="#latextab" role="tab" data-toggle="tab">LaTeX</a></li>
-          <li><a href="#markdowntab" role="tab" data-toggle="tab">Markdown</a></li>
-      </ul>
-    </div>
-    <div class="col-md-4">
-      <p class="timing">TeX to CTeX in <span class="timing" id="parsetime"></span> ms.
-        CTeX to TeX in <span class="timing" id="rendertime"></span> ms.</p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <textarea id="text" spellcheck='false' placeholder="Press and hold a key to select a math symbol. For example, hold R to get ℝ or a to get α. Wrap the symbol in $...$ to get LaTeX output."></textarea>
-      <ul id="warnings"></ul>
-    </div>
-    <div class="col-md-6">
-      <div class="tab-content">
-        <div id="preview" class="tab-pane active">
+    <div class="row">
+        <div class="col-md-6" style="border: 1px black solid; padding:0px; margin:0px;">
+            <textarea id="text"  spellcheck='false' placeholder="Press and hold a key to select a math symbol. For example, hold R to get ℝ or a to get α. Wrap the symbol in $...$ to get LaTeX output."></textarea>
+            <textarea id="text2" spellcheck='false' ></textarea>
+            <textarea id="text3" spellcheck='false' ></textarea>
+
 
         </div>
-        <div id="latextab" class="tab-pane">
-          <pre id="latexpre"><code id="latex"></code></pre>
+        <div class="col-md-6">
+            <div class="tab-content">
+                <div id="preview" class="tab-pane active">
+                    <div id="preview1"></div>
+                    <div id="preview2"></div>
+                    <div id="preview3"></div>
+                </div>
+                <div id="latextab" class="tab-pane">
+                    <pre id="latexpre"><code id="latex"></code></pre>
+                </div>
+                <div id="markdowntab" class="tab-pane">
+                    <pre id="markdownpre"><code id="markdown"></code></pre>
+                </div>
+            </div>
         </div>
-          <div id="markdowntab" class="tab-pane">
-          <pre id="markdownpre"><code id="markdown"></code></pre>
-          </div>
-      </div>
     </div>
-  </div>
-  <p>Click <a href="example.html">here</a> or <a href="example2.html">here</a> for a CoffeeTeX examples.</p>
+    <p>
+        <br>
+        <input type ="checkbox" id="textarea2"/> Show extra textareabox. <br>
+        <input type ="checkbox" id="textarea3"/> Show extra textareabox. <br>
+    </p>
+    <p>Click <a href="example.html">here</a> or <a href="example2.html">here</a> for a CoffeeTeX examples.</p>
 </div>
 </body>
 </html>

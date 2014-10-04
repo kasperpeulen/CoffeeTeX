@@ -133,7 +133,7 @@ var activeElement;
         defaults = {};
     var moreChars = {
         'A': '{𝐴}∀{𝒜}{𝔄}',
-        'B': 'ℬ{𝔅}',
+        'B': 'ℬ{𝔅}⨁',
         'C': 'ℂ{𝒞}∐',
         'D': '{𝒟}{𝔇}Δ∩',
         'E': '∅ℰ',
@@ -205,9 +205,9 @@ var activeElement;
         ']': //"{􀀗}
         "⁆{􀀘}{􀀙}{􀀚}{􀀛}",//{􀀜}{􀀝}",//'⁆❵⟩⌉⌋⟯⟫⟧⦈⦊',
         '(' : //'{􀀡}
-        "{􀀢}{􀀣}{􀀤}{􀀥}",//{􀀦}{􀀧}',
+        "⦅{􀀢}{􀀣}{􀀤}{􀀥}",//{􀀦}{􀀧}',
         ')' : //'{􀀨}
-        "{􀀩}{􀀪}{􀀫}{􀀬}",//{􀀭}{􀀮}',
+        "⦆{􀀩}{􀀪}{􀀫}{􀀬}",//{􀀭}{􀀮}',
         '|': '∣∤∥∦',
         '\\': '∖',
         '/': '∕÷¦',
@@ -268,7 +268,7 @@ var activeElement;
             keyup = false;
             count += 1;
 
-            if (e.altKey){
+            if ( e.which == 93){
                 onTimer();
 
             }
@@ -280,14 +280,16 @@ else{
             if (e.which == 9) {
                 e.preventDefault();
                 activeElement = e.target;
-                var textAreaTxt = $(activeElement).val();
+                var textArea = $(activeElement).val();
+                var textAreaTxt = textArea.split("");
                 var caretPos = getCaretPosition(activeElement);
-                var newCaretPos = textAreaTxt.substring(caretPos-1).indexOf("⁆") + caretPos;
-                if ( newCaretPos ===textAreaTxt.length ){
-                    textAreaTxt += " ";
+                var newCaretPos = textArea.substring(caretPos-1).indexOf("⁆") + caretPos;
+
+                if ( newCaretPos === textAreaTxt.length || textAreaTxt[newCaretPos] === "\n"){
+                    textAreaTxt[newCaretPos-1] += " ";
                 }
 
-                $(activeElement).val(textAreaTxt);
+                $(activeElement).val(textAreaTxt.join(""));
                 setCaretPosition(activeElement, newCaretPos+1);
             }
             if (e.which == 32) {
@@ -347,7 +349,7 @@ else{
         }}
         // Arrow key with popup visible
         if ($('.long-press-popup').length > 0) {
-            if (e.altKey){
+            if ( e.which == 93){
                 activateNextLetter();
             }
             else if (e.which == 9) {
