@@ -30,7 +30,7 @@ span.timing { font-weight: bold; }
 @font-face {
 
     font-family: "LMMath-bbfix";
-    src: url("LMMath-bbfix.otf") format("opentype");
+    src: url("LMMath-bbfix.woff") format("woff");
 }
 @font-face {
     font-family: "Latin-Modern";

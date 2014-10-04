@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>CoffeeTeX Unicode Editor</title>
   <link href="stylev1.css" rel="stylesheet"/>
-  <script src="js/jquery.js"></script>
+    <script src="js/jquery.js"></script>
     <script src="js/jquery.autosize.min.js"></script>
     <script>    $(function(){
         $('#text').autosize();
@@ -13,53 +13,53 @@
     });</script>
 
     <script src="js/bootstrap.js"></script>
-  <link href="js/bootstrap.css" rel="stylesheet">
-  <script src="js/PressAndHold/unicode2latex.js"></script>
-  <script src="js/PressAndHold/tex2unicode.js"></script>
-  <script src="js/PressAndHold/plugins.js"></script>
-  <script src="js/PressAndHold/longpress.js"></script>
-  <script src="js/PressAndHold/app.js"></script>
-  <script src="js/PressAndHold/textareahelper.js"></script>
-  <script src="js/PressAndHold/tex_to_ctex.js"></script>
-  <script src="js/PressAndHold/ctex_to_tex.js"></script>
-  <script src="js/PressAndHold/tex_to_ctex.js"></script>
-  <script src="js/PressAndHold/ctex_to_tex.js"></script>
-  <script src="js/stmd.js"></script>
+    <link href="js/bootstrap.css" rel="stylesheet">
+    <script src="js/PressAndHold/unicode2latex.js"></script>
+    <script src="js/PressAndHold/tex2unicode.js"></script>
+    <script src="js/PressAndHold/plugins.js"></script>
+    <script src="js/PressAndHold/longpress.js"></script>
+    <script src="js/PressAndHold/app.js"></script>
+    <script src="js/PressAndHold/textareahelper.js"></script>
+    <script src="js/PressAndHold/tex_to_ctex.js"></script>
+    <script src="js/PressAndHold/ctex_to_tex.js"></script>
+    <script src="js/PressAndHold/tex_to_ctex.js"></script>
+    <script src="js/PressAndHold/ctex_to_tex.js"></script>
+    <script src="js/stmd.js"></script>
 
-  <script type="text/javascript" src="js/mathjaxconfig.js"></script>
-<script type="text/javascript" src="mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
-  <script type="text/javascript" src="js/parseCMD.js">
+    <script type="text/javascript" src="js/mathjaxconfig.js"></script>
+    <script type="text/javascript" src="mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
+    <script type="text/javascript" src="js/parseCMD.js">
 
-  </script>
-
-
-  <script>
+    </script>
 
 
-    $(document).ready(function() {
+    <script>
 
-        if ($("#text").val() === "") {
-            $("#text").val(localStorage.textarea);
-        }
-        if ($("#text2").val() === "") {
-            $("#text2").val(localStorage.textarea2);
-        }
-        if ($("#text3").val() === "") {
-            $("#text3").val(localStorage.textarea3);
-        }
 
-        $( "#text" ).keydown(function() {
-            localStorage.textarea = $("#text").val();
+        $(document).ready(function() {
+
+            if ($("#text").val() === "") {
+                $("#text").val(localStorage.textarea);
+            }
+            if ($("#text2").val() === "") {
+                $("#text2").val(localStorage.textarea2);
+            }
+            if ($("#text3").val() === "") {
+                $("#text3").val(localStorage.textarea3);
+            }
+
+            $( "#text" ).keydown(function() {
+                localStorage.textarea = $("#text").val();
+            });
+            $( "#text2" ).keydown(function() {
+                localStorage.textarea2 = $("#text2").val();
+            });
+            $( "#text3" ).keydown(function() {
+                localStorage.textarea3 = $("#text3").val();
+            });
         });
-        $( "#text2" ).keydown(function() {
-            localStorage.textarea2 = $("#text2").val();
-        });
-        $( "#text3" ).keydown(function() {
-            localStorage.textarea3 = $("#text3").val();
-        });
-    });
 
-  </script>
+    </script>
 
 
 </head>
