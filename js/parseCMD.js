@@ -64,8 +64,7 @@ $(document).ready(function() {
             ctex_to_tex();
             endTime = new Date().getTime();
             var renderTime = endTime - startTime;
-
-
+            $('textarea').trigger('autosize.resize');
             var toParse = $("#latex").text();
 
 

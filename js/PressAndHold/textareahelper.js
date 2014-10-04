@@ -26,7 +26,7 @@
             'white-space': 'pre-wrap',
             'word-wrap': 'break-word',
             'top': 0,
-            'left': -9999
+            'left': 10
         }).insertAfter(this.$text);
     };
     (function() {
