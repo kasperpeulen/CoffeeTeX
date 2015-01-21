@@ -4,14 +4,21 @@
     <meta charset="utf-8">
     <title>CoffeeTeX Unicode Editor</title>
     <link href="stylev1.css" rel="stylesheet"/>
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.autosize.min.js"></script>
+    <script>    $(function(){
+        $('#text').autosize();
+        $('#text2').autosize();
+        $('#text3').autosize();
+    });</script>
 
-
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="js/bootstrap.js"></script>
+    <link href="js/bootstrap.css" rel="stylesheet">
     <script src="js/PressAndHold/unicode2latex.js"></script>
     <script src="js/PressAndHold/tex2unicode.js"></script>
     <script src="js/PressAndHold/plugins.js"></script>
+
+    <script src="js/PressAndHold/popupchars.js"></script>
     <script src="js/PressAndHold/longpress.js"></script>
     <script src="js/PressAndHold/app.js"></script>
     <script src="js/PressAndHold/textareahelper.js"></script>
@@ -25,13 +32,6 @@
     <script type="text/javascript" src="mathjax/MathJax.js?config=TeX-MML-AM_HTMLorMML-full"></script>
     <script type="text/javascript" src="js/parseCMD.js">
 
-    </script>
-
-    <script src="js/jquery.autosize.min.js"></script>
-    <script>
-        $(function(){
-            $('#text').autosize();
-        });
     </script>
 </head>
 <body>

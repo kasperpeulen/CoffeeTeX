@@ -6,7 +6,7 @@ $(function() {
     $('textarea').each(function(index) {
         $(this).longPress();
     });
-    $('input').each(function(index) {
-        $(this).longPress();
-    });
+//    $('input').each(function(index) {
+//        $(this).longPress();
+//    });
 });

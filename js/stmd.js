@@ -1482,7 +1482,7 @@
             case 'Softbreak':
                 return this.softbreak;
             case 'Hardbreak':
-                return inTags('br',[],"",true) + '\n';
+                return "\n\n";
             case 'Emph':
                 return "\\emph{"+this.renderInlines(inline.c)+"}";
             case 'Strong':

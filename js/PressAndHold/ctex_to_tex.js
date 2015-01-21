@@ -48,7 +48,15 @@ var ctex_to_tex = function (){
 
     $('#latex').text(textarea);
 
+    if (textarea == $('#text').val()) {
+        $('#latex1').text(textarea);
+        var part = 1;
+    }
 
+    else if (textarea == $('#text2').val()) {
+        $('#latex2').text(textarea);
+        var part = 2;
+    }
 
     var binreg = function (symbol){
         var reg = new RegExp("(?:([^{}()\\[\\]])|[\\(\\[\\{](.*?)[\\)\\]\\}])"+symbol+"(?:([^{}\\(\\)\\[\\]])|[\\(\\[\\{](.*?)[\\)\\]\\}])","g");
@@ -60,7 +68,7 @@ var ctex_to_tex = function (){
     //while (binreg("∕").test(textarea)){
         //textarea = textarea.replace(binreg("∕"),'\\frac{$1$2}{$3$4}');
     //}
-    textarea = textarea.replace(binreg("¦"),'\\binom{$1$2}{$3$4}');
+    //textarea = textarea.replace(binreg("¦"),'\\binom{$1$2}{$3$4}');
     //textarea = textarea.replace(binreg("↖"),'\\overset{$3$4}{$1$2}');
     //textarea = textarea.replace(binreg("↙"),'\\underset{$3$4}{$1$2}');
 
@@ -76,23 +84,35 @@ var ctex_to_tex = function (){
             if (endindex !==-1 &&  endindex2 < endindex) {
 
                 var innermath = sub.substring(0, endindex);
-                console.log(innermath);
-                if (innermath.indexOf("&") !== -1) {
+                if (innermath.indexOf("&") !== -1 && innermath.indexOf("case") == -1) {
 
-                    console.log(text[index + endindex+1],text[index-1],text[index]);
-                    if (text[index + endindex+2] === "\n") text[index + endindex+2] = "";
-                    text[index + endindex] = "\n\\end{align*}";
-                    text[index] = "\\begin{align*}\n";
+                        if (text[index + endindex+2] === "\n") text[index + endindex+2] = "";
+
+                    if (part === 1) {
+                        text[index + endindex] = "\n\\end{align*}";
+                        text[index] = "\\begin{align*}\n";
+                    }
+                    else if (part === 2) {
+                        text[index + endindex] = "\n\\end{align*}\\end{framed}";
+                        text[index] = "\\begin{framed}\\begin{align*}\n";
+                    }
                     if (text[index-2] === "\n") text[index-2] = "";
                     textarea = text.join('');
                     text = textarea.split('');
 
                 }
-                else if (innermath.indexOf("↵") !== -1) {
+                else if (innermath.indexOf("↵") !== -1  && innermath.indexOf("case") == -1) {
 
                     if (text[index + endindex+2] === "\n") text[index + endindex+2] = "";
-                    text[index + endindex] = "\n\\end{gather*}";
-                    text[index] = "\\begin{gather*}\n";
+                    if (part === 1){
+                        text[index + endindex] = "\n\\end{gather*}";
+                        text[index] = "\\begin{gather*}\n";
+                    }
+                    else if (part ===2){
+                        text[index + endindex] = "\n\\end{gather*}\\end{framed}";
+                        text[index] = "\\begin{framed}\\begin{gather*}\n";
+                    }
+
                     if (text[index-2] === "\n") text[index-2] = "";
                     textarea = text.join('');
                     text = textarea.split('');
@@ -107,6 +127,13 @@ var ctex_to_tex = function (){
                 innermath = sub.substring(0, endindex);
                 reg  = matchRecursive(textarea.substring(index), "⦅...⦆");
                 endindex = reg[0].length +1;
+                console.log(text[index]);
+                for (i = index; i < index + endindex; i++){
+                    console.log(text[i]);
+                    if (text[i] == " "){
+                        text[i] = "&";
+                    }
+                }
                 text[index+endindex]= "\\end{pmatrix}" ;
                 text[index]= "\\begin{pmatrix}" ;
                 textarea = text.join('');
@@ -131,6 +158,16 @@ var ctex_to_tex = function (){
                     textarea = textarea.replace("𝐓𝐡𝐞𝐨𝐫𝐞𝐦.","");
                     text = textarea.split('');
                 }
+                        else if (innermath.indexOf("𝐓𝐡𝐞𝐨𝐫𝐞𝐦[") !== -1 ){
+
+                            reg  = matchRecursive(textarea.substring(index), "⟦...⟧");
+                            endindex = reg[0].length +1;
+                            text[index+endindex]= "\\end{thm}" ;
+                            text[index]= "\\begin{thm}" ;
+                            textarea = text.join('');
+                            textarea = textarea.replace("𝐓𝐡𝐞𝐨𝐫𝐞𝐦","");
+                            text = textarea.split('');
+                        }
                 else if (innermath.indexOf("𝐃𝐞𝐟𝐢𝐧𝐢𝐭𝐢𝐨𝐧.") !== -1 ){
 
                     reg  = matchRecursive(textarea.substring(index), "⟦...⟧");
@@ -142,15 +179,33 @@ var ctex_to_tex = function (){
                     text = textarea.split('');
                 }
                 else if (innermath.indexOf("𝐏𝐫𝐨𝐨𝐟.") !== -1 ){
-
                     var reg  = matchRecursive(textarea.substring(index), "⟦...⟧");
                     endindex = reg[0].length +1;
-                    text[index+endindex]= "\\end{proof}" ;
-                    text[index]= "\\begin{proof}" ;
+                    text[index+endindex]= "\\end{opl}" ;
+                    text[index]= "\\begin{opl}" ;
+                    text[index-1]= "" ;
                     textarea = text.join('');
                     textarea = textarea.replace("𝐏𝐫𝐨𝐨𝐟.","");
                     text = textarea.split('');
                 }
+                    else if (innermath.indexOf("𝐄𝐱𝐞𝐫𝐜𝐢𝐬𝐞.") !== -1 ){
+                        var reg  = matchRecursive(textarea.substring(index), "⟦...⟧");
+                        endindex = reg[0].length +1;
+                        text[index+endindex]= "\\end{vraag}" ;
+                        text[index]= "\\begin{vraag}" ;
+                        textarea = text.join('');
+                        textarea = textarea.replace("𝐄𝐱𝐞𝐫𝐜𝐢𝐬𝐞.","");
+                        text = textarea.split('');
+                    }
+                    else if (innermath.indexOf("𝐏𝐫𝐨𝐨𝐟[") !== -1 ){
+                        var reg  = matchRecursive(textarea.substring(index), "⟦...⟧");
+                        endindex = reg[0].length +1;
+                        text[index+endindex]= "\\end{opl}" ;
+                        text[index]= "\\begin{opl}";
+                        textarea = text.join('');
+                        textarea = textarea.replace("𝐏𝐫𝐨𝐨𝐟","");
+                        text = textarea.split('');
+                    }
                 else if (innermath.indexOf("𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧.") !== -1 ){
 
                     reg  = matchRecursive(textarea.substring(index), "⟦...⟧");
@@ -168,7 +223,7 @@ var ctex_to_tex = function (){
         }
         var i = index;
         var before, after, before2,after2, m;
-        if (text[i] === "∕" || text[i] === "↖" || text[i] === "↙") {
+        if (text[i] === "∕" || text[i] === "↖" || text[i] === "↙" || text[i] === "⁄") {
             if (text[i - 1] === "}") {
                 m = matchRecursive(textarea.substring(0, i), "{...}");
                 before = m[m.length - 1];
@@ -218,6 +273,11 @@ var ctex_to_tex = function (){
             var re = new RegExp("(" + before2 + ")∕(" + after2 + ")", "g");
             textarea = textarea.replace(re, "\\frac{"+before+"}{"+after+"}");
 
+                var re = new RegExp("(" + before2 + ")⁄(" + after2 + ")", "g");
+                textarea = textarea.replace(re, "\\tfrac{"+before+"}{"+after+"}");
+
+
+
                 re = new RegExp("(" + before2 + ")↖(" + after2 + ")", "g");
                 textarea = textarea.replace(re, "\\overset{"+after+"}{"+before+"}");
             text = textarea.split('');
@@ -262,7 +322,7 @@ var ctex_to_tex = function (){
         "\uE124": "^{x}",
         "\uE125": "^{y}",
         "\uE126": "^{z}",
-        
+
 
       "ᴬ": "^{A}",
       "ᴮ": "^{B}",
@@ -320,7 +380,7 @@ var ctex_to_tex = function (){
         "\uE024": "_{x}",
         "\uE025": "_{y}",
         "\uE026": "_{z}",
-    
+
       "ᵦ": "_{β}",
       "ᵧ": "_{γ}",
       "ᵨ": "_{ρ}",
@@ -359,8 +419,8 @@ var ctex_to_tex = function (){
         "\u207D": "^{(}",
         "\u207E": "^{)}",
         "\u207F": "^{|}",
-      
-      
+
+
 
         "𝐴": "\\(A\\)",
         "𝐼":"\\(I\\)",
@@ -391,9 +451,16 @@ var ctex_to_tex = function (){
     textarea = textarea.replace(/"(\w+)"(\(|\[|\{)/g,'\\mathop{\\mathrm{$1}}$2');
     textarea = textarea.replace(/"([^"]+)"/g,'\\text{$1}');
 
-    textarea = textarea.replace(/[\n\n]?\n?^⁅([^⁅⁆]*?)⁆$[\n\n]?/gm,"\n\\[\n$1\n\\]\n");
-    textarea = textarea.replace(/⁅/g,"\\(");
-    textarea = textarea.replace(/⁆/g,"\\)");
+    if (part === 1){
+        textarea = textarea.replace(/[\n\n]?\n?^⁅([^⁅⁆]*?)⁆$[\n\n]?/gm,"\n\\[$1\\]\n");
+        textarea = textarea.replace(/⁅/g,"\\(");
+        textarea = textarea.replace(/⁆/g,"\\)");
+    }
+    else if (part ===2){
+        textarea = textarea.replace(/[\n\n]?\n?^⁅([^⁅⁆]*?)⁆$[\n\n]?/gm,"\\begin{framed}\\begin{equation*}\n$1\n\\end{equation*}\\end{framed}");
+        textarea = textarea.replace(/⁅/g,"\\begin{framed}\\(");
+        textarea = textarea.replace(/⁆/g,"\\)\\end{framed}");
+    }
 
   textarea = textarea.replace(/√(?:\s*?)(\S_{.*?})/g,'\\sqrt{$1}');
 
@@ -425,8 +492,21 @@ var ctex_to_tex = function (){
     }
     }
 
-    textarea = textarea.replace(/(^|[^\\])(sin|cos|arctan|arccos|arcsin|tan|csc|sec|cot|sinh|cosh|tanh|log|ln|det|dim|lim|mod|gcd|lcm|min|max)( |\(|\[|\{|\^|_)/g, '$1\\$2$3');
+    textarea = textarea.replace(/(^|[^\\])(sin|Mat|Irr|End|Ima|Real|Ker|Hom|Rad|arg|Arg|inf|sup|cos|arctan|arccos|arcsin|tan|csc|sec|cot|sinh|cosh|tanh|log|ln|det|dim|lim|gcd|lcm|min|max)( |\(|\[|\{|\\{|\^|_)/g, '$1\\$2$3');
 
     $('#latex').text(textarea);
 
+    textarea = textarea.replace(/\n/g,"\n\t\t");
+    textarea = textarea.replace(/\t\\begin\{vraag\}/g,"\\begin{vraag}");
+    textarea = textarea.replace(/\t\\end\{vraag\}/g,"\\end{vraag}");
+    textarea = textarea.replace(/\t\\begin\{opl\}/g,"\\begin{opl}");
+    textarea = textarea.replace(/\t\\end\{opl\}/g,"\\end{opl}");
+
+    if (part === 1) {
+        $('#latex1').text("\t"+textarea);
+    }
+
+    else if (part === 2) {
+        $('#latex2').text("\n\t\t"+textarea);
+    }
 }

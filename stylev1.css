@@ -3,19 +3,35 @@ textarea#text,textarea#text2,textarea#text3 {
     -webkit-transition: height 0.2s;
     -moz-transition: height 0.2s;
     transition: height 0.2s;
-padding-bottom: 0px; border: 0px; margin-bottom:-2px;}
+padding-bottom: 0px; border: 0px; margin-bottom:0px;}
 
 textarea#text2,textarea#text3 {
+    height: 200px;
+}
+
+textarea#text3 {
     height: 200px;
     display: none;
 }
 
-pre code#latex{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
-pre code#markdown{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
-pre#latexpre { min-height: 200px; width: 98%; overflow: hidden; }
-pre#markdownpre { min-height: 200px; width: 98%; overflow: hidden; }
+form,input {
+    background-color: white;
+}
 
-div#preview { min-height: 200px; width: 98%; overflow: hidden; font-family: Latin-Modern; font-size:17px; }
+pre code#latex{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
+pre code#latex1{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
+pre code#latex2{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
+pre code#title2{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
+pre code.latex{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
+
+div#preview2 div { border: 1px solid black; padding-top:17px; padding-bottom:17px;}
+pre code#markdown{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
+pre#latexpre { min-height: 950px; width: 98%; overflow: hidden; font-family: LMMath-bbfix; font-size: 17px; }
+pre#markdownpre { min-height: 950px; width: 98%; overflow: hidden; }
+
+div#preview { min-height: 950px; width: 100%; overflow: hidden; font-family: Latin-Modern; font-size:17px; }
+div#preview1 {display:block; width:500px; }
+div#preview2 {position:absolute; display:block; width:350px; left:525px; top:0px;}
 div.row { margin-top: 1em; }
 blockquote { font-size: 100%; }
 footer { color: #555; text-align: center; margin: 1em; }

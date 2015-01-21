@@ -20,15 +20,12 @@ $(document).ready(function() {
             return;
         }
 
-        console.log();
-
         var result = writer.renderBlock(parsed);
         if ($(activeElement)[0]["id"] === "text")
         {
+            $("#preview1").html(result);
 
-        $("#preview1").html(result);
-
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview1"]);
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, "preview1"]);
         }
 
         else if ($(activeElement)[0]["id"] === "text2")
@@ -50,7 +47,7 @@ $(document).ready(function() {
 
 
     };
-    var parseAndRender = function () {
+    var parseAndRender = function (delay) {
         if (x) { x.abort() } // If there is an existing XHR, abort it.
         clearTimeout(timer); // Clear the timer so we don't end up with dupes.
         timer = setTimeout(function() { // assign timer a new timeout
@@ -71,11 +68,16 @@ $(document).ready(function() {
             var latex = TeX_writer.renderBlock(reader.parse(toParse));
             $("#latex").text(latex);
 
+
+
             toParse = toParse.replace(/\\begin{thm}\n([\s\S]+?)\s?\n\\end{thm}/g,"**Theorem.**  \n<em>$1</em>");
+            toParse = toParse.replace(/\\begin{thm}\[(.+?)\]([\s\S]+?)\s?\n\\end{thm}/g,"**$1.**  \n<em>$2</em>");
+            toParse = toParse.replace(/\\begin{vraag}\n([\s\S]+?)\s?\n\\end{vraag}/g,"**Exercise.**  \n$1");
+            toParse = toParse.replace(/\\begin{vraag}\[(.+?)\]([\s\S]+?)\s?\n\\end{vraag}/g,"**$1.**  $2");
             toParse = toParse.replace(/\\begin{defn}\n([\s\S]+?)\n\\end{defn}/g,"**Definition.**  \n$1");
             toParse = toParse.replace(/\\begin{prop}\n([\s\S]+?)\s?\n\\end{prop}/g,"**Proposition.**  \n<em>$1</em>");
-            toParse = toParse.replace(/\\begin{proof}\n([\s\S]+?)\n\\end{proof}/g,"**Proof.**  \n$1");
-
+            toParse = toParse.replace(/\\begin{opl}\n([\s\S]*)\n\\end{opl}/g,"\n**Proof.**  \n$1");
+            toParse = toParse.replace(/\\begin{opl}\[(.+?)\]([\s\S]+?)\s?\n\\end{opl}/g,"**$1.**  $2");
             parsed = reader.parse(toParse);
             toParse = toParse.replace(/\\\(|\\\)/g,"$");
             toParse = toParse.replace(/\\\[|\\\]/g,"$$$");
@@ -94,13 +96,50 @@ $(document).ready(function() {
              }
              */
             render();
-        }, 10); // ms delay
+        }, delay); // ms delay
     };
 
-    $("#text").bind('keyup paste cut mouseup', parseAndRender);
-    $("#text2").bind('keyup paste cut mouseup', parseAndRender);
+    $("#text").bind('keyup paste cut mouseup', function() {
+        parseAndRender(10);
+    });
+    $("#text2").bind('keyup paste cut mouseup', function() {
+        parseAndRender(10);
+    });
+    $("#text3").bind('keyup paste cut mouseup', function() {
+        parseAndRender(10);
+    });
 
-    $("#text3").bind('keyup paste cut mouseup', parseAndRender);
-    $(".option").change(render);
-    parseAndRender();
+
+    if ($('#title').val() !== ""){
+        document.title = $('#title').val();
+
+    }
+    else{
+        document.title = "Functietheorie"
+    }
+
+    $("#title").change(function() {
+        document.title = $('#title').val();
+        $('#title2').text(document.title+"\n");
+        if (localStorage["Functietheorie|"+document.title+"|1"] === undefined) {
+            $("#text").val("⟦𝐄𝐱𝐞𝐫𝐜𝐢𝐬𝐞.["+document.title+"]\n\n⟧\n\n⟦𝐏𝐫𝐨𝐨𝐟.\n\n⟧")
+        }
+        else {
+            $("#text").val(localStorage["Functietheorie|"+document.title+"|1"]);
+        }
+        $("#text2").val(localStorage["Functietheorie|"+document.title+"|2"]);
+        $("#text3").val(localStorage["Functietheorie|"+document.title+"|3"]);
+
+        var ev = document.getElementById('text');
+        setCaretPosition(ev, 21+document.title.length);
+
+
+        activeElement = $('#text2');
+        parseAndRender(0);
+
+        setTimeout(function() {
+            activeElement = $('#text');
+            parseAndRender(0);
+        }, 1);
+    });
 });

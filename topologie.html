@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -40,24 +39,43 @@
 
         $(document).ready(function() {
 
+            function copyToClipboard(text) {
+                window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+            }
+
+            $('a[href="#latextab"]').click(function() {
+                copyToClipboard($('#latexpre').text());
+            });
+
+            $("#title").change(function() {
+                document.title = $('#title').val();
+                localStorage.title1 = document.title;
+            });
+
+            if ($('#title').val() === ""){
+                document.title = localStorage.title1;
+                $("#title").val(localStorage.title1);
+            }
+
             if ($("#text").val() === "") {
-                $("#text").val(localStorage.textarea);
+                $("#text").val(localStorage["Topologie|"+document.title]);
             }
             if ($("#text2").val() === "") {
-                $("#text2").val(localStorage.textarea2);
+                $("#text2").val(localStorage.workplace1b);
             }
             if ($("#text3").val() === "") {
-                $("#text3").val(localStorage.textarea3);
+                $("#text3").val(localStorage.workplace1c);
             }
 
             $( "#text" ).keydown(function() {
-                localStorage.textarea = $("#text").val();
+                console.log(document.title);
+                localStorage["Topologie|"+document.title] = $("#text").val();
             });
             $( "#text2" ).keydown(function() {
-                localStorage.textarea2 = $("#text2").val();
+                localStorage.workplace1b = $("#text2").val();
             });
             $( "#text3" ).keydown(function() {
-                localStorage.textarea3 = $("#text3").val();
+                localStorage.workplace1c = $("#text3").val();
             });
         });
 
@@ -65,26 +83,15 @@
 
 
 </head>
-<body>
-
-<div style="display:none">
-    $
-    (\DeclareMathOperator{\End}{End}
-    \DeclareMathOperator{\Ker}{Ker}
-    \DeclareMathOperator{\Imm}{Im}
-    \DeclareMathOperator{\Hom}{Hom}
-    \DeclareMathOperator{\op}{op}
-    \DeclareMathOperator{\Mat}{Mat}
-    \DeclareMathOperator{\Irr}{Irr}
-    \DeclareMathOperator{\Id}{Id}
-    $
-</div>
-<div class="container">
+<body
+<div class="container" style="width:1420px;">
     <div class="row">
-        <div class="col-md-6" style="padding:0px;">
-            <h1>CoffeeTeX</h1>
+        <div class="col-md-6" style="padding:0px; width:37%;">
+            <h1>
+                <input style="border:none;" id="title" size="15" type="text" value="">
+            </h1>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" style="width:63%;">
             <ul class="nav nav-tabs" role="tablist">
                 <li class="active"><a href="#preview" role="tab" data-toggle="tab">Preview</a></li>
                 <li><a href="#latextab" role="tab" data-toggle="tab">LaTeX</a></li>
@@ -97,44 +104,14 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6" style="border: 1px black solid; padding:0px; margin:0px;">
-            <textarea id="text"  spellcheck='false' placeholder="Press and hold a key to select a math symbol. For example, hold R to get ℝ or a to get α. Wrap the symbol in $...$ to get LaTeX output.">**The Lorenz Equations**
-
-⁅\dot{x} & = σ(y-x)         ↵
-\dot{y} & = ρx - y - xz  ↵
-\dot{z} & = -βz + xy⁆
-
-**The Cauchy-Schwarz Inequality**
-
-⁅􀀤∑₌₀ ab􀀫⁲ ≤􀀤∑₌₀ a⁲􀀫􀀤∑₌₀ b⁲ 􀀫⁆
-
-**A Cross Product Formula**
-
-⁅𝐕₁ ×𝐕₂ =
-\begin{vmatrix}
-𝐢              &        𝐣       & 𝐤   ↵
-(∂X)∕(∂u) &  (∂Y)∕(∂u) & 0  ↵
-(∂X)∕(∂v) &  (∂Y)∕(∂v) & 0
-\end{vmatrix}⁆
-
-**A Rogers-Ramanujan Identity**
-
-⁅1 +  (q²)∕[(1-q)] + (q⁶)∕[(1-q)(1-q²)] + ⋯ = ↵
-∏₌₀^∞ 1∕[(1-q⁵⁺⁲)(1-q⁵⁺⁳)], &&"for $|q|<1$"]⁆
-
-**Maxwell’s Equations**
-
-⁅∇×𝐁⃗ -  1∕c  (∂𝐄⃗)∕(∂t) & = (4π)∕c 𝐣⃗ ↵
-∇⋅𝐄⃗ & = 4 πρ ↵
-∇×𝐄⃗  +  1∕c  (∂𝐁⃗)∕(∂t) & = 𝟎⃗ ↵
-∇⋅𝐁⃗ & = 0⁆
-            </textarea>
+        <div class="col-md-6" style="border: 1px black solid; padding:0px; margin:0px; width:37%;">
+            <textarea id="text"  spellcheck='false' placeholder="Press and hold a key to select a math symbol. For example, hold R to get ℝ or a to get α. Wrap the symbol in $...$ to get LaTeX output."></textarea>
             <textarea id="text2" spellcheck='false' ></textarea>
             <textarea id="text3" spellcheck='false' ></textarea>
 
 
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" style="width:63%;">
             <div class="tab-content">
                 <div id="preview" class="tab-pane active">
                     <div id="preview1"></div>
@@ -142,17 +119,20 @@
                     <div id="preview3"></div>
                 </div>
                 <div id="latextab" class="tab-pane">
-                    <pre id="latexpre"><code id="latex"></code></pre>
+                    <code style="display:none;" id="latex"></code>
+          <pre id="latexpre">
+          </pre>
                 </div>
                 <div id="markdowntab" class="tab-pane">
                     <pre id="markdownpre"><code id="markdown"></code></pre>
                 </div>
             </div>
+
         </div>
     </div>
     <p>
         <br>
-        <input type ="checkbox" id="textarea2"/> Show extra textareabox. <br>
+        <input type ="checkbox" checked id="textarea2"/> Show extra textareabox. <br>
         <input type ="checkbox" id="textarea3"/> Show extra textareabox. <br>
     </p>
     <p>Click <a href="example.html">here</a> or <a href="example2.html">here</a> for a CoffeeTeX examples.</p>

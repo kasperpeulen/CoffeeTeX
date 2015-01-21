@@ -11,7 +11,7 @@ var tex_to_ctex = function () {
   //}
   var m,newmacro,re ;
   if (!activeElement){
-    activeElement = $('textarea');
+    activeElement = $('#text');
   }
 
   var textarea = $(activeElement).val();
@@ -22,11 +22,12 @@ var tex_to_ctex = function () {
   var oldlength = textarea.length;
 
 
-    if (/Thm.|Def.|Prop.|Proof./g.test(textarea)){1
+    if (/Thm.|Def.|Prop.|Proof.|Ex./g.test(textarea)){1
         textarea = textarea.replace("Thm.","⟦𝐓𝐡𝐞𝐨𝐫𝐞𝐦.\n\n⟧");
         textarea = textarea.replace("Def.","⟦𝐃𝐞𝐟𝐢𝐧𝐢𝐭𝐢𝐨𝐧.\n\n⟧");
         textarea = textarea.replace("Prop.","⟦𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧.\n\n⟧");
         textarea = textarea.replace("Proof.","⟦𝐏𝐫𝐨𝐨𝐟.\n\n⟧");
+        textarea = textarea.replace("Ex.","⟦𝐄𝐱𝐞𝐫𝐜𝐢𝐬𝐞.\n\n⟧");
         caret += -2;
     }
 
@@ -103,10 +104,11 @@ var tex_to_ctex = function () {
     else if (m === "begin" || m ==="end") {
         textarea = textarea.replace(/\\(begin)({(align|aligned|gather|equation)\*?}\n?)/g,"⁅");
         textarea = textarea.replace(/\n?\\(end)({(align|aligned|gather|equation)\*?})/g,"⁆");
-        textarea = textarea.replace(/\\begin{thm}\n?([\s\S]+?)\n?\\end{thm}/g,"⟦𝐓𝐡𝐞𝐨𝐫𝐞𝐦. $1⟧");
-          textarea = textarea.replace(/\\begin{proof}\n?([\s\S]+?)\n?\\end{proof}/g,"⟦𝐏𝐫𝐨𝐨𝐟. $1⟧");
-          textarea = textarea.replace(/\\begin{prop}\n?([\s\S]+?)\n?\\end{prop}/g,"⟦𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧. $1⟧");
-          textarea = textarea.replace(/\\begin{defn}\n?([\s\S]+?)\n?\\end{defn}/g,"⟦𝐃𝐞𝐟𝐢𝐧𝐢𝐭𝐢𝐨𝐧. $1⟧");
+        textarea = textarea.replace(/\\begin{thm}(\[.+?\])?\n?([\s\S]+?)\n?\\end{thm}/g,"⟦𝐓𝐡𝐞𝐨𝐫𝐞𝐦$1\n$2\n⟧");
+          textarea = textarea.replace(/\\begin{vraag}(\[.+?\])?\n?([\s\S]+?)\n?\\end{vraag}/g,"⟦𝐄𝐱𝐞𝐫𝐜𝐢𝐬𝐞$1\n$2\n⟧");
+          textarea = textarea.replace(/\\begin{opl}(\[.+?\])?\n?([\s\S]+?)\n?\\end{opl}/g,"⟦𝐏𝐫𝐨𝐨𝐟.$1\n$2\n⟧");
+          textarea = textarea.replace(/\\begin{prop}\n?([\s\S]+?)\n?\\end{prop}/g,"⟦𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧.\n$1\n⟧");
+          textarea = textarea.replace(/\\begin{defn}\n?([\s\S]+?)\n?\\end{defn}/g,"⟦𝐃𝐞𝐟𝐢𝐧𝐢𝐭𝐢𝐨𝐧.\n$1\n⟧");
 
       }
       else if (m === "mathbb" || m === "Bbb") {

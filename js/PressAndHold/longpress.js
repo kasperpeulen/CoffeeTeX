@@ -97,8 +97,37 @@ strVar += "}";
 strVar += "<\/style>";
 $(document).ready(function() {
     var tail = $('<div class="tail" style="position: absolute; z-index:1000;"></div> ');
+
+    var mathoperators="";
+    mathoperators += "<div style=\"display:none\">";
+    mathoperators += "    $";
+    mathoperators += "    \\DeclareMathOperator{\\Rad}{Rad}";
+    mathoperators += "    \\DeclareMathOperator{\\End}{End}";
+    mathoperators += "    \\DeclareMathOperator{\\Ker}{Ker}";
+    mathoperators += "    \\DeclareMathOperator{\\Imm}{Im}";
+    mathoperators += "    \\DeclareMathOperator{\\I}{Im}";
+    mathoperators += "    \\DeclareMathOperator{\\Hom}{Hom}";
+    mathoperators += "    \\DeclareMathOperator{\\op}{op}";
+    mathoperators += "    \\DeclareMathOperator{\\Mat}{Mat}";
+    mathoperators += "    \\DeclareMathOperator{\\Irr}{Irr}";
+    mathoperators += "    \\DeclareMathOperator{\\Id}{Id}";
+    mathoperators += "    \\DeclareMathOperator{\\Arg}{Arg}";
+    mathoperators += "    \\DeclareMathOperator{\\im}{Im}";
+    mathoperators += "    \\DeclareMathOperator{\\re}{Re}";
+    mathoperators += "    \\newenvironment{framed}{}{}";
+    mathoperators += "    $";
+    mathoperators += "<\/div>";
+
     $('body').append(tail);
+    $('body').append(mathoperators);
     $('head').append(strVar);
+    var latexpre = "<code class=\"latex\"><code id=\"title2\"><\/code>\\begin{opg}\n<\/code><\/code><code id=\"latex1\">  <\/code><code class=\"latex\">\n";
+    latexpre += "";
+    latexpre += "\t\\begin{tools}";
+    latexpre += "<\/code><code id=\"latex2\"><\/code><code class=\"latex\">";
+    latexpre += "\n\t\\end{tools}\n\\end{opg}<\/code>";
+
+    $('#latexpre').append(latexpre);
     $("#checkbox").change(function() {
         if(! this.checked) {
             $('#latex').css('display','none');
@@ -131,104 +160,8 @@ var activeElement;
     var pluginName = 'longPress',
         document = window.document,
         defaults = {};
-    var moreChars = {
-        'A': '{𝐴}∀{𝒜}{𝔄}',
-        'B': 'ℬ{𝔅}⨁',
-        'C': 'ℂ{𝒞}∐',
-        'D': '{𝒟}{𝔇}Δ∩',
-        'E': '∅ℰ',
-        'F': 'ℱ',
-        'G': 'Γ{𝒢}{𝔊}∇∠∟⟂∥∦∝⊿⊾⦜⦝',
-        'H': 'ℋ',
-        'I': '{𝐼}ℐℑ∩∫∬∭⨌∮∯∰',
-        'J': '{𝒥}{𝔍}',
-        'K': '{𝒦}{𝔎}',
-        'L': 'ℒ{𝔏}¬∀∃∄∴∵∧∨⊨⊭⋀⋁',
-        'M': 'ℳ{𝔐}',
-        'N': 'ℕℵ{𝒩}{𝔑}',
-        'O': 'Ω{𝒪}⊕⊖⊗⊘⊙⊚⊛⊜⊝',
-        'P': '∏ΠΦΨℙ{𝒫}',
-        'Q': 'ℚ{𝑄}{𝒬}∎',
-        'R': 'ℝℛ',
-        'S': '{𝑆}∑Σ{𝒮}⅀',
-        'T': '⊤⊥⊢⊣⊧⊨⊩{𝒯}',
-        'U': '{𝑈}{𝒰}∪∩⊔⊓⋃⋂⨆⨅',
-        'V': '{𝑉}{𝒱}Ʋ',
-        'W': '{𝑊}{𝒲}',
-        'X': 'Ξ{𝒳}⨉',
-        'Y': '{𝒴}',
-        'Z': 'ℤ{𝒵}',
-        'a': 'α{𝑎}∀∧∠{𝔞}',
-        'b': 'β{𝑏}{𝔟}',
-        'c': 'χ{𝔠}↯∮',
-        'd': 'δ{𝔡}∂º∬',
-        'e': 'ϵε∃∄∅',
-        'f': 'ϕφ',
-        'g': 'γ{𝔤}',
-        'h': 'η{𝔥}†♡♥',
-        'i': '∈∉ι∫∞∋∌∩',
-        'j': '{𝔧}',
-        'k': '{𝑘}κ',
-        'l': 'λℓ{𝔩}',
-        'm': 'μ{𝔪}',
-        'n': 'ⁿν{𝔫}¬∇',
-        'o': 'ω{𝔬}∨°',
-        'p': 'πϕφψ{𝔭}',
-        'q': '{𝔮}∎',
-        'r': 'ρ{𝔯}',
-        's': 'σ{𝔰}√∛∜∑∵',
-        't': 'τθ{𝔱}∴',
-        'u': 'υ{𝔲}∪∩⊔⊓',
-        'v': 'ʋ',
-        'w': 'ω⚠',
-        'x': '{𝑥}ξ×⨉⊗ₓ',
-        'y': '{𝑦}',
-        'z': 'ζ',
-        '$': '{⁅⁆}',
-        '%': '‰‱',
-        '#': '◻⊞⊟⊠⊡⧇⧈⧅⧆',
-        '.': '…⋯⋰⋱⋮·∘∙',
-        ':': '∷≐≑≒≓≔≕∺∻∴∵', //∶
-        '+': '±∓⊕₊⁺',
-        '-': '{⁻¹}‾⏞', //⏜⎴
-        '\'': '\u0301\u0304\u0307\u0309\u030A\u20f0',
-        '`': '\u0300', //\u20d0\u20d1\u20ec\u20ed',
-        '~': '\u0303\u0330',
-        '"': '\u0308\u20db\u20dc\u20e8\u20e1\u20e7\u20e9\u0331',
-        '_': '↙₋▁\u23DF', //┬⏝⎵
-        '{': //{􀀀}
-         "❴{􀀁}{􀀂}{􀀃}{􀀄}", //{􀀅}{􀀆}",//'❴⟨⌈⌊⟪⟦⦇⦉',
-        '}': //"{􀀇}
-        "❵{􀀈}{􀀉}{􀀊}{􀀋}",//{􀀌}{􀀍}",//'❵⟩⌉⌋⟫⟧⦈⦊',
-        '[': //"{􀀐}
-        "⁅{􀀑}{􀀒}{􀀓}{􀀔}",//{􀀕}{􀀖}",//'⁅❴⟨⌈⌊⟮⟪⟦⦇⦉',
-        ']': //"{􀀗}
-        "⁆{􀀘}{􀀙}{􀀚}{􀀛}",//{􀀜}{􀀝}",//'⁆❵⟩⌉⌋⟯⟫⟧⦈⦊',
-        '(' : //'{􀀡}
-        "⦅{􀀢}{􀀣}{􀀤}{􀀥}",//{􀀦}{􀀧}',
-        ')' : //'{􀀨}
-        "⦆{􀀩}{􀀪}{􀀫}{􀀬}",//{􀀭}{􀀮}',
-        '|': '∣∤∥∦',
-        '\\': '∖',
-        '/': '∕÷¦',
-        '<': '≤⟨⊆⊂←↤⇐⟸⊲',
-        '>': '≥⟩⊇⊃→↦⇒⟹⊳\u27F5',
-        '->': '→↦⇒⟹\u27F6',
-        '=': '\u208C≠≈≅≃≡↔⟺⇔≟≝≔≞⇕\u207C',
-        '1': '₁¹',
-        '2': '₂²',
-        '3': '₃³',
-        '4': '₄⁴',
-        '5': '₅⁵',
-        '6': '₆⁶',
-        '7': '₇⁷',
-        '8': '₈⁸',
-        '9': '₉⁹',
-        '0': '₀⁰',
-        '*': '·∘∙⋄×⨉⊗⊙⨀',
-        '^': '↖\u0302\u030C\u20d7\u0306', //┴,
-        ' ' : '\u00A0\u2009\u205f\u2005\u2003{\u2003\u2003}'
-    };
+    var moreChars = markovChars;
+
     var ignoredKeys = [8, 13, 37, 38, 39, 40];
     var selectedCharIndex;
     var lastWhich;
@@ -284,6 +217,12 @@ else{
                 var textAreaTxt = textArea.split("");
                 var caretPos = getCaretPosition(activeElement);
                 var newCaretPos = textArea.substring(caretPos-1).indexOf("⁆") + caretPos;
+                var newCaretPos2 = textArea.substring(caretPos-1).indexOf("∕") + caretPos;
+                console.log(newCaretPos,newCaretPos2,textArea.substring(caretPos-1));
+                if (newCaretPos2 < newCaretPos && newCaretPos2 > caretPos )
+                    {
+                        newCaretPos = newCaretPos2;
+                    }
 
                 if ( newCaretPos === textAreaTxt.length || textAreaTxt[newCaretPos] === "\n"){
                     textAreaTxt[newCaretPos-1] += " ";
@@ -440,10 +379,14 @@ else{
         var caretPos = getCaretPosition(activeElement);
         typedChar = text[caretPos- 1];
         if (typedChar === ">"){
-            if( text[caretPos-2] === "-" ||text[caretPos-2] === "=" ){
+            if( text[caretPos-2] === "-" ){
             typedChar = "->";
             }
+            else if (text[caretPos-2] === "="){
+                typedChar = "=>";
+            }
         }
+
         if (moreChars[typedChar]) {
             showPopup((moreChars[typedChar]));
         } else {}
@@ -571,11 +514,17 @@ else{
         else {
         var endString = $('.long-press-letter.selected').text().indexOf((i+1).toString());
         var newChar = $('.long-press-letter.selected').text().substring(0, endString);
+
         }
 
         var pos = getCaretPosition(activeElement);
         var arVal = $(activeElement).val().split('');
-        if (newChar.length == 2 && (oldCharlength == 1 || arVal[pos - 1] == typedChar)) {
+
+        if (newChar == "∕" && arVal[pos-3] == "(" ) {
+            arVal[pos - 1] = newChar + "()";
+            caretposition = pos -2 ;
+        }
+        else if (newChar.length == 2 && (oldCharlength == 1 || arVal[pos - 1] == typedChar)) {
 
             arVal[pos - 1] = newChar[0];
             arVal.splice(pos, 0, newChar[1]);

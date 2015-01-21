@@ -13,7 +13,7 @@
             // Font stuff.
             , 'font-family', 'font-size', 'font-style', 'font-variant', 'font-weight'
             // Spacing etc.
-            , 'word-spacing', 'letter-spacing', 'line-height', 'text-decoration', 'text-indent', 'text-transform'
+            , 'word-spacing', 'letter-spacing', 'text-decoration', 'text-indent', 'text-transform'
             // The direction.
             , 'direction'
         ];
