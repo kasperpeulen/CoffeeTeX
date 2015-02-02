@@ -64,6 +64,8 @@ var ctex_to_tex = function (){
     }
 
 
+    textarea = textarea.replace(/(_)(\d*?)(\s|\^|⁆|\$)/g,'$1{$2}$3');
+    textarea = textarea.replace(/(\^)(\d*?)(\s|\_|⁆|\$)/g,'$1{$2}$3');
 
     //while (binreg("∕").test(textarea)){
         //textarea = textarea.replace(binreg("∕"),'\\frac{$1$2}{$3$4}');
@@ -74,6 +76,7 @@ var ctex_to_tex = function (){
 
 
     var text = textarea.split('');
+
     for (var index = 0; index < text.length; index++) {
         var sub,endindex,endindex2,reg,innermath;
         if (text[index] === "⁅") {
@@ -84,16 +87,17 @@ var ctex_to_tex = function (){
             if (endindex !==-1 &&  endindex2 < endindex) {
 
                 var innermath = sub.substring(0, endindex);
-                if (innermath.indexOf("&") !== -1 && innermath.indexOf("case") == -1) {
+
+                if ((innermath.indexOf("≞") !== -1 || innermath.indexOf("&") !== -1) && (innermath.indexOf("case") == -1)){
 
                         if (text[index + endindex+2] === "\n") text[index + endindex+2] = "";
 
                     if (part === 1) {
-                        text[index + endindex] = "\n\\end{align*}";
+                        text[index + endindex] = "\\end{align*}";
                         text[index] = "\\begin{align*}\n";
                     }
                     else if (part === 2) {
-                        text[index + endindex] = "\n\\end{align*}\\end{framed}";
+                        text[index + endindex] = "\\end{align*}\\end{framed}";
                         text[index] = "\\begin{framed}\\begin{align*}\n";
                     }
                     if (text[index-2] === "\n") text[index-2] = "";
@@ -105,11 +109,11 @@ var ctex_to_tex = function (){
 
                     if (text[index + endindex+2] === "\n") text[index + endindex+2] = "";
                     if (part === 1){
-                        text[index + endindex] = "\n\\end{gather*}";
+                        text[index + endindex] = "\\end{gather*}";
                         text[index] = "\\begin{gather*}\n";
                     }
                     else if (part ===2){
-                        text[index + endindex] = "\n\\end{gather*}\\end{framed}";
+                        text[index + endindex] = "\\end{gather*}\\end{framed}";
                         text[index] = "\\begin{framed}\\begin{gather*}\n";
                     }
 
@@ -445,8 +449,12 @@ var ctex_to_tex = function (){
       return "_{"+$1.replace(/_\{(.)\}/g,"$1")+"}";
     });
 
-    textarea = textarea.replace(/(_)(\d*?)(\s|\^|⁆|\$)/g,'$1{$2}$3');
-    textarea = textarea.replace(/(\^)(\d*?)(\s|\_|⁆|\$)/g,'$1{$2}$3');
+
+    textarea = textarea.replace(/∑(n|k|i)(\d)/g,"∑_{$1=$2}^∞");
+    textarea = textarea.replace(/limn/g,"lim_{n→∞}");
+    textarea = textarea.replace(/≞/g,'&=');
+
+
 
     textarea = textarea.replace(/"(\w+)"(\(|\[|\{)/g,'\\mathop{\\mathrm{$1}}$2');
     textarea = textarea.replace(/"([^"]+)"/g,'\\text{$1}');
@@ -457,7 +465,7 @@ var ctex_to_tex = function (){
         textarea = textarea.replace(/⁆/g,"\\)");
     }
     else if (part ===2){
-        textarea = textarea.replace(/[\n\n]?\n?^⁅([^⁅⁆]*?)⁆$[\n\n]?/gm,"\\begin{framed}\\begin{equation*}\n$1\n\\end{equation*}\\end{framed}");
+        textarea = textarea.replace(/[\n\n]?\n?^⁅([^⁅⁆]*?)⁆$[\n\n]?/gm,"\\begin{framed}\\begin{equation*}$1\\end{equation*}\\end{framed}");
         textarea = textarea.replace(/⁅/g,"\\begin{framed}\\(");
         textarea = textarea.replace(/⁆/g,"\\)\\end{framed}");
     }

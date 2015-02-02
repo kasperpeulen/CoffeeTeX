@@ -271,7 +271,7 @@ var tex2unicode = {
   'Bigg❵' : '􀀋',
 
   quad : "2003",
-
+  qquad : "▭",
   "texttrademark": "™",
   "trademark": "™",
   "textregistered": "®",

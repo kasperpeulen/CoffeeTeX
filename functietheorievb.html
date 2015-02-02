@@ -127,8 +127,30 @@
     </div>
     <div class="row">
         <div class="col-md-6" style="border: 1px black solid; padding:0px; margin:0px; width:37%;">
-            <textarea id="text"  spellcheck='false' placeholder=""></textarea>
-            <textarea id="text2" spellcheck='false' ></textarea>
+            <textarea id="text"  spellcheck='false' placeholder="">⟦𝐄𝐱𝐞𝐫𝐜𝐢𝐬𝐞.[Opgave 1.19]
+Gegeven is de reeks:
+⁅∑n1 ((-1)^nz^{-n})∕((2n+1)!)-∑_{n=1}^∞ (z^{n-1})∕(n).⁆
+Bepaal het convergentiegebied en de somfuncte van deze reeks.
+⟧
+
+⟦𝐏𝐫𝐨𝐨𝐟.
+⁅∑n1 ((-1)^n z^{-n})∕((2n+1)!) ≞ ∑n1 ((-1)^n (1∕(√z))^{2n})∕((2n+1)!) ↵
+≞ √z ∑n1 ((-1)^n (ż)^{2n+1})∕((2n+1)!) ↵
+≞ √z 􀀤sin ż - ∑_{n=0}((-1)^n (ż)^{2n+1})∕((2n+1)!) 􀀫 ↵
+≞ √z (sin ż - ż)  ↵
+≞ √z sin 􀀣1∕(√z)􀀪-1⁆
+
+Deze reeks convergeert als ⁅1∕(√z)∈ℂ,⁆ dus als ⁅z≠0.⁆
+
+⁅∑n1 (z^{n-1})∕(n) ≞ ∑n0 (z^n)∕(n+1) ↵
+≞ ∑n0 ((-1)^n (-z)^n)∕(n+1) ↵
+≞ 1∕(-z) ∑n0 ((-1)^n (-z)^{n+1})∕(n+1) ↵
+≞ 1∕(-z) log (1-z)⁆
+
+Deze reeks convergeert als ⁅|-z|<1.⁆ Dus als ⁅|z|<1.⁆ De gehele reeks convergeert dus als ⁅0<|z|<1.⁆
+⟧            </textarea>
+            <textarea id="text2" spellcheck='false' >⁅sin z = ∑n0 ((-1)^n z^{2n+1})∕((2n+1)!) \qquad ∀z∈ℂ⁆
+⁅log (1+z) = ∑n0 ((-1)^n z^{n+1})∕(n+1) \qquad ∀z:|z|<1⁆</textarea>
             <textarea id="text3" spellcheck='false' ></textarea>
 
 

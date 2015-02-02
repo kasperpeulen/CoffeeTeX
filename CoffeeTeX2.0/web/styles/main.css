@@ -1,0 +1,103 @@
+
+body {
+    background-color: #F8F8F8;
+    font-family: 'LMMath-bbfix','Open Sans', sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 1.2em;
+    margin: 15px;
+}
+
+h1, p {
+    color: #333;
+}
+
+textarea {
+    font-size: 18px;
+    font-family: LMMath-bbfix;
+    width:500px;
+    height:500px;
+}
+
+#char_list {
+    margin:0px;
+    padding:0px;
+    display: inline;
+    list-style-type: none;
+}
+
+#char_list li {
+    margin:0px;
+    padding:0px;
+    display: inline;
+    list-style-type: none;
+}
+
+#popup {
+    display: none;
+    position: absolute;
+}
+
+#char_list {;
+    -moz-box-shadow: 0px 1px 3px 1px lightgray;
+    -webkit-box-shadow: 0px 1px 3px 1px lightgray;
+    box-shadow: 0px 2px 3px 0px lightgrey;
+    position: relative;
+    padding: 2px;
+    background: #FEFFFF;
+    font-size: 12pt;
+    border: 1px #C1D7FD solid;
+    list-style-type: none;
+    display: inline-block;
+    border-radius: 5px;
+
+}
+#char_list  li {;
+    position: relative;
+    line-height: 21px;
+    border: 1px white solid;
+    border-radius: 4px;
+    background: white;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    color: #0A7ED0;
+    text-align: center;
+    display: inline-block;
+    min-width: 24px;
+}
+#char_list p{
+    border: 1px #B9D6F0 solid;
+    background: #E5F1FE;
+    color: #0A7ED0;
+}
+#char_list .selected {
+    border: 1px #B9D6F0 solid;
+    background: #E5F1FE;
+    color: #0A7ED0;
+}
+
+@font-face {
+
+    font-family: "LMMath-bbfix";
+    src: url("LMMath-bbfix.woff") format("woff");
+}
+@font-face {
+    font-family: "Latin-Modern";
+    src: url("lmroman10-regular.otf");
+}
+@font-face {
+    font-family: "Latin-Modern";
+    src: url("lmroman10-bold.otf");
+    font-weight: bold;
+}
+@font-face {
+    font-family: "Latin-Modern";
+    src: url("lmroman10-italic.otf");
+    font-style: italic;
+}
+@font-face {
+    font-family: "Latin-Modern";
+    src: url("lmroman10-bolditalic.otf");
+    font-weight: bold;
+    font-style: italic;
+}

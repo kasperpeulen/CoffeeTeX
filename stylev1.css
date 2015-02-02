@@ -24,7 +24,41 @@ pre code#latex2{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
 pre code#title2{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
 pre code.latex{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
 
+#all_latex{
+    overflow:hidden;
+    height:1px;
+    margin:0px;
+    padding: 0px;
+    border: 0px;
+    background-color: white;
+}
+.checksquare, .question {
+    font-size: 1.45em;
+}
+
+li .fa-check-square-o {
+    color: green;
+}
+li .fa-question{
+    color: red;
+}
+a.checksquare .fa-check-square-o a.question .fa-question {
+    display: none;
+}
+a.checksquare .fa-square-o {
+    display: inline;
+}
+
 div#preview2 div { border: 1px solid black; padding-top:17px; padding-bottom:17px;}
+div#theorems div  { border: 1px solid black; padding-top:5px; padding-bottom:5px; margin:-1px;}
+div#theorems a {
+    color :black;
+}
+div#theorems {
+    padding: 20px;
+
+}
+
 pre code#markdown{ width:98%; font-family: LMMath-bbfix; font-size: 17px; }
 pre#latexpre { min-height: 950px; width: 98%; overflow: hidden; font-family: LMMath-bbfix; font-size: 17px; }
 pre#markdownpre { min-height: 950px; width: 98%; overflow: hidden; }
@@ -68,3 +102,43 @@ span.timing { font-weight: bold; }
     font-weight: bold;
     font-style: italic;
 }
+
+.round-button {
+    width:150px;
+}
+.round-button-circle {
+    width: 100%;
+    height:0;
+    padding-bottom: 100%;
+    border-radius: 50%;
+    border:10px solid #cfdcec;
+    overflow:hidden;
+
+    background: #4679BD;
+    box-shadow: 0 0 3px gray;
+}
+.round-button-circle:hover {
+    background:#30588e;
+}
+
+a:hover { text-decoration: none !important;
+}
+
+.round-button a {
+    display:block;
+    float:left;
+    width:100%;
+    padding-top:50%;
+    padding-bottom:50%;
+    line-height:1em;
+    margin-top:-0.5em;
+
+    text-align:center;
+    color:#e2eaf3;
+    font-family:Verdana;
+    font-size:1.2em;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+

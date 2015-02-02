@@ -22,7 +22,7 @@ var tex_to_ctex = function () {
   var oldlength = textarea.length;
 
 
-    if (/Thm.|Def.|Prop.|Proof.|Ex./g.test(textarea)){1
+    if (/Thm.|Def.|Prop.|Proof.|Ex./g.test(textarea)){
         textarea = textarea.replace("Thm.","⟦𝐓𝐡𝐞𝐨𝐫𝐞𝐦.\n\n⟧");
         textarea = textarea.replace("Def.","⟦𝐃𝐞𝐟𝐢𝐧𝐢𝐭𝐢𝐨𝐧.\n\n⟧");
         textarea = textarea.replace("Prop.","⟦𝐏𝐫𝐨𝐩𝐨𝐬𝐢𝐭𝐢𝐨𝐧.\n\n⟧");
@@ -31,10 +31,17 @@ var tex_to_ctex = function () {
         caret += -2;
     }
 
+    textarea = textarea.replace(/&=/g,"≞");
+    if (/\"\"/g.test(textarea)){
+        textarea = textarea.replace(/\"\"/g,"\"  \"");
+        caret += -2;
+    }
+
 
     for (var i = 0; i < textarea.length; i++) {
 
     if (textarea[i] === "\\" ) {
+        console.log(caret,i);
       if (caret > i+2 || caret === textarea.length ){
       textarea = textarea.replace("\\{","❴").replace(/\\}/g,"❵").replace(/\\\(/g,"⁅").replace(/\n?\\\[\n?/g,"\n⁅").replace(/\n?\\\]\n?/g,"⁆\n").replace(/\\\)/g,"⁆").replace(/\\\\/g,"↵");
       }
@@ -192,7 +199,7 @@ var tex_to_ctex = function () {
       }
 
     }
-    else if ( textarea[i] === "^") {
+    else if ( textarea[i] === "^" && (caret > i+1 || caret === textarea.length )) {
         if (textarea[i+1] ==="{" && textarea[i+3]==="}" && false){
             m = textarea[i]+textarea[i+2];
 
@@ -206,7 +213,7 @@ var tex_to_ctex = function () {
         continue;
       }
     }
-    else if (textarea[i] === "_" ) {
+    else if (textarea[i] === "_" && (caret > i+1 || caret === textarea.length )) {
         if (textarea[i+1] ==="{" && textarea[i+3]==="}" && false){
             m = textarea[i]+textarea[i+2];
         }

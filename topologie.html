@@ -1,15 +1,45 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>CoffeeTeX Unicode Editor</title>
+    <title></title>
     <link href="stylev1.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <script>
+        var vak = location.pathname.substring(location.pathname.lastIndexOf("/") + 1,location.pathname.lastIndexOf("."));
+    </script>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.autosize.min.js"></script>
+    <link rel="shortcut icon" href="ico.png" />
     <script>    $(function(){
         $('#text').autosize();
         $('#text2').autosize();
         $('#text3').autosize();
-    });</script>
+        var mathoperators="";
+        mathoperators += "<div style=\"display:none\">";
+        mathoperators += "    $";
+        mathoperators += "    \\DeclareMathOperator{\\Rad}{Rad}";
+        mathoperators += "    \\DeclareMathOperator{\\End}{End}";
+        mathoperators += "    \\DeclareMathOperator{\\Ker}{Ker}";
+        mathoperators += "    \\DeclareMathOperator{\\Imm}{Im}";
+        mathoperators += "    \\DeclareMathOperator{\\I}{Im}";
+        mathoperators += "    \\DeclareMathOperator{\\Hom}{Hom}";
+        mathoperators += "    \\DeclareMathOperator{\\op}{op}";
+        mathoperators += "    \\DeclareMathOperator{\\Mat}{Mat}";
+        mathoperators += "    \\DeclareMathOperator{\\Irr}{Irr}";
+        mathoperators += "    \\DeclareMathOperator{\\Id}{Id}";
+        mathoperators += "    \\DeclareMathOperator{\\Arg}{Arg}";
+        mathoperators += "    \\DeclareMathOperator{\\im}{Im}";
+        mathoperators += "    \\DeclareMathOperator{\\re}{Re}";
+        mathoperators += "    \\newenvironment{framed}{}{}";
+        mathoperators += "    $";
+        mathoperators += "<\/div>";
+
+
+        $('body').append(mathoperators);
+    });
+
+    </script>
 
     <script src="js/bootstrap.js"></script>
     <link href="js/bootstrap.css" rel="stylesheet">
@@ -39,56 +69,110 @@
 
         $(document).ready(function() {
 
-            function copyToClipboard(text) {
-                window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
-            }
+            $("#title").attr("name", vak);
 
-            $('a[href="#latextab"]').click(function() {
-                copyToClipboard($('#latexpre').text());
+            $('a[href="#latextab"]').mouseup(function() {
+                function SelectText(element) {
+                    var doc = document
+                            , text = doc.getElementById(element)
+                            , range, selection
+                            ;
+                    if (doc.body.createTextRange) {
+                        range = document.body.createTextRange();
+                        range.moveToElementText(text);
+                        range.select();
+                    } else if (window.getSelection) {
+                        selection = window.getSelection();
+                        range = document.createRange();
+                        range.selectNodeContents(text);
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    }
+                }
+                setTimeout(function() {
+                    SelectText('latexpre');
+                }, 50);
             });
 
-            $("#title").change(function() {
-                document.title = $('#title').val();
-                localStorage.title1 = document.title;
-            });
-
-            if ($('#title').val() === ""){
-                document.title = localStorage.title1;
-                $("#title").val(localStorage.title1);
-            }
-
-            if ($("#text").val() === "") {
-                $("#text").val(localStorage["Topologie|"+document.title]);
-            }
-            if ($("#text2").val() === "") {
-                $("#text2").val(localStorage.workplace1b);
-            }
-            if ($("#text3").val() === "") {
-                $("#text3").val(localStorage.workplace1c);
-            }
 
             $( "#text" ).keydown(function() {
-                console.log(document.title);
-                localStorage["Topologie|"+document.title] = $("#text").val();
+                  localStorage[vak+"|"+document.title+"|1"] = $("#text").val();
             });
             $( "#text2" ).keydown(function() {
-                localStorage.workplace1b = $("#text2").val();
+                localStorage[vak+"|"+document.title+"|2"] = $("#text2").val();
             });
             $( "#text3" ).keydown(function() {
-                localStorage.workplace1c = $("#text3").val();
+                localStorage[vak+"|"+document.title+"|3"] = $("#text3").val();
             });
+
+            if (localStorage[vak+"|"+document.title+"|check"] === "y"){
+                $("a.checksquare .fa-check-square-o").css("display", "inline");
+                $("a.checksquare .fa-square-o").css("display", "none");
+            }
+            else{
+                $("a.checksquare .fa-check-square-o").css("display", "none");
+                $("a.checksquare .fa-square-o").css("display", "inline");
+            }
+
+            $( ".checksquare" ).click(function() {
+                if (localStorage[vak+"|"+document.title+"|check"] === "y"){
+                    localStorage[vak+"|"+document.title+"|check"] = "n";
+                    $("a.checksquare .fa-check-square-o").css("display", "none");
+                    $("a.checksquare .fa-square-o").css("display", "inline");
+                }
+                else {
+                    localStorage[vak+"|"+document.title+"|check"] = "y";
+                    $("a.checksquare .fa-check-square-o").css("display", "inline");
+                    $("a.checksquare .fa-square-o").css("display", "none");
+                }
+
+            });
+
+            if (localStorage[vak+"|"+document.title+"|question"] === "y"){
+                $("a.question .fa-question").css("color", "red");
+            }
+            else{
+                $("a.question .fa-question").css("color", "grey");
+            }
+
+
+            $( ".question" ).click(function() {
+                if (localStorage[vak+"|"+document.title+"|question"] === "y"){
+                    localStorage[vak+"|"+document.title+"|question"] = "n";
+                    $("a.question .fa-question").css("color", "grey");
+                }
+                else {
+                    localStorage[vak+"|"+document.title+"|question"] = "y";
+                    $("a.question .fa-question").css("color", "red");
+                }
+
+            });
+
         });
+        function ajaxit() {
+            var iFrameWindow = document.getElementById("myframe").contentWindow;
+            iFrameWindow.document.body.appendChild( document.getElementById("myform").cloneNode(true));
+            var frameForm = iFrameWindow.document.getElementById("myform");
+            frameForm.onsubmit = null;
+            frameForm.submit();
+            return false;
+        }
 
     </script>
 
 
 </head>
-<body
+<body>
 <div class="container" style="width:1420px;">
     <div class="row">
         <div class="col-md-6" style="padding:0px; width:37%;">
             <h1>
-                <input style="border:none;" id="title" size="15" type="text" value="">
+                <form style="margin:0" id="myform" onsubmit="return ajaxit();" autocomplete="on">
+                    <input autocomplete="on" style="border:none;" placeholder="Type a title" id="title" size="15" type="text" value="">
+                    <input style="visibility:hidden; display:none;" type="submit">
+                </form>
+                <iframe style="display:none;" id="myframe" src=""></iframe> <!-- you'll want this hidden -->
+
             </h1>
         </div>
         <div class="col-md-4" style="width:63%;">
@@ -96,6 +180,10 @@
                 <li class="active"><a href="#preview" role="tab" data-toggle="tab">Preview</a></li>
                 <li><a href="#latextab" role="tab" data-toggle="tab">LaTeX</a></li>
                 <li><a href="#markdowntab" role="tab" data-toggle="tab">Markdown</a></li>
+                <li><a class="checksquare"><i class="fa fa-square-o"></i>
+                    <i class="fa fa-check-square-o"></i></a></li>
+                <li><a class="question">
+                    <i class="fa fa-question"></i></a></li>
             </ul>
         </div>
         <div class="col-md-4">
@@ -105,7 +193,7 @@
     </div>
     <div class="row">
         <div class="col-md-6" style="border: 1px black solid; padding:0px; margin:0px; width:37%;">
-            <textarea id="text"  spellcheck='false' placeholder="Press and hold a key to select a math symbol. For example, hold R to get ℝ or a to get α. Wrap the symbol in $...$ to get LaTeX output."></textarea>
+            <textarea id="text"  spellcheck='false' placeholder=""></textarea>
             <textarea id="text2" spellcheck='false' ></textarea>
             <textarea id="text3" spellcheck='false' ></textarea>
 
@@ -120,8 +208,7 @@
                 </div>
                 <div id="latextab" class="tab-pane">
                     <code style="display:none;" id="latex"></code>
-          <pre id="latexpre">
-          </pre>
+          <pre id="latexpre">%</pre>
                 </div>
                 <div id="markdowntab" class="tab-pane">
                     <pre id="markdownpre"><code id="markdown"></code></pre>
@@ -130,12 +217,7 @@
 
         </div>
     </div>
-    <p>
-        <br>
-        <input type ="checkbox" checked id="textarea2"/> Show extra textareabox. <br>
-        <input type ="checkbox" id="textarea3"/> Show extra textareabox. <br>
-    </p>
-    <p>Click <a href="example.html">here</a> or <a href="example2.html">here</a> for a CoffeeTeX examples.</p>
+
 </div>
 </body>
 </html>

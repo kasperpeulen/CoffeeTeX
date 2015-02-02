@@ -97,29 +97,8 @@ strVar += "}";
 strVar += "<\/style>";
 $(document).ready(function() {
     var tail = $('<div class="tail" style="position: absolute; z-index:1000;"></div> ');
-
-    var mathoperators="";
-    mathoperators += "<div style=\"display:none\">";
-    mathoperators += "    $";
-    mathoperators += "    \\DeclareMathOperator{\\Rad}{Rad}";
-    mathoperators += "    \\DeclareMathOperator{\\End}{End}";
-    mathoperators += "    \\DeclareMathOperator{\\Ker}{Ker}";
-    mathoperators += "    \\DeclareMathOperator{\\Imm}{Im}";
-    mathoperators += "    \\DeclareMathOperator{\\I}{Im}";
-    mathoperators += "    \\DeclareMathOperator{\\Hom}{Hom}";
-    mathoperators += "    \\DeclareMathOperator{\\op}{op}";
-    mathoperators += "    \\DeclareMathOperator{\\Mat}{Mat}";
-    mathoperators += "    \\DeclareMathOperator{\\Irr}{Irr}";
-    mathoperators += "    \\DeclareMathOperator{\\Id}{Id}";
-    mathoperators += "    \\DeclareMathOperator{\\Arg}{Arg}";
-    mathoperators += "    \\DeclareMathOperator{\\im}{Im}";
-    mathoperators += "    \\DeclareMathOperator{\\re}{Re}";
-    mathoperators += "    \\newenvironment{framed}{}{}";
-    mathoperators += "    $";
-    mathoperators += "<\/div>";
-
     $('body').append(tail);
-    $('body').append(mathoperators);
+
     $('head').append(strVar);
     var latexpre = "<code class=\"latex\"><code id=\"title2\"><\/code>\\begin{opg}\n<\/code><\/code><code id=\"latex1\">  <\/code><code class=\"latex\">\n";
     latexpre += "";
@@ -218,11 +197,21 @@ else{
                 var caretPos = getCaretPosition(activeElement);
                 var newCaretPos = textArea.substring(caretPos-1).indexOf("⁆") + caretPos;
                 var newCaretPos2 = textArea.substring(caretPos-1).indexOf("∕") + caretPos;
-                console.log(newCaretPos,newCaretPos2,textArea.substring(caretPos-1));
+                var newCaretPos3 = textArea.substring(caretPos-1).indexOf("\"") + caretPos;
+                var newCaretPos4 = textArea.substring(caretPos-1).indexOf(")") + caretPos;
+                console.log("⁆"+newCaretPos,"/"+newCaretPos2,"\""+newCaretPos3,")"+newCaretPos4,caretPos);
                 if (newCaretPos2 < newCaretPos && newCaretPos2 > caretPos )
                     {
                         newCaretPos = newCaretPos2;
                     }
+                if (newCaretPos3 < newCaretPos && newCaretPos3 > caretPos )
+                {
+                    newCaretPos = newCaretPos3 -1;
+                }
+                if (newCaretPos4 < newCaretPos && newCaretPos4 > caretPos )
+                {
+                    newCaretPos = newCaretPos4 -1;
+                }
 
                 if ( newCaretPos === textAreaTxt.length || textAreaTxt[newCaretPos] === "\n"){
                     textAreaTxt[newCaretPos-1] += " ";

@@ -9,8 +9,6 @@ var reader = new stmd.DocParser();
 $(document).ready(function() {
 
 
-
-
     $(".timing").hide();
     var timer;
     var x;
@@ -68,6 +66,7 @@ $(document).ready(function() {
             var latex = TeX_writer.renderBlock(reader.parse(toParse));
             $("#latex").text(latex);
 
+            localStorage[vak+"|"+document.title+"|latex"] = $("#latexpre").text();
 
 
             toParse = toParse.replace(/\\begin{thm}\n([\s\S]+?)\s?\n\\end{thm}/g,"**Theorem.**  \n<em>$1</em>");
@@ -81,7 +80,15 @@ $(document).ready(function() {
             parsed = reader.parse(toParse);
             toParse = toParse.replace(/\\\(|\\\)/g,"$");
             toParse = toParse.replace(/\\\[|\\\]/g,"$$$");
+
             $("#markdown").text(toParse);
+
+            if ($(activeElement).val() === $("#text2").val()){
+                localStorage[vak+"|"+document.title+"|md2"] = $("#markdown").text();
+                //console.log(localStorage[vak+"|"+document.title+"|md2"]);
+            }
+
+
 
             $("#parsetime").text(parseTime);
             $("#rendertime").text(renderTime);
@@ -111,24 +118,53 @@ $(document).ready(function() {
 
 
     if ($('#title').val() !== ""){
-        document.title = $('#title').val();
+
 
     }
     else{
-        document.title = "Functietheorie"
+        if (localStorage.title === ""){
+            setCaretPosition(document.getElementById('title'),0);
+        }
+        else {
+        $('#title').val(localStorage.title);
+        document.title = localStorage.title;
+        $('#title2').text(document.title+"\n");
+        $("#title").change;
+        $("#text").val(localStorage[vak+"|"+document.title+"|1"]);
+        $("#text2").val(localStorage[vak+"|"+document.title+"|2"]);
+        $("#text3").val(localStorage[vak+"|"+document.title+"|3"]);
+
+        var ev = document.getElementById('text');
+        setCaretPosition(ev, 21+document.title.length);
+
+
+
+
+        activeElement = $('#text');
+        parseAndRender(250);
+
+        setTimeout(function() {
+            activeElement = $('#text2');
+            parseAndRender(0);
+        }, 250);
+
+        }
+
+
     }
+
 
     $("#title").change(function() {
         document.title = $('#title').val();
         $('#title2').text(document.title+"\n");
-        if (localStorage["Functietheorie|"+document.title+"|1"] === undefined) {
+        if (localStorage[vak+"|"+document.title+"|1"] === undefined) {
             $("#text").val("⟦𝐄𝐱𝐞𝐫𝐜𝐢𝐬𝐞.["+document.title+"]\n\n⟧\n\n⟦𝐏𝐫𝐨𝐨𝐟.\n\n⟧")
         }
         else {
-            $("#text").val(localStorage["Functietheorie|"+document.title+"|1"]);
+            $("#text").val(localStorage[vak+"|"+document.title+"|1"]);
         }
-        $("#text2").val(localStorage["Functietheorie|"+document.title+"|2"]);
-        $("#text3").val(localStorage["Functietheorie|"+document.title+"|3"]);
+        $("#text2").val(localStorage[vak+"|"+document.title+"|2"]);
+        $("#text3").val(localStorage[vak+"|"+document.title+"|3"]);
 
         var ev = document.getElementById('text');
         setCaretPosition(ev, 21+document.title.length);

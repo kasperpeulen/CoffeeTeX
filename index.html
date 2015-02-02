@@ -1,7 +1,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>CoffeeTeX Unicode Editor</title>
+    <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="ico.png" />
+
+    <title></title>
   <link href="stylev1.css" rel="stylesheet"/>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.autosize.min.js"></script>
@@ -11,12 +14,41 @@
         $('#text3').autosize();
     });</script>
 
+
     <script src="js/bootstrap.js"></script>
     <link href="js/bootstrap.css" rel="stylesheet">
     <script src="js/PressAndHold/unicode2latex.js"></script>
     <script src="js/PressAndHold/tex2unicode.js"></script>
     <script src="js/PressAndHold/plugins.js"></script>
+    <script>    $(function(){
+        $('#text').autosize();
+        $('#text2').autosize();
+        $('#text3').autosize();
+        var mathoperators="";
+        mathoperators += "<div style=\"display:none\">";
+        mathoperators += "    $";
+        mathoperators += "    \\DeclareMathOperator{\\Rad}{Rad}";
+        mathoperators += "    \\DeclareMathOperator{\\End}{End}";
+        mathoperators += "    \\DeclareMathOperator{\\Ker}{Ker}";
+        mathoperators += "    \\DeclareMathOperator{\\Imm}{Im}";
+        mathoperators += "    \\DeclareMathOperator{\\I}{Im}";
+        mathoperators += "    \\DeclareMathOperator{\\Hom}{Hom}";
+        mathoperators += "    \\DeclareMathOperator{\\op}{op}";
+        mathoperators += "    \\DeclareMathOperator{\\Mat}{Mat}";
+        mathoperators += "    \\DeclareMathOperator{\\Irr}{Irr}";
+        mathoperators += "    \\DeclareMathOperator{\\Id}{Id}";
+        mathoperators += "    \\DeclareMathOperator{\\Arg}{Arg}";
+        mathoperators += "    \\DeclareMathOperator{\\im}{Im}";
+        mathoperators += "    \\DeclareMathOperator{\\re}{Re}";
+        mathoperators += "    \\newenvironment{framed}{}{}";
+        mathoperators += "    $";
+        mathoperators += "<\/div>";
 
+
+        $('body').append(mathoperators);
+    });
+
+    </script>
     <script src="js/PressAndHold/popupchars.js"></script>
     <script src="js/PressAndHold/longpress.js"></script>
     <script src="js/PressAndHold/app.js"></script>
@@ -36,111 +68,296 @@
 
     <script>
 
+    var reset = function () {
+        for (a=1 ; a<20 ; a++){
+            localStorage.removeItem(localStorage.vak +"|H"+a);
+        }
+    }
 
         $(document).ready(function() {
 
-            function copyToClipboard(text) {
-                window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
-            }
 
-            $('a[href="#latextab"]').click(function() {
-                copyToClipboard($('#latexpre').text());
+            $("#theorems").click(function () {
+
+                if ($("#theorems a").css('visibility') == 'visible'){
+                    $("#theorems a").css('visibility','hidden');
+                }
+                else{
+                    $("#theorems a").css('visibility','visible');
+                }
             });
 
-            $("#title").change(function() {
-                console.log('test');
-                document.title = $('#title').val();
-                localStorage.title = document.title;
+
+
+            $("#vak").change( function() {
+                localStorage.vak = $("#vak").val();
+               loadall ($("#vak").val());
             });
 
-            if ($('#title').val() === ""){
-                document.title = localStorage.title;
-                $("#title").val(localStorage.title);
-            }
+            var loadall = function(vak) {
 
-            if ($("#text").val() === "") {
-                $("#text").val(localStorage.textarea);
-            }
-            if ($("#text2").val() === "") {
-                $("#text2").val(localStorage.textarea2);
-            }
-            if ($("#text3").val() === "") {
-                $("#text3").val(localStorage.textarea3);
-            }
+                $("#vak").val(vak);
 
-            $( "#text" ).keydown(function() {
-                localStorage.textarea = $("#text").val();
+                document.title = vak + " - Overzicht"
+                $("#newpage").attr("href", vak + ".html")
+                $("#newpage").click(function () {
+                    localStorage.title = "";
+                });
+
+                $("#hoofdstukken").html("");
+
+                for (a = 1; a < 20; a++) {
+                    if (localStorage[vak + "|H" + a] !== undefined) {
+
+                        $("#hoofdstukken").append("<a class=\"list-group-item\" href=\"#" + a + "\"><i class=\"fa fa-book fa-fw\"></i>&nbsp; H" + a + ": " + localStorage[vak + "|H" + a] + "</a>")
+
+                    }
+                }
+
+                for (a = 1; a < 20; a++) {
+                    $('a[href="#' + a + '"]').mouseup(function () {
+                        console.log($(this).attr('href'));
+                        var ch = $(this).attr('href').substr(1);
+                        load(ch);
+                    });
+                }
+
+
+                var load = function (ch) {
+                    $("#voorbeelden").html("");
+                    $("#opgaven").html("");
+                    if (localStorage[vak + "|H1"] !== undefined) {
+                        $("#list").css("display", "block");
+                    }
+
+                    var a = ch;
+                    var latex = "\\section{" + localStorage[vak + "|H" + a] + "} \n\\subsection{Voorbeelden}";
+                    var total = 0;
+                    var done = 0;
+                    var d = ["", "a", "b", "c", "d", "e", "f", "g"];
+
+
+                    for (b = 1; b < 10; b++) {
+                        for (c = 1; c < 10; c++) {
+                            for (var i = 0; i < d.length; i++) {
+
+                                if (localStorage[vak + "|Voorbeeld " + a + "." + b + "." + c + d[i] + "|1"] !== undefined) {
+
+                                    total += 1;
+
+
+                                    var after = "";
+                                    if (localStorage[vak + "|Voorbeeld " + a + "." + b + "." + c + d[i] + "|check"] === "y") {
+                                        done += 1;
+                                        latex += "\n" + localStorage[vak + "|Voorbeeld " + a + "." + b + "." + c + d[i] + "|latex"] + "\n";
+                                        after += " <i class=\"fa-li fa fa-check-square-o\"></i>"
+                                    }
+                                    else if (localStorage[vak + "|Voorbeeld " + a + "." + b + "." + c + d[i] + "|question"] === "y") {
+                                        after += " <i class=\"fa-li fa fa-question\"></i>"
+                                    }
+                                    else {
+                                        after += " <i class=\"fa-li fa fa-square-o\"></i>"
+                                    }
+                                    var short = 'Voorbeeld '+ a + "." + b + "." + c + d[i];
+
+                                    $("#voorbeelden").append("<li class=\"vb\">" + after + "<a href=\"" + vak + ".html\">Voorbeeld " + a + "." + b + "." + c + d[i] + "</a></li>");
+                                    $("#theorems").append('<a title="'+short+'" href="'+vak+'.html">'+localStorage[vak + "|Voorbeeld " + a + "." + b + "." + c + d[i] + "|md2"]+'</a>');
+
+                                    $("#theorems a").click(function () {
+                                        localStorage.title = this.title;
+                                    });
+                                    $(".vb a").click(function () {
+                                        localStorage.title = this.text;
+                                    });
+
+
+                                }
+
+                            }
+                        }
+                    }
+
+                    latex += "\n \\subsection{Opgaven}\n"
+                    console.log(latex);
+                    var c = ["", "a", "b", "c", "d", "e", "f", "g"];
+
+                    for (b = 1; b < 20; b++) {
+                        for (var i = 0; i < c.length; i++) {
+
+                            if (localStorage[vak + "|Opgave " + a + "." + b + c[i] + "|1"] !== undefined) {
+
+                                total += 1;
+
+                                var after = "";
+                                if (localStorage[vak + "|Opgave " + a + "." + b + c[i] + "|check"] === "y") {
+
+                                    done += 1;
+                                    latex += "\n" + localStorage[vak + "|Opgave " + a + "." + b + c[i] + "|latex"] + "\n";
+
+                                    after += " <i class=\"fa-li fa fa-check-square-o\"></i>"
+                                }
+                                else if (localStorage[vak + "|Opgave " + a + "." + b + c[i] + "|question"] === "y") {
+                                    after += " <i class=\"fa-li fa fa-question\"></i>"
+
+                                }
+                                else {
+                                    after += " <i class=\"fa-li fa fa-square-o\"></i>"
+                                }
+                                $("#opgaven").append("<li class=\"opg\">" + after + "<a href=\"" + vak + ".html\">Opgave " + a + "." + b + c[i] + "</a></li>");
+                                $("#theorems").append('<a title="Opgave ' + a + '.' + b + c[i]+'" href="'+vak+'.html">'+localStorage[vak + "|Opgave " + a + "." + b + c[i] + "|md2"]+'</a>');
+
+                                $("#theorems a").click(function () {
+                                    localStorage.title = this.title;
+                                });
+
+                                $(".opg a").click(function () {
+                                    localStorage.title = this.text;
+                                });
+                            }
+                        }
+
+                    }
+                    $("#all_latex").text(latex);
+                    $("#progress").text(done + "/" + total);
+                    function SelectText(element) {
+                        var doc = document
+                                , text = doc.getElementById(element)
+                                , range, selection
+                                ;
+                        if (doc.body.createTextRange) {
+                            range = document.body.createTextRange();
+                            range.moveToElementText(text);
+                            range.select();
+                        } else if (window.getSelection) {
+                            selection = window.getSelection();
+                            range = document.createRange();
+                            range.selectNodeContents(text);
+                            selection.removeAllRanges();
+                            selection.addRange(range);
+                        }
+                    }
+
+                    setTimeout(function () {
+                        SelectText('all_latex');
+                    }, 50);
+                    $("#chtitle").text("H" + a + ": " + localStorage[vak + "|H" + a]);
+
+                };
+
+                setTimeout(function () {
+                    load(1);
+                    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "theorems"]);
+                    $("#theorems a").css('visibility','hidden');
+                },100);
+
+
+                $("#title").change(function () {
+                    console.log('test');
+                    document.title = $('#title').val();
+                    localStorage.title = document.title;
+                });
+
+                if ($('#title').val() === "") {
+                    document.title = localStorage.title;
+                    $("#title").val(localStorage.title);
+                }
+
+                if ($("#text").val() === "") {
+                    $("#text").val(localStorage.textarea);
+                }
+                if ($("#text2").val() === "") {
+                    $("#text2").val(localStorage.textarea2);
+                }
+                if ($("#text3").val() === "") {
+                    $("#text3").val(localStorage.textarea3);
+                }
+
+                $("#text").keydown(function () {
+                    localStorage.textarea = $("#text").val();
+                });
+                $("#text2").keydown(function () {
+                    localStorage.textarea2 = $("#text2").val();
+                });
+                $("#text3").keydown(function () {
+                    localStorage.textarea3 = $("#text3").val();
+                });
+
+                $("#newch").change(function () {
+                    for (a = 1; a < 20; a++)
+                        if (localStorage[vak + "|H" + a] === undefined) {
+                            localStorage[vak + "|H" + a] = $("#newch").val();
+                            $("#newch").val("");
+                            $("#hoofdstukken").append("<a class=\"list-group-item\" href=\"#" + a + "\"><i class=\"fa fa-book fa-fw\"></i>&nbsp; H" + a + ": " + localStorage[vak + "|H" + a]+ "</a>")
+                            $('a[href="#' + a + '"]').mouseup(function () {
+                                var ch = $(this).attr('href').substr(1);
+                                load(ch);
+
+
+                            });
+                            break;
+                        }
+
+                });
+
+            }
+            setTimeout(loadall(localStorage.vak),1000)
+
             });
-            $( "#text2" ).keydown(function() {
-                localStorage.textarea2 = $("#text2").val();
-            });
-            $( "#text3" ).keydown(function() {
-                localStorage.textarea3 = $("#text3").val();
-            });
-        });
+
+
+
 
     </script>
 
 
 </head>
-<body
-<div class="container" style="width:1420px;">
-  <div class="row">
-    <div class="col-md-6" style="padding:0px; width:37%;">
-      <h1>
-        <input style="border:none;" id="title" size="15" type="text" value="">
-</h1>
-    </div>
-    <div class="col-md-4" style="width:63%;">
-      <ul class="nav nav-tabs" role="tablist">
-        <li class="active"><a href="#preview" role="tab" data-toggle="tab">Preview</a></li>
-        <li><a href="#latextab" role="tab" data-toggle="tab">LaTeX</a></li>
-          <li><a href="#markdowntab" role="tab" data-toggle="tab">Markdown</a></li>
-      </ul>
-    </div>
-    <div class="col-md-4">
-      <p class="timing">TeX to CTeX in <span class="timing" id="parsetime"></span> ms.
-        CTeX to TeX in <span class="timing" id="rendertime"></span> ms.</p>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6" style="border: 1px black solid; padding:0px; margin:0px; width:37%;">
-      <textarea id="text"  spellcheck='false' placeholder="Press and hold a key to select a math symbol. For example, hold R to get ℝ or a to get α. Wrap the symbol in $...$ to get LaTeX output."></textarea>
-      <textarea id="text2" spellcheck='false' ></textarea>
-      <textarea id="text3" spellcheck='false' ></textarea>
+<body>
+
+<div id="container" style="margin:20px;" >
 
 
+
+    <div style="padding-right:20px; float:left; width:300px">
+    <h3>  <input autocomplete="on" style="border:none;" placeholder="Type a title" size="15" id="vak" type="text">
+        <input style="visibility:hidden; display:none;" type="submit"></h3>
+
+        <div class="list-group">
+        <a id ="newpage" class="list-group-item"><i class="fa fa-file fa-fw"></i>&nbsp; Create new page</a>
+            <a class="list-group-item" ><i class="fa fa-book fa-fw"></i>&nbsp;  <input autocomplete="off"  style="border:none;" placeholder="Type a title" id="newch" size="15" type="text" value="">
+
+            </a>
+
     </div>
-    <div class="col-md-6" style="width:63%;">
-      <div class="tab-content">
-        <div id="preview" class="tab-pane active">
-        <div id="preview1"></div>
-            <div id="preview2"></div>
-            <div id="preview3"></div>
+
+        <div id="hoofdstukken" class="list-group">
+
+
         </div>
-        <div id="latextab" class="tab-pane">
-            <code style="display:none;" id="latex"></code>
 
-          <pre id="latexpre"><code class="latex">\begin{minipage}[t]{0.55\textwidth}</code></code><code id="latex1"></code><code class="latex">\end{minipage}
-\hfill
-\begin{minipage}[t]{0.4\textwidth}
-{\abovedisplayskip=0pt\abovedisplayshortskip=0pt\belowdisplayskip=0pt\belowdisplayshortskip=0pt</code><code id="latex2"></code><code class="latex">}
-\end{minipage}</code>
-          </pre>
-        </div>
-          <div id="markdowntab" class="tab-pane">
-          <pre id="markdownpre"><code id="markdown"></code></pre>
-          </div>
-      </div>
 
-    </div>
-  </div>
-   <p>
-       <br>
-     <input type ="checkbox" checked id="textarea2"/> Show extra textareabox. <br>
-     <input type ="checkbox" id="textarea3"/> Show extra textareabox. <br>
-   </p>
-  <p>Click <a href="example.html">here</a> or <a href="example2.html">here</a> for a CoffeeTeX examples.</p>
+
+
+
 </div>
+
+
+<div id="list" style="display:none; span:30px; float:left; width:600px">
+    <h3><span id="chtitle"></span> || Progress <span id="progress"></span></h3>
+    Voorbeelden:
+    <ul class="fa-ul" id ="voorbeelden"></ul>
+    Opgaven:
+    <ul class="fa-ul" id ="opgaven"></ul>
+
+    <pre id="all_latex"></pre>
+</div>
+    <div style="float:left; width:330px; font-size:9pt;" id="theorems">
+.
+    </div>
+<div>
+
+</div>
+
+</div>
+
 </body>
 </html>

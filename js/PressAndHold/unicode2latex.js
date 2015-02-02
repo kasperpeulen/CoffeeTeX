@@ -296,7 +296,7 @@ var unicode_to_latex = {
   "\u03F6": "\\backepsilon ",
 
   "\u2002": "\\hspace{0.6em}",
-  "\u2003\u2003" : "\\qquad ",
+  "\u25AD" : "\\qquad ",
   "\u2003": "\\quad ",
   "\u2004": "\\hspace{0.33em}",
   "\u2005": "\\; ",
@@ -729,7 +729,6 @@ var unicode_to_latex = {
 
   "\u25A1": "\\square ",
   "\u25AA": "\\blacksquare ",
-  "\u25AD": "\\fbox{~~}",
   "\u25AF": "\\Elzvrecto ",
   "\u25B1": "\\ElsevierGlyph{E381}",
   "\u25B2": "\\ding{115}",
