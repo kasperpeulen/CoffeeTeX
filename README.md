@@ -3,7 +3,7 @@ CoffeeTeX
 
 CoffeeTeX is a math language meant to be compiled into LaTeX math mode macros. All the LaTeX math macros themself still work, in other words, they are compiled to themself. But CoffeeTeX offers some non-LaTeX way to get there, with the goal to make the code easier to read, less cluttered and easier to write. CoffeeTeX is strongly inspired on ideas of ASCIIMathML, Murray Sargant's unicode language (http://www.unicode.org/notes/tn28/UTN28-PlainTextMath-v3.pdf) and jqmath. 
 
-#####Unicode typing
+##### Unicode typing
 
 The foremost way to make the code less cluttered is by using unicode symbols directly in the code. Unicode symbols are not easy to type in a standard way. Therefore CoffeeTeX can not be seen independent of a editor that makes typing of unicode symbols trivial. The features of the editor are part of the specification. The editor should offer the following features:
 
